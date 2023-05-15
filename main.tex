@@ -1,6 +1,22 @@
-\documentclass{book}
+\documentclass[12pt,a4paper, oneside]{book}
 \usepackage[ED=MITT-MITT, Ets=INP]{tlsflyleaf}
 %\usepackage[ED=SDU2E-Ast, ED2=SDU2E-Eco, Ets=UT3]{tlsflyleaf}
+\usepackage[utf8]{inputenc}
+\usepackage{helvet}
+% \renewcommand{\familydefault}{\sfdefault}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{afterpage}
+
+
+\setlength{\columnseprule}{0pt}
+\setlength\columnsep{10pt}
 
 % ==================
 % Setup basic string
@@ -23,12 +39,12 @@
 %   but only the first "\npeople" will be print.
 % - Then use the command \makesomeone{<category>}{<number>}{<name>}{<status>}{<other>}
 %   where:
-%     <category> should be select in ['boss', 'referee', 'judge']
+%     <category> should be selected in ['boss', 'referee', 'judge']
 %     <number>   is the rank for printing the person. 
 %                Only number <= "\npeople" will be printed
-%     <name>     First name and las name of the people
+%     <name>     First name and last name of the people
 %     <status>   Is (s)he a "charg\'e de recher" ou un "professeur d'universit\'e"...
-%     <other>    What ever string you want to add (laboratory, jury member place...).
+%     <other>    Whatever string you want to add (laboratory, jury member place...).
 %% Boss
 \nboss{2}
 \makesomeone{boss}{2}{Stéphane CAUX}{}{}  % Sera affiche en second
@@ -39,14 +55,64 @@
 \makesomeone{referee}{2}{Second RAPPORTEUR}{}{}
 %% Judges
 \njudge{5}
-\makesomeone{judge}{1}{Premier MEMBRE}{Professeur d'Université}{Président du Jury}
-\makesomeone{judge}{2}{Second MEMBRE}{Astronome Adjoint}{Membre du Jury}
-\makesomeone{judge}{3}{Troisième MEMBRE}{Chargé de Recherche}{Membre du Jury}
-\makesomeone{judge}{4}{Quatrième MEMBRE}{Chargé de Recherche}{Membre du Jury}
-\makesomeone{judge}{5}{Cinquième MEMBRE}{Chargé de Recherche}{Membre du Jury}
+\makesomeone{judge}{1}{Premier MEMBRE}{Professeur d'Université}{Rapporteur}
+\makesomeone{judge}{2}{Second MEMBRE}{Professeur d'Université}{Rapporteur}
+\makesomeone{judge}{3}{Troisième MEMBRE}{Professeur d'Université}{Examinateur}
+\makesomeone{judge}{4}{Quatrième MEMBRE}{Professeur d'Université}{Examinateur}
+\makesomeone{judge}{5}{Cinquième MEMBRE}{Professeur d'Université}{Examinateur}
+
+\graphicspath{{Images/}}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\Huge\bfseries}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
 
 % ============================================================
 % DOCUMENT
 \begin{document}
     \makeflyleaf
+
+    \afterpage{\blankpage}
+
+    \pagenumbering{roman}
+    \input{Sections/Beginning/1-Abstract}
+    \cleardoublepage
+    \input{Sections/Beginning/2-Resume}
+    \cleardoublepage
+    \input{Sections/Beginning/3-Acknowledgments}
+    \cleardoublepage
+    \tableofcontents
+    \cleardoublepage
+    \listoffigures
+    \listoftables
+    \cleardoublepage
+
+    \pagenumbering{arabic}
+    \input{Sections/1-Introduction}
+    \cleardoublepage
+    \input{Sections/2-Related_work.tex}
+    \cleardoublepage
+    \input{Sections/3-Model.tex}
+    \cleardoublepage
+    % \input{Sections/4-Power_capping.tex}
+    % \cleardoublepage
+    \input{Sections/4-Power_compensations.tex}
+    \cleardoublepage
+    \input{Sections/5-Learning_power_compensations.tex}
+    \cleardoublepage
+    \input{Sections/6-Heuristic.tex}
+    \cleardoublepage
+    \input{Sections/7-Middleware.tex}
+    \cleardoublepage
+    \input{Sections/8-Conclusion.tex}
+    \cleardoublepage
+
 \end{document}
