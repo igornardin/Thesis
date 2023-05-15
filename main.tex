@@ -1,0 +1,52 @@
+\documentclass{book}
+\usepackage[ED=MITT-MITT, Ets=INP]{tlsflyleaf}
+%\usepackage[ED=SDU2E-Ast, ED2=SDU2E-Eco, Ets=UT3]{tlsflyleaf}
+
+% ==================
+% Setup basic string
+% - PhD Title
+% - author
+% - defence date
+% - laboratory
+% - cotutelle
+\title{\textbf{\large Ordonnancement en ligne de tâches IT et engagement de sources dans un centre de calcul alimenté par des énergies renouvelables}}
+\author{Igor FONTANA DE NARDIN}
+\defencedate{31/01/2023}
+\lab{Laplace (UMR 5213) et IRIT (UMR 5505)}
+%\cotutelle{Nom de l'\'etablissement}
+
+% ==================
+% Setup people like your boss, the jury team and the referees
+% - First you need to define how number they will be in each category
+%   It is done with the commands \nboss{n}, \nreferee{n} and \njudge{n}.
+%   You can define more people in each category than the number given 
+%   but only the first "\npeople" will be print.
+% - Then use the command \makesomeone{<category>}{<number>}{<name>}{<status>}{<other>}
+%   where:
+%     <category> should be select in ['boss', 'referee', 'judge']
+%     <number>   is the rank for printing the person. 
+%                Only number <= "\npeople" will be printed
+%     <name>     First name and las name of the people
+%     <status>   Is (s)he a "charg\'e de recher" ou un "professeur d'universit\'e"...
+%     <other>    What ever string you want to add (laboratory, jury member place...).
+%% Boss
+\nboss{2}
+\makesomeone{boss}{2}{Stéphane CAUX}{}{}  % Sera affiche en second
+\makesomeone{boss}{1}{Patricia STOLF}{}{} % Sera afiche en premier
+%% Referee
+\nreferee{2}
+\makesomeone{referee}{1}{Premier RAPPORTEUR}{}{}
+\makesomeone{referee}{2}{Second RAPPORTEUR}{}{}
+%% Judges
+\njudge{5}
+\makesomeone{judge}{1}{Premier MEMBRE}{Professeur d'Université}{Président du Jury}
+\makesomeone{judge}{2}{Second MEMBRE}{Astronome Adjoint}{Membre du Jury}
+\makesomeone{judge}{3}{Troisième MEMBRE}{Chargé de Recherche}{Membre du Jury}
+\makesomeone{judge}{4}{Quatrième MEMBRE}{Chargé de Recherche}{Membre du Jury}
+\makesomeone{judge}{5}{Cinquième MEMBRE}{Chargé de Recherche}{Membre du Jury}
+
+% ============================================================
+% DOCUMENT
+\begin{document}
+    \makeflyleaf
+\end{document}
