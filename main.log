@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.5.12)  15 MAY 2023 17:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.5.12)  17 MAY 2023 17:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -509,17 +509,22 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 ] (./Sections/1-Introduction.tex
 Chapter 1.
-)
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.100     \cleardoublepage
-                           [1
+l.19     \item[]
+                 \textbf{Chapter 4 - Introducing Power Compensations:} This ... [1
 
 
-] (./Sections/2-Related_work.tex
+]
+Overfull \hbox (7.94997pt too wide) in paragraph at lines 20--21
+[]\OT1/lmr/bx/n/12 Chapter 5 - Learn-ing Power Com-pen-sa-tions: \OT1/lmr/m/n/12 This chap-ter presents
+ []
+
+) [2] (./Sections/2-Related_work.tex
 Chapter 2.
-) [2
+) [3
 
 
 ] (./Sections/3-Model.tex
@@ -529,7 +534,7 @@ Overfull \hbox (3.23456pt too wide) in paragraph at lines 1--1
 |\OT1/lmr/bx/n/24.88 Modelling, Data, and Sim-u-la-tion| 
  []
 
-) [3
+) [4
 
 
 ] (./Sections/4-Power_compensations.tex
@@ -539,12 +544,12 @@ Overfull \hbox (26.8653pt too wide) in paragraph at lines 1--1
 |\OT1/lmr/bx/n/24.88 Introducing Power Com-pen-sa-tions| 
  []
 
-) [4
+) [5
 
 
 ] (./Sections/5-Learning_power_compensations.tex
 Chapter 5.
-) [5
+) [6
 
 
 ] (./Sections/6-Heuristic.tex
@@ -554,17 +559,20 @@ Overfull \hbox (43.88005pt too wide) in paragraph at lines 1--1
 |\OT1/lmr/bx/n/24.88 Adding Bat-tery Aware-ness in EASY
  []
 
-) [6
+) [7
 
 
 ] (./Sections/7-Middleware.tex
 Chapter 7.
-) [7
+) [8
 
 
 ] (./Sections/8-Conclusion.tex
 Chapter 8.
-) [8
+) [9
+
+
+] (./main.bbl) [10
 
 
 ] (./main.aux)
@@ -572,21 +580,21 @@ Chapter 8.
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A1B9360662BF1B662BE6DDA9DF22719B;2403.
+(rerunfilecheck)             Checksum: 018F7B596D6C35F99106B9075B62A21D;2403.
  ) 
 Here is how much of TeX's memory you used:
- 15528 strings out of 477975
- 273338 string characters out of 5839281
+ 15548 strings out of 477975
+ 273622 string characters out of 5839281
  1862330 words of memory out of 5000000
- 35344 multiletter control sequences out of 15000+600000
- 552598 words of font info for 55 fonts, out of 8000000 for 9000
+ 35355 multiletter control sequences out of 15000+600000
+ 555579 words of font info for 56 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 75i,12n,76p,1369b,438s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmsc.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/bookman/ubkl8a.pfb>
-Output written on main.pdf (16 pages, 532089 bytes).
+ 75i,12n,76p,1369b,510s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmsc.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmro12.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/bookman/ubkl8a.pfb>
+Output written on main.pdf (18 pages, 566717 bytes).
 PDF statistics:
- 196 PDF objects out of 1000 (max. 8388607)
- 161 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
+ 217 PDF objects out of 1000 (max. 8388607)
+ 178 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
  123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,7 @@
+{
+    "editor.wordWrap": "on",
+    "grammarly.config.documentDomain": "academic",
+    "grammarly.config.suggestions.InformalPronounsAcademic": true,
+    "grammarly.config.suggestions.OxfordComma": true,
+    "grammarly.config.suggestions.PrepositionAtTheEndOfSentence": true
+}

@@ -773,6 +773,7 @@ INPUT Sections/1-Introduction.tex
 INPUT ./Sections/1-Introduction.tex
 INPUT ./Sections/1-Introduction.tex
 INPUT Sections/1-Introduction.tex
+INPUT /usr/share/texmf/fonts/tfm/public/lm/rm-lmro12.tfm
 INPUT ./Sections/2-Related_work.tex
 INPUT Sections/2-Related_work.tex
 INPUT ./Sections/2-Related_work.tex
@@ -801,6 +802,10 @@ INPUT ./Sections/8-Conclusion.tex
 INPUT Sections/8-Conclusion.tex
 INPUT ./Sections/8-Conclusion.tex
 INPUT Sections/8-Conclusion.tex
+INPUT ./main.bbl
+INPUT main.bbl
+INPUT ./main.bbl
+INPUT main.bbl
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
@@ -812,4 +817,5 @@ INPUT /usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmr12.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmri12.pfb
+INPUT /usr/share/texmf/fonts/type1/public/lm/lmro12.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/urw/bookman/ubkl8a.pfb

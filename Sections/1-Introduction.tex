@@ -12,13 +12,13 @@
 \section{Publications and Communication}
 
 \section{Dissertation Outline}
-The remaining portion of the dissertation is organized as follows:
+The remaining dissertation has the following organization:
 \begin{itemize}
-    \item[] \textbf{Chapter 2 - Related Work and Context:} 
-    \item[] \textbf{Chapter 3 - Modelling, Data, and Simulation:} 
-    \item[] \textbf{Chapter 4 - Introducing Power Compensations:} 
-    \item[] \textbf{Chapter 5 - Learning Power Compensations:} 
-    \item[] \textbf{Chapter 6 - Adding Battery Awareness in EASY Backfilling:} 
-    \item[] \textbf{Chapter 7 - Middleware integration:} 
-    \item[] \textbf{Chapter 8 - Conclusion and Perspectives:} 
+    \item[] \textbf{Chapter 2 - Context and Related Work:} This chapter presents the fundamentals to understand this dissertation. Considering the scope of the topic, the context consists of third parts. The first part explains the IT elements of a data center, including the type of tasks/jobs, scheduling algorithms, and energy consumption. The second part describes the electrical elements, such as batteries, hydrogen, wind turbines, and solar panels. The last part explains the context of Datazero2 and the link between this dissertation and the project. After presenting the context, we introduce a list of works that solve part of our problem, highlighting the existing gaps in the state-of-the-art;
+    \item[] \textbf{Chapter 3 - Modelling, Data, and Simulation:} In this chapter, we describe the model to deal with the several elements that compose a renewable-only data center. Datazero2 creates a division between Offline and Online decisions. We present the model to deal with offline decisions using predicted power demand and production. Then, we demonstrate the output of Offline used by the Online. Finally, we define the Online model, which englobes the job scheduling and modifications in the Offline plan. After describing the model, we explain the source of the different data (e.g., workload, weather, servers) applied in the simulations. Finally, we present the simulation tools used in this work;
+    \item[] \textbf{Chapter 4 - Introducing Power Compensations:} This chapter describes the proposed optimization to react to power uncertainties. We created four heuristics to find the best place to compensate for battery changes, which aim to reduce the number of killed jobs and the distance between the battery level and the target level. The results presented are related to the publications \cite{de2022mixing} and \cite{de2022analyzing};
+    \item[] \textbf{Chapter 5 - Learning Power Compensations:} This chapter presents the idea and the results of the introduction of Reinforcement Learning (RL) in the power compensation problem. We propose two RL algorithms (Q-Learning and Contextual Multi-Armed Bandit) to learn the best moment to compensate;
+    \item[] \textbf{Chapter 6 - Adding Battery Awareness in EASY Backfilling:} This chapter explains a heuristic to mix scheduling and power compensation decisions. This heuristic is based on the EASY Backfilling scheduling algorithm but considers the battery's State of Charge to make better decisions;
+    \item[] \textbf{Chapter 7 - Middleware Integration:} This chapter presents the tools, frameworks, and approaches applied to integrate the algorithms in the Datazero2 middleware. Also, we describe the work done to create a docker environment, allowing different actors to execute the middleware;
+    \item[] \textbf{Chapter 8 - Conclusion and Perspectives:} Finally, in this chapter, we summarize the contributions of this work, providing a discussion about future works.
 \end{itemize}
