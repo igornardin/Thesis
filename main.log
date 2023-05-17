@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.5.12)  17 MAY 2023 17:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2023.5.12)  17 MAY 2023 18:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -187,7 +187,12 @@ Package: shadowtext 2012/05/07 v0.3 Shadow Text
 Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks28
 \inpenc@posthook=\toks29
-) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 112.
+ (/usr/share/texmf/tex/latex/lm/t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
 Package: helvet 2020/03/25 PSNFSS-v9.3 (WaS) 
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2022-11-13 v7.00u Hypertext links for LaTeX
@@ -297,7 +302,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 )
 \Hy@SectionHShift=\skip64
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 14.
+Package hyperref Info: Option `colorlinks' set `true' on input line 15.
  (/usr/share/texlive/texmf-dist/tex/latex/tools/afterpage.sty
 Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
 \AP@output=\toks30
@@ -314,10 +319,6 @@ Package: titlesec 2021/07/05 v2.14 Sectioning titles
 \titlewidth=\dimen174
 \titlewidthlast=\dimen175
 \titlewidthfirst=\dimen176
-)
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 80.
- (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count285
@@ -325,24 +326,24 @@ File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 81.
+LaTeX Font Info:    ... okay on input line 81.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count286
@@ -390,7 +391,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 80.
+Package hyperref Info: Link coloring ON on input line 81.
 (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
@@ -429,32 +430,27 @@ Package hyperref Info: Link coloring ON on input line 80.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package color Info: Redefining color st@shadowcolorrgb on input line 81.
-LaTeX Font Info:    Trying to load font information for OT1+pbk on input line 81.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pbk.fd
-File: ot1pbk.fd 2001/06/04 font definitions for OT1/pbk.
+Package color Info: Redefining color st@shadowcolorrgb on input line 82.
+LaTeX Font Info:    Trying to load font information for T1+pbk on input line 82.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pbk.fd
+File: t1pbk.fd 2001/06/04 font definitions for T1/pbk.
 )
-LaTeX Font Info:    Font shape `OT1/pbk/m/n' in size <42.67912> not available
-(Font)              Font shape `OT1/pbk/l/n' tried instead on input line 81.
+LaTeX Font Info:    Font shape `T1/pbk/m/n' in size <42.67912> not available
+(Font)              Font shape `T1/pbk/l/n' tried instead on input line 82.
 
 
-LaTeX Font Warning: Font shape `OT1/cmr/b/sc' undefined
-(Font)              using `OT1/cmr/b/n' instead on input line 81.
+LaTeX Font Warning: Font shape `T1/cmr/b/sc' undefined
+(Font)              using `T1/cmr/b/n' instead on input line 82.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 81--81
-[]\OT1/lmr/m/it/12 MITT : Ecole Doc-tor-ale Math^^Sematiques, In-for-ma-tique et
- []
-
-<tlsflyleaf/logo-univ.png, id=60, 214.1601pt x 284.5029pt>
+<tlsflyleaf/logo-univ.png, id=253, 214.1601pt x 284.5029pt>
 File: tlsflyleaf/logo-univ.png Graphic file (type png)
 <use tlsflyleaf/logo-univ.png>
-Package pdftex.def Info: tlsflyleaf/logo-univ.png  used on input line 81.
+Package pdftex.def Info: tlsflyleaf/logo-univ.png  used on input line 82.
 (pdftex.def)             Requested size: 142.26378pt x 188.99236pt.
-<tlsflyleaf/filigrammecut.png, id=61, 454.69875pt x 642.4pt>
+<tlsflyleaf/filigrammecut.png, id=254, 454.69875pt x 642.4pt>
 File: tlsflyleaf/filigrammecut.png Graphic file (type png)
 <use tlsflyleaf/filigrammecut.png>
-Package pdftex.def Info: tlsflyleaf/filigrammecut.png  used on input line 81.
+Package pdftex.def Info: tlsflyleaf/filigrammecut.png  used on input line 82.
 (pdftex.def)             Requested size: 307.28984pt x 434.14041pt.
 [1
 
@@ -469,6 +465,10 @@ Package pdftex.def Info: tlsflyleaf/filigrammecut.png  used on input line 81.
 
 
 ] (./main.toc
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2.
+ (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2.
  (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -487,25 +487,25 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 2.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 2.
-)
-\tf@toc=\write4
-\openout4 = `main.toc'.
-
  [4
 
 
-] (./main.lof)
+])
+\tf@toc=\write4
+\openout4 = `main.toc'.
+
+ [5] (./main.lof)
 \tf@lof=\write5
 \openout5 = `main.lof'.
 
- [5
+ [6
 
 
 ] (./main.lot)
 \tf@lot=\write6
 \openout6 = `main.lot'.
 
- [6
+ [7
 
 ] (./Sections/1-Introduction.tex
 Chapter 1.
@@ -519,7 +519,7 @@ l.19     \item[]
 
 ]
 Overfull \hbox (7.94997pt too wide) in paragraph at lines 20--21
-[]\OT1/lmr/bx/n/12 Chapter 5 - Learn-ing Power Com-pen-sa-tions: \OT1/lmr/m/n/12 This chap-ter presents
+[]\T1/lmr/bx/n/12 Chapter 5 - Learn-ing Power Com-pen-sa-tions: \T1/lmr/m/n/12 This chap-ter presents
  []
 
 ) [2] (./Sections/2-Related_work.tex
@@ -531,48 +531,51 @@ Chapter 2.
 Chapter 3.
 
 Overfull \hbox (3.23456pt too wide) in paragraph at lines 1--1
-|\OT1/lmr/bx/n/24.88 Modelling, Data, and Sim-u-la-tion| 
+|\T1/lmr/bx/n/24.88 Modelling, Data, and Sim-u-la-tion| 
  []
 
 ) [4
 
 
-] (./Sections/4-Power_compensations.tex
+]
+Overfull \vbox (57.48352pt too high) has occurred while \output is active []
+
+ [5] (./Sections/4-Power_compensations.tex
 Chapter 4.
 
 Overfull \hbox (26.8653pt too wide) in paragraph at lines 1--1
-|\OT1/lmr/bx/n/24.88 Introducing Power Com-pen-sa-tions| 
+|\T1/lmr/bx/n/24.88 Introducing Power Com-pen-sa-tions| 
  []
 
-) [5
+) [6
 
 
 ] (./Sections/5-Learning_power_compensations.tex
 Chapter 5.
-) [6
+) [7
 
 
 ] (./Sections/6-Heuristic.tex
 Chapter 6.
 
 Overfull \hbox (43.88005pt too wide) in paragraph at lines 1--1
-|\OT1/lmr/bx/n/24.88 Adding Bat-tery Aware-ness in EASY
+|\T1/lmr/bx/n/24.88 Adding Bat-tery Aware-ness in EASY
  []
 
-) [7
+) [8
 
 
 ] (./Sections/7-Middleware.tex
 Chapter 7.
-) [8
+) [9
 
 
 ] (./Sections/8-Conclusion.tex
 Chapter 8.
-) [9
+) [10
 
 
-] (./main.bbl) [10
+] (./main.bbl) [11
 
 
 ] (./main.aux)
@@ -580,21 +583,21 @@ Chapter 8.
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 018F7B596D6C35F99106B9075B62A21D;2403.
+(rerunfilecheck)             Checksum: C9BF9BB92839A1627E1FF75DF6A9E7E5;8857.
  ) 
 Here is how much of TeX's memory you used:
- 15548 strings out of 477975
- 273622 string characters out of 5839281
- 1862330 words of memory out of 5000000
- 35355 multiletter control sequences out of 15000+600000
- 555579 words of font info for 56 fonts, out of 8000000 for 9000
+ 15877 strings out of 477975
+ 277568 string characters out of 5839281
+ 1863330 words of memory out of 5000000
+ 35627 multiletter control sequences out of 15000+600000
+ 559971 words of font info for 57 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  75i,12n,76p,1369b,510s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmsc.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmro12.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/bookman/ubkl8a.pfb>
-Output written on main.pdf (18 pages, 566717 bytes).
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc} </home/fontana/.texlive2022/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrb1440.600pk>{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmro12.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/bookman/ubkl8a.pfb>
+Output written on main.pdf (20 pages, 571520 bytes).
 PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 178 compressed objects within 2 object streams
- 41 named destinations out of 1000 (max. 500000)
- 123 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 489 PDF objects out of 1000 (max. 8388607)
+ 435 compressed objects within 5 object streams
+ 91 named destinations out of 1000 (max. 500000)
+ 507 words of extra memory for PDF output out of 10000 (max. 10000000)
 
