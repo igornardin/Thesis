@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1685004711 "main.aux" "main.bbl" "main" 1685004913 0
+["bibtex main"] 1685030280 "main.aux" "main.bbl" "main" 1685031466 0
   "./IEEEtran.bst" 1684336063 59215 bc5380b3434a66b895bbc75d3d380540 ""
-  "./library.bib" 1684336185 28830 43afbb99d7b5cabdd0421dceccfed921 ""
-  "main.aux" 1685004913 9358 8b6dfe51d08f40eee635f13896716a95 "pdflatex"
+  "./library.bib" 1685026331 29220 c0970b078e2464ac19484febdd3926df ""
+  "main.aux" 1685031466 9627 dd89c20bfa7628d9af7034b9167592ca "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1685004912 "/home/fontana/workspace/Thesis/main.tex" "main.pdf" "main" 1685004913 0
+["pdflatex"] 1685031466 "/home/fontana/workspace/Thesis/main.tex" "main.pdf" "main" 1685031466 0
   "/etc/texmf/web2c/texmf.cnf" 1682862174 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/fontana/workspace/Thesis/main.tex" 1684937803 3802 0cbe7cbca58a4d110228d1d3f05f3b0c ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -140,7 +140,7 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1676468108 39561 34c98e380bf7c7201ee6a7909aff625a ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1684830103 4515355 a319ad0bcc0d6802e7fde951d7e1b7da ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1683894040 6505314 cc1f34b13d66eb8aa144de8ae33d4253 ""
-  "Sections/1-Introduction.tex" 1685004912 5145 5ad01d4d426208e300431c7bcaf4199e ""
+  "Sections/1-Introduction.tex" 1685031465 7538 5d7fe85697678472b06581a26085c237 ""
   "Sections/2-Related_work.tex" 1685003817 466 7a2bfee606a92c974c768c3abc117845 ""
   "Sections/3-Model.tex" 1685001908 600 cfbe2d0c71be4e2b6217aa3898d99df2 ""
   "Sections/4-Power_compensations.tex" 1685004035 156 36616973927a0f865b6ec5a61e83b7cd ""
@@ -150,13 +150,13 @@
   "Sections/Beginning/1-Abstract.tex" 1684158408 19 62d166b34d85589f8a63f01fdd8c700a ""
   "Sections/Beginning/2-Resume.tex" 1684158426 19 37c3f5d884f2a6893020836e6c2b349b ""
   "Sections/Beginning/3-Acknowledgments.tex" 1684158426 26 ab5251a41f82051a5a1011d15dc3ffc4 ""
-  "main.aux" 1685004913 9358 8b6dfe51d08f40eee635f13896716a95 "pdflatex"
-  "main.bbl" 1685004711 1493 b174f4daf5b17cf044a132cd8f0fe86f "bibtex main"
-  "main.lof" 1685004913 140 104a8a462b27a2267fd07b368245cdd0 "pdflatex"
-  "main.lot" 1685004913 140 104a8a462b27a2267fd07b368245cdd0 "pdflatex"
-  "main.out" 1685004913 8981 65af0bedd5ccd0beafdf6a4bf935f2f2 "pdflatex"
+  "main.aux" 1685031466 9627 dd89c20bfa7628d9af7034b9167592ca "pdflatex"
+  "main.bbl" 1685030280 2825 cb1f70a0ac5765890e6fa5145af90480 "bibtex main"
+  "main.lof" 1685031466 140 104a8a462b27a2267fd07b368245cdd0 "pdflatex"
+  "main.lot" 1685031466 140 104a8a462b27a2267fd07b368245cdd0 "pdflatex"
+  "main.out" 1685031466 8876 671ce54e195952b5988cc9711edbf6f1 "pdflatex"
   "main.tex" 1684937803 3802 0cbe7cbca58a4d110228d1d3f05f3b0c ""
-  "main.toc" 1685004913 5328 43fd2b84ee852eb48807b8d822f93720 "pdflatex"
+  "main.toc" 1685031466 5266 3614b6e2ac23269d568e5088e64bed9d "pdflatex"
   "shadowtext.sty" 1684155724 2595 50c8fe76832543a093fcc896cad804fc ""
   "tlsflyleaf.sty" 1684155712 35808 ed51a77fe7409fc5add5af6e95fabb59 ""
   "tlsflyleaf/filigrammecut.png" 1684147258 66000 a298d9529aba6ca3bd2e92982bd63a43 ""

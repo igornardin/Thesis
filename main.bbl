@@ -21,6 +21,37 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{tracker2022massive}
+C.~A. Tracker, ``Massive gas expansion risks overtaking positive climate
+  policies,'' \emph{Warming Projections Global Update, November}, 2022.
+
+\bibitem{freitag2021climate}
+C.~Freitag, M.~Berners-Lee, K.~Widdicks, B.~Knowles, G.~Blair, and A.~Friday,
+  ``The climate impact of ict: A review of estimates, trends and regulations,''
+  2021.
+
+\bibitem{centres2022data}
+G.~Kamiya, ``Data transmission networks,'' International Energy Agency, Paris,
+  Tech. Rep., 2022.
+
+\bibitem{khan2018exploiting}
+M.~A. Khan, A.~P. Paplinski, A.~M. Khan, M.~Murshed, and R.~Buyya, ``Exploiting
+  user provided information in dynamic consolidation of virtual machines to
+  minimize energy consumption of cloud data centers,'' in \emph{2018 Third
+  International Conference on Fog and Mobile Edge Computing (FMEC)}.\hskip 1em
+  plus 0.5em minus 0.4em\relax IEEE, 2018, pp. 105--114.
+
+\bibitem{cisco2020cisco}
+U.~Cisco, ``Cisco annual internet report (2018--2023) white paper,'' 2020.
+
+\bibitem{Masanet984}
+\BIBentryALTinterwordspacing
+E.~Masanet, A.~Shehabi, N.~Lei, S.~Smith, and J.~Koomey, ``Recalibrating global
+  data center energy-use estimates,'' \emph{Science}, vol. 367, no. 6481, pp.
+  984--986, 2020. [Online]. Available:
+  \url{https://science.sciencemag.org/content/367/6481/984}
+\BIBentrySTDinterwordspacing
+
 \bibitem{de2022mixing}
 I.~F. de~Nardin, P.~Stolf, and S.~Caux, ``Mixing offline and online electrical
   decisions in data centers powered by renewable sources,'' in \emph{IECON
