@@ -14,11 +14,12 @@
     urlcolor=black
 }
 \usepackage{afterpage}
-
+\usepackage{fancyhdr} 
 
 \setlength{\columnseprule}{0pt}
 \setlength\columnsep{10pt}
 
+\graphicspath{{Images/}}
 % ==================
 % Setup basic string
 % - PhD Title
@@ -64,24 +65,18 @@
 
 \graphicspath{{Images/}}
 
-\newcommand\blankpage{%
-    \null
-    \thispagestyle{empty}%
-    \addtocounter{page}{-1}%
-    \newpage}
-
-
-\usepackage{titlesec}
-\titleformat{\chapter}[display]
-  {\Huge\bfseries}
-  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+% \newcommand\blankpage{%
+%     \null
+%     \thispagestyle{empty}%
+%     \addtocounter{page}{-1}%
+%     \newpage}
 
 % ============================================================
 % DOCUMENT
 \begin{document}
     \makeflyleaf
 
-    \afterpage{\blankpage}
+    % \afterpage{\blankpage}
 
     \pagenumbering{roman}
     \input{Sections/Beginning/1-Abstract}
