@@ -1,25 +1,99 @@
-\documentclass[12pt,a4paper,oneside]{book}
-\usepackage[ED=MITT-MITT, Ets=INP]{tlsflyleaf}
-%\usepackage[ED=SDU2E-Ast, ED2=SDU2E-Eco, Ets=UT3]{tlsflyleaf}
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[11pt,twoside,openright,a4paper]{book}
+
+\usepackage{etoolbox}
+\newtoggle{finalversion}
+\newtoggle{printing}
+
+\toggletrue{finalversion}
+\toggletrue{printing}
+
+\iftoggle{finalversion}{%
+  \usepackage[inner=2.5cm, outer=3.5cm, top=3.5cm, bottom=2.5cm, headsep=0.9cm]{geometry}
+  % for ADUM cover...
+  \usepackage{pdfpages}
+}{%
+  % NOTE: for reviewing only, easier to read in digital version...
+  % same odd/even margins
+  \usepackage[inner=3cm, outer=3cm, top=3.5cm, bottom=2.5cm, headsep=0.9cm]{geometry}
+}
+
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{helvet}
-% \renewcommand{\familydefault}{\sfdefault}
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black
-}
+
+\usepackage[french,main=english]{babel}
+
+% stuff for citation and references...
+%\usepackage[isbn=false,doi=true,url=false,natbib=true,backend=biber]{biblatex} % backref=true
+\usepackage[numbers,sort]{natbib}
+% to have the bibliography in the toc
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+% for the publications references...
+\usepackage{bibentry}
+
+\usepackage{fancyhdr}
+
 \usepackage{afterpage}
-\usepackage{fancyhdr} 
+\usepackage{pdflscape}
 
-\setlength{\columnseprule}{0pt}
-\setlength\columnsep{10pt}
+% acronym management, based on http://blog.dorian-depriester.fr/latex/latex-specifiez-vos-acronymes-une-bonne-fois-pour-toute
+% need to be loaded before hyperref to prevent awful hyperlinks...
+\usepackage[xindy,acronyms,nomain,nonumberlist]{glossaries}	% Ensures that all acronyms are defined once
+	\let\oldnewacronym\newacronym
+	\newcommand*{\provideacronym}[3]{%
+	  \ifglsentryexists{#1}{%
+	  }{%
+	    \oldnewacronym{#1}{#2}{#3}%
+	  }%
+	}
+\makeglossaries
 
-\graphicspath{{Images/}}
+% For TODO management...
+% NOTE: todonotes have in fact an option 'disable' for doing the same (but better)...
+\iftoggle{finalversion}{%
+  \def\todonotestoggle{disable}
+  %\newcommand{\todo}[3][nop]{#3}
+}{
+  \def\todonotestoggle{}
+  % see 1.6.5 of todonotes documentation
+  \setlength{\marginparwidth}{2.5cm}
+}
+\usepackage[\todonotestoggle]{todonotes}
+\newcommand{\tdi}[2][]{\todo[inline,caption={yatodo},#1]{\begin{minipage}{\textwidth-4pt}#2\end{minipage}}{}}
+
+% (from Ines) permet de faire une table des matieres par chapitre
+\usepackage{minitoc}
+\setcounter{minitocdepth}{1}
+
+\iftoggle{printing}{
+  % we still want hyperref (no PDF-X...) but without the colors!
+  \usepackage{hyperref}
+  \hypersetup{hidelinks, breaklinks=true}
+}{%
+  \usepackage{hyperref}
+  \hypersetup{urlcolor=blue,linkcolor=blue,citecolor=blue,colorlinks=true,breaklinks=true}
+}
+
+% Note: should be loaded *after* hyperref...
+\usepackage[french,english]{cleveref}
+\crefname{algocf}{alg.}{algs.}
+\Crefname{algocf}{Algorithm}{Algorithms}
+% for our floating environment...
+\crefalias{lstfloat}{listing}
+
+% Toulouse PhD frontpage
+\usepackage[ED=MITT-MITT, Ets=INP]{tlsflyleaf}
+
+\newacronym[longplural={renewable energy sources}]{res}{RES}{renewable energy source}
+\newacronym{ghg}{GHG}{greenhouse gas}
+\newacronym{milp}{MILP}{Mixed-Integer Linear Programming}
+\newacronym{dpm}{DPM}{Dynamic Power Management}
+\newacronym{dvfs}{DVFS}{Dynamic Voltage and Frequency Scaling}
+\newacronym{qos}{QoS}{Quality of Service}
+\newacronym{hpc}{HPC}{High Performance Computing}
+
+
+
 % ==================
 % Setup basic string
 % - PhD Title
@@ -74,42 +148,63 @@
 % ============================================================
 % DOCUMENT
 \begin{document}
+    \pagestyle{plain}
     \makeflyleaf
 
-    % \afterpage{\blankpage}
+    \pagestyle{empty}
 
-    \pagenumbering{roman}
-    \input{Sections/Beginning/1-Abstract}
-    \cleardoublepage
-    \input{Sections/Beginning/2-Resume}
-    \cleardoublepage
-    \input{Sections/Beginning/3-Acknowledgments}
-    \cleardoublepage
+    \frontmatter
+
+    \dominitoc
+
+    % NOTE fancy page settings (c.f. Inès)
+    \renewcommand{\chaptermark}[1]{\markboth {\thechapter.\ #1}{\thechapter.\ #1}}
+    \renewcommand{\sectionmark}[1]{ \markright{\thesection. \ #1}}
+    \pagestyle{fancy}
+    \renewcommand{\headrulewidth}{1pt}
+    \fancyhead[RE,LO]{} %\thepage ? 
+    \fancyhead[LE]{\nouppercase{\small\rightmark}}
+    \fancyhead[RO]{\nouppercase{\small\leftmark}}
+    \fancyhead[C]{}  
+
+    \iftoggle{finalversion}{%
+    \chapter*{Acknowledgments}
+    \input{Sections/Beginning/3-Acknowledgments.tex}
+    }%
+    { % NOTE: no ACK in draft and co...
+    }
+
+    \chapter{Abstract}
+    \label{cha:abstract_english}
+    \input{Sections/Beginning/1-Abstract.tex}
+
+    \begin{otherlanguage}{french}
+    \chapter{Résumé}
+    \label{ch:abstract-french}
+    \input{Sections/Beginning/2-Resume.tex}
+    \end{otherlanguage}
+
     \tableofcontents
-    \cleardoublepage
     \listoffigures
     \listoftables
-    \cleardoublepage
+    
 
-    \pagenumbering{arabic}
+    \mainmatter
+      
+
     \input{Sections/1-Introduction}
-    \cleardoublepage
+
     \input{Sections/2-Related_work.tex}
-    \cleardoublepage
+
     \input{Sections/3-Model.tex}
-    \cleardoublepage
-    % \input{Sections/4-Power_capping.tex}
-    % \cleardoublepage
+
     \input{Sections/4-Power_compensations.tex}
-    \cleardoublepage
+
     \input{Sections/5-Learning_power_compensations.tex}
-    \cleardoublepage
+
     \input{Sections/6-Heuristic.tex}
-    \cleardoublepage
-    % \input{Sections/7-Middleware.tex}
-    % \cleardoublepage
+    
     \input{Sections/8-Conclusion.tex}
-    \cleardoublepage
 
     \bibliographystyle{IEEEtran}
     \bibliography{library}
