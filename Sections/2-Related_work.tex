@@ -140,7 +140,7 @@ Regarding PV efficiency $\eta_{PV}$, it can consider the temperature of the sola
 
 Due to the weather intermittence, it is necessary to introduce storage elements. These storage elements allow for shifting generation and consumption over time \cite{rostirolla2022survey}. For example, power coming from wind turbines during the night can be stored and used during the day. Big companies are investing in massive storage elements. An example is Google which is planning a 350 MW solar plant in Nevada connected to a storage system of 280 MW \cite{branscombe2020google}. There are different types of storage with advantages and drawbacks \cite{wang2012energy}. One of them is hydropower and underground compressed air storage. However, this kind of storage is very geographical, geological, and terrain dependent, which makes it inappropriate to use in data centers \cite{rostirolla2022survey}. Another type is the very short-term storage such as flywheels or supercapacitors. These storages can output and absorb energy over ms to minutes \cite{wang2012energy}. They are very suitable for maintaining power stability but not for storing energy for a larger time horizon (e.g., hours or days) \cite{rostirolla2022survey}. In this thesis, we focus on the batteries and Hydrogen Storage System (HSS).
 
-Batteries are electrochemical devices that store energy in chemical form \cite{rostirolla2022survey, yilanci2009review, wang2012energy}. They are very reactive because they do not need a warm-up to store/generate power. Batteries are good for short-term storage scenarios (e.g., several hours, day/night cycles) \cite{rostirolla2022survey}. However, they are inappropriate for longer periods due to their self-discharge rate and low energy density \cite{rostirolla2022survey, yilanci2009review}. Historically, Uninterruptible Power Supply (UPS) added batteries to avoid the server's blackout, doing a soft shutdown that avoids several problems, such as data loss, data corruption, work loss, etc. A problem with batteries is the degradation in capacity and performance over time, requiring battery replacement \cite{rostirolla2022survey}. A way to extend battery life is by avoiding charging/discharging too extensively \cite{xu2016modeling}. There are some methods to model the energy level inside the battery, such as energy-based, Current-based, or State of Charge \cite{rostirolla2022survey}. We focus on the State of Charge since it represents the percentage of energy inside the battery according to its capacity (e.g., 100\% means battery full and 0\% dry). Xu et al. present results showing that maintaining SoC at a narrow range reduces battery degradation \cite{xu2016modeling}. However, using a narrow range would reduce the battery's effectiveness because it can deliver less energy to deal with intermittence. So, the battery SoC must be maintained within a range considering this trade-off. Equations \ref{equ:battery_energy} and \ref{equ:battery_state_of_charge} demonstrate how to calculate the State of Charge \cite{haddad2019mixed}. 
+Batteries are electrochemical devices that store energy in chemical form \cite{rostirolla2022survey, yilanci2009review, wang2012energy}. They are very reactive because they do not need a warm-up to store/generate power. Batteries are good for short-term storage scenarios (e.g., several hours, day/night cycles) \cite{rostirolla2022survey}. However, they are inappropriate for longer periods due to their self-discharge rate and low energy density \cite{rostirolla2022survey, yilanci2009review}. Historically, Uninterruptible Power Supply (UPS) added batteries to avoid the server's blackout, doing a soft shutdown that avoids several problems, such as data loss, data corruption, work loss, etc. A problem with batteries is the degradation in capacity and performance over time, requiring battery replacement \cite{rostirolla2022survey}. A way to extend battery life is by avoiding charging/discharging too extensively \cite{xu2016modeling}. There are some methods to model the energy level inside the battery, such as energy-based, Current-based, or State of Charge \cite{rostirolla2022survey}. We focus on the State of Charge since it represents the percentage of energy inside the battery according to its capacity (e.g., 100\% means battery full and 0\% dry). \citeauthor{xu2016modeling} present results showing that maintaining SoC at a narrow range reduces battery degradation \cite{xu2016modeling}. However, using a narrow range would reduce the battery's effectiveness because it can deliver less energy to deal with intermittence. So, the battery SoC must be maintained within a range considering this trade-off. Equations \ref{equ:battery_energy} and \ref{equ:battery_state_of_charge} demonstrate how to calculate the State of Charge \cite{haddad2019mixed}. 
 
 \begin{equation}
     \label{equ:battery_energy}
@@ -223,7 +223,7 @@ Where:
 \end{itemize}
 
 
-While Ismail et al. indicate that $P^{static}$ can be considered as the power idle \cite{ismail2020computing}, Heinrich et al. demonstrate a slight difference between the power usage at fully idle and when the real $P^{static}$ \cite{heinrich2017predicting}. The work of Heinrich et al. is the base for a well-known data center simulator named Simgrid\footnote{https://simgrid.org/} and its evolutions. This article also indicates that $P^{dynamic}$ depends on the application and the server frequency. Figure \ref{fig:cpu_frequency_consumption} shows the linearization of the power consumption according to the frequency for the same application. Setting different frequencies is possible through the Dynamic Voltage and Frequency Scaling technique. Putting the server at a lower frequency reduces the server's power consumption (as illustrated in Figure \ref{fig:cpu_frequency_consumption}). However, it also decreases the server's speed. Nevertheless, DVFS is a possible solution to reducing energy consumption in moments with lower power available. 
+While \citeauthor{ismail2020computing} indicate that $P^{static}$ can be considered as the power idle \cite{ismail2020computing}, \citeauthor{heinrich2017predicting} demonstrate a slight difference between the power usage at fully idle and when the real $P^{static}$ \cite{heinrich2017predicting}. The work of \citeauthor{heinrich2017predicting} is the base for a well-known data center simulator named Simgrid\footnote{https://simgrid.org/} and its evolutions. This article also indicates that $P^{dynamic}$ depends on the application and the server frequency. Figure \ref{fig:cpu_frequency_consumption} shows the linearization of the power consumption according to the frequency for the same application. Setting different frequencies is possible through the Dynamic Voltage and Frequency Scaling technique. Putting the server at a lower frequency reduces the server's power consumption (as illustrated in Figure \ref{fig:cpu_frequency_consumption}). However, it also decreases the server's speed. Nevertheless, DVFS is a possible solution to reducing energy consumption in moments with lower power available. 
 
 \begin{figure}[!htb]
     \centering
@@ -232,7 +232,7 @@ While Ismail et al. indicate that $P^{static}$ can be considered as the power id
     \label{fig:cpu_frequency_consumption}
 \end{figure}
 
-Another possibility, more drastic, is putting the server to sleep. In the sleep state, the server is unavailable but consuming its lower power possible. Besides being inaccessible, another consideration in the sleep state is that sleep transitions (on$\rightarrow$off and off$\rightarrow$on) are not instantaneous and waste energy. Raïs et al. present a Dynamic Power Management (DPM) solution \cite{rais2018quantifying}. This DPM estimates a $T_{wait}$ threshold that when the server is idle for more than $T_{wait}$ seconds, it is more energy-efficient to switch the server off. Equation \ref{equ:dpm_waiting_time} represents their idea.
+Another possibility, more drastic, is putting the server to sleep. In the sleep state, the server is unavailable but consuming its lower power possible. Besides being inaccessible, another consideration in the sleep state is that sleep transitions (on$\rightarrow$off and off$\rightarrow$on) are not instantaneous and waste energy. \citeauthor{rais2018quantifying} present a Dynamic Power Management (DPM) solution \cite{rais2018quantifying}. This DPM estimates a $T_{wait}$ threshold that when the server is idle for more than $T_{wait}$ seconds, it is more energy-efficient to switch the server off. Equation \ref{equ:dpm_waiting_time} represents their idea.
 
 \begin{equation}
     \label{equ:dpm_waiting_time}
@@ -304,33 +304,44 @@ An optimization problem must consider all these elements. We can divide the prob
 
 On the other hand, online optimization does not know any future events (e.g., job arrival and power production), discovering them on the fly. Since online just knows actual events, it can not find the optimal global solution. So, online reacts to the incoming events optimizing the problem locally. The online must solve the problem fast because the system can not wait too long for an answer. To sum up both online and offline: offline uses predictions to optimize, but it is not reactive; online is future-blind, just reacting to actual events. Then, a third possibility emerges: A mix between offline and online. This combination allows taking the best from each side (prediction and global optimization from offline and reactivity from online).
 
-There are several methods to optimize this problem. We can divide them into four groups: (i) exact algorithms; (ii) greedy heuristics; (iii) machine learning; and (iv) meta-heuristics.
+There are several methods to optimize this problem. We can divide them into four groups: (i) exact algorithms; (ii) greedy heuristics; (iii) machine learning; and (iv) metaheuristics.
 
-The exact methods consist of creating a mathematical model of the problem. The model defines an objective function. It is possible to optimize the objective function through Linear Programming (LP). Solvers such as CPLEX\footnote{https://www.ibm.com/fr-fr/analytics/cplex-optimizer} and Guroby\footnote{https://www.gurobi.com/} are used to find the optimal. The drawback of this approach is its high computation time in large problems. So, it is not suitable for online optimization, but it is the best approach for offline (when the solving time is not a constraint). 
+The exact methods consist of creating a mathematical model of the problem. The model defines an objective function. It is possible to optimize the objective function through Linear Programming (LP). Solvers such as CPLEX\footnote{https://www.ibm.com/fr-fr/analytics/cplex-optimizer} and Guroby\footnote{https://www.gurobi.com/} are used to find the optimal. The drawback of this approach is its high computation time in large problems, especially if one or more variables are integers (called Mixed Integer Linear Programming - MILP). So, it is not suitable for online optimization, but it is the best approach for offline (when the solving time is not a constraint). 
 
-A greedy heuristic is a problem-solving strategy employed in algorithm design that aims to efficiently find approximate solutions by making locally optimal choices at each step, without considering the overall global optimality of the solution. This heuristic operates by iteratively selecting the most advantageous option based on defined criteria or objective functions. Although it may not guarantee the optimal solution, the greedy heuristic's simplicity and computational efficiency make it particularly useful for tackling large-scale problems.
+A greedy heuristic is a problem-solving strategy employed in algorithm design that aims to efficiently find approximate solutions by making locally optimal choices at each step, without considering the overall global optimality of the solution. This heuristic operates by iteratively selecting the most advantageous option based on defined criteria or objective functions. Although it may not guarantee the optimal solution, the greedy heuristic's simplicity and computational efficiency make it particularly useful for tackling large-scale problems. Two examples of heuristics for job scheduling are First Come First Served (FCFS) and Easy Backfilling. Figure \ref{fig:backfilling} demonstrates the differences between both algorithms. In FCFS, the jobs are placed in the order they arrive. The Easy Backfilling approach tries to fill the hole in scheduling with small jobs (J4 in the figure). Easy Backfilling is highly dependent on walltime estimation in this backfilling step \cite{srinivasan2002characterization, takizawa2020effect}.
 
-Machine learning is a subfield of artificial intelligence that contains algorithms capable of automatically learning from data and improving performance on specific tasks. In some cases, they emulated the process of human learning. For example, Artificial neural networks simulate the neural network from the human brain. Another example is reinforcement learning which considers the trial-and-error approach, where an agent explores an environment, takes actions, and receives feedback. Through this iterative process, the agent learns to adapt its behavior by optimizing a policy.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.6]{Images/Related_works/backfilling.pdf}
+    \caption{Comparison between FCFS and EASY Backfilling scheduling heuristics.}
+    \label{fig:backfilling}
+\end{figure}
 
-% \begin{itemize}
-%     \item Write about weather predictions
-%     \item Write about optimization for the weather;
-%     \item Write about scheduling algorithms to deal with workload uncertainties;
-%     \item Write about mixing both renewable production and workload uncertainties;
-% \end{itemize}
+Machine learning is a subfield of artificial intelligence that contains algorithms capable of automatically learning from data and improving performance on specific tasks. In some cases, they emulated the process of human learning. For example, Artificial neural networks simulate the neural network from the human brain. Another example is Reinforcement Learning (RL) which considers the trial-and-error approach, where an agent explores an environment, takes actions, and receives feedback \cite{kaelbling1996reinforcement}. Figure \ref{fig:reinforcement} illustrates this process. Through this iterative process, the agent learns to adapt its behavior by optimizing a policy. The algorithm reinforces (from where the Reinforcement Learning name comes) good actions. At some point, the algorithm stops exploring the environment and starts to use its knowledge from previous explorations to repeat what gave the best rewards. 
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.6]{Images/Related_works/Reinforcement_learning.pdf}
+    \caption{Agent learning process in an environment. At each step, the agent verifies the actual state and chooses an action. The environment executes the action and returns a reward. The agent learns the reward obtained in that state for that action.}
+    \label{fig:reinforcement}
+\end{figure}
+
+Finally, metaheuristics are another kind of algorithm to solve hard optimization problems. The "meta" term indicates that they are "higher level" heuristics, different from the problem-specific heuristics \cite{boussaid2013survey}. They are nature-inspired (based on some principles from physics, biology, or ethology). An example is the Genetic algorithm which simulates the evolution and mutation process from biology. Another example is Swarm algorithms inspired by the collective behavior of social insect colonies and other animal societies. Generally, metaheuristics are used to solve problems with no satisfactory problem-specific algorithm \cite{boussaid2013survey}.
+
+In this thesis, we apply all previous methods but metaheuristics. In the offline part, we applied exact algorithms to find optimal solutions. For online, we propose heuristics to solve the specific problem. We also attempted to introduce RL to learn the environment's behavior. Since the online problem needs a fast solution for a specific problem, metaheuristics were not studied.
 
 \section{Literature Review}
+This section presents works to solve the issues related to a renewable-only data center. We verify the decisions on both offline and online levels. Some articles are not renewable only but introduce renewable in the decision process. We divided the articles into three groups: only offline, only online, and mixed decisions. The works are presented in chronological order inside each group.
 
-\begin{itemize}
-    \item Present the 20 articles selected;
-    \item Present a table with each article and the following points:
-    \begin{itemize}
-        \item Name;
-        \item Year;
-        \item Source of power (solar, wind, battery, grid, etc);
-        \item Level of decision (offline, online, both);
-        \item Power adaptations (battery compensations, renewable adaptations, etc).
-    \end{itemize}
-\end{itemize}
+\subsection{Only Offline Decisions}
+
+
+\subsection{Only Online Decisions}
+
+\citeauthor{aksanli2011utilizing} \cite{aksanli2011utilizing} presented an online heuristic that uses short-term (30 min) forecasts in the scheduling process. They implemented two queues, one for services and another for batch. Services will run independently of the green energy available, using brown if needed. Then, they predict the green energy available in the next period. Using this prediction, they estimate the number of slots available to run batch jobs. If the number is greater than the currently available slots, they schedule new jobs and spread the remainder to the running ones. If this number is smaller, the scheduler deallocates some jobs (reducing slots, killing, suspending them, or using brown energy). They compared their predictive heuristic with a reactive scheduler that allocates servers according to the energy available.
+
+\subsection{Mixed decisions}
 
 \subsection{Discussion and Classification of the Literature}
+
+\input{Tables/Related_works/Related_works.tex}

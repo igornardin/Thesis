@@ -21,11 +21,11 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
+\usepackage[numbers,sort]{natbib}
 \usepackage[french,main=english]{babel}
 
 % stuff for citation and references...
 %\usepackage[isbn=false,doi=true,url=false,natbib=true,backend=biber]{biblatex} % backref=true
-\usepackage[numbers,sort]{natbib}
 % to have the bibliography in the toc
 \usepackage[nottoc,notlot,notlof]{tocbibind}
 % for the publications references...
@@ -83,6 +83,7 @@
 % for our floating environment...
 \crefalias{lstfloat}{listing}
 
+\usepackage{pdflscape}
 % Toulouse PhD frontpage
 \usepackage[ED=MITT-MITT, Ets=INP]{tlsflyleaf}
 
@@ -206,7 +207,7 @@
     
     \input{Sections/8-Conclusion.tex}
 
-    \bibliographystyle{IEEEtran}
+    \bibliographystyle{plainnat}
     \bibliography{library}
 
 \end{document}
