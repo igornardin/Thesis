@@ -1,0 +1,39 @@
+\begin{table}[!htb]
+\centering
+% \scriptsize
+\caption{Notations.}
+\label{tab:notation}
+\begin{tabular}{l|l}
+    \hline
+    Notation & Description \\\hline\hline
+    % System
+    $t$ & Time step (int)\\
+    $T$ & Last time step (int)\\
+    $\Delta t$ & Time step length (s)\\
+    $T_{w}$ & Time window length (s)\\
+    % Power
+    $P_{prod}$ & Power production by all sources (kW)\\
+    $P_{wt}$ & Power delivered by wind turbines (kW)\\
+    $P_{pv}$ & Power delivered by solar panels (kW)\\
+    $P_{fc}$ & Power delivered by fuel cell (kW)\\
+    $P_{ez}$ & Power put into electrolyzer to generate hydrogen (kW)\\
+    $P_{dch}$ & Battery discharging power (kW)\\
+    $P_{ch}$ & Battery charging power (kW)\\
+    $SoC(t)$ & State of Charge at instant $t$ (\%)\\
+    $LoH(t)$ & Level of Hydrogen (kg)\\
+    $SoC_{max}$ & Maximal battery State of Charge (\%)\\
+    $SoC_{min}$ & Minimal battery State of Charge (\%)\\
+    $LoH_{max}$ & H2 tank limit (kg)\\
+    $P_{dch_{max}}$ & Battery maximum discharging power (kW)\\
+    $P_{ch_{max}}$ & Battery maximum charging power (kW)\\
+    $P_{fc_{max}}$ & Fuel cell maximum charging power (kW)\\
+    $P_{ez_{min}}$ & Electrolyzer minimum charging power (kW)\\
+    $P_{ez_{max}}$ & Electrolyzer maximum charging power (kW)\\
+    $SoC_{target}$ & Target State of Charge at the end of the time window (\%)\\
+    $LoH_{target}$ & Target Level of Hydrogen at the end of the time window (kg)\\
+    $rf$ & Relax factor (float) \\
+    $P_{load}$ & Estimated power demand (kW)\\
+    % IT
+    \hline
+\end{tabular}
+\end{table}
