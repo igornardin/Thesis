@@ -1,0 +1,68 @@
+% \begin{table}[!htb]
+% \centering
+% \caption{Gros definition. The power is for all server's processors busy. The values are from Grid5000's Gros server.}
+% \label{tab:gros}
+% \begin{tabular}{ll|l}
+%     \hline
+%     \multicolumn{2}{l|}{Parameter} & Value \\ \hline\hline
+%     \multicolumn{2}{l|}{Sleeping power} & 4.5 W \\
+%     \multicolumn{2}{l|}{Time on-\textgreater{}off} & 6 s \\
+%     \multicolumn{2}{l|}{Power on-\textgreater{}off} & 76.5 W \\
+%     \multicolumn{2}{l|}{Time off-\textgreater{}on} & 164 s \\
+%     \multicolumn{2}{l|}{Power off-\textgreater{}on} & 110.52 W \\
+%     \multicolumn{2}{l|}{Power idle} & 62 W \\ \hline
+%     \multicolumn{3}{l}{DVFS states}  \\ \hline 
+%     \multicolumn{1}{l|}{State} & Power (W) & Speed per core (Gflops) \\ \hline\hline
+%     \multicolumn{1}{l|}{0} & 143.45 & 35.2 \\
+%     \multicolumn{1}{l|}{1} & 123.57 & 33.59 \\
+%     \multicolumn{1}{l|}{2} & 122.34 & 31.98 \\
+%     \multicolumn{1}{l|}{3} & 121.68 & 30.36 \\
+%     \multicolumn{1}{l|}{4} & 118.49 & 28.79 \\
+%     \multicolumn{1}{l|}{5} & 115.8 & 27.14 \\
+%     \multicolumn{1}{l|}{6} & 114.58 & 25.57 \\
+%     \multicolumn{1}{l|}{7} & 110.89 & 23.85 \\
+%     \multicolumn{1}{l|}{8} & 108.06 & 22.38 \\
+%     \multicolumn{1}{l|}{9} & 106.81 & 20.78 \\
+%     \multicolumn{1}{l|}{10} & 104.13 & 19.18 \\
+%     \multicolumn{1}{l|}{11} & 102.83 & 17.59 \\
+%     \multicolumn{1}{l|}{12} & 100.78 & 15.99 \\ \hline
+% \end{tabular}
+% \end{table}
+
+\begin{table}[!htb]
+    \caption{Gros definition. The power is for all server's processors busy. The values are from Grid5000's Gros server.}
+    \label{tab:gros}
+    \begin{minipage}{.45\linewidth}
+      \centering
+      \begin{tabular}{l|l}
+        \hline
+        Parameter & Value \\ \hline\hline
+        Sleeping power & 4.5 W \\
+        Time on$\rightarrow$off & 6 s \\
+        Power on$\rightarrow$off & 76.5 W \\
+        Time off$\rightarrow$on & 164 s \\
+        Power off$\rightarrow$on & 110.52 W \\
+        Power idle & 62 W \\ \hline
+    \end{tabular}
+    \end{minipage}%
+    \begin{minipage}{.55\linewidth}
+      \centering
+      \begin{tabular}{l|l|l}
+        \hline
+        State & Power (W) & Speed per core (Gflops) \\ \hline\hline
+        0 & 143.45 & 35.2 \\
+        1 & 123.57 & 33.59 \\
+        2 & 122.34 & 31.98 \\
+        3 & 121.68 & 30.36 \\
+        4 & 118.49 & 28.79 \\
+        5 & 115.8 & 27.14 \\
+        6 & 114.58 & 25.57 \\
+        7 & 110.89 & 23.85 \\
+        8 & 108.06 & 22.38 \\
+        9 & 106.81 & 20.78 \\
+        10 & 104.13 & 19.18 \\
+        11 & 102.83 & 17.59 \\
+        12 & 100.78 & 15.99 \\ \hline
+    \end{tabular}
+    \end{minipage} 
+\end{table}

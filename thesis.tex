@@ -23,7 +23,8 @@
 
 \usepackage[numbers,sort]{natbib}
 \usepackage[french,main=english]{babel}
-
+\usepackage{caption}
+\captionsetup[table]{skip=10pt}
 % stuff for citation and references...
 %\usepackage[isbn=false,doi=true,url=false,natbib=true,backend=biber]{biblatex} % backref=true
 % to have the bibliography in the toc
@@ -35,7 +36,7 @@
 
 \usepackage{afterpage}
 \usepackage{pdflscape}
-
+\usepackage[ruled,vlined]{algorithm2e}
 \usepackage{gensymb}
 
 % acronym management, based on http://blog.dorian-depriester.fr/latex/latex-specifiez-vos-acronymes-une-bonne-fois-pour-toute
@@ -206,7 +207,7 @@
 
     \input{Sections/6-Heuristic.tex}
     
-    \input{Sections/8-Conclusion.tex}
+    \input{Sections/7-Conclusion.tex}
 
     \bibliographystyle{unsrtnat}
     \bibliography{library}
