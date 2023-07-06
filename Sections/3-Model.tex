@@ -3,7 +3,7 @@
 
 \minitoc
 
-After describing the state-of-the-art, this Section presents the models, data, and simulation tools used in this thesis. First, we focus on the model describing the offline and online modules. We explain what kind of information is exchanged between offline and online. Also, we detail the power, scheduling, and server decisions. After the model, we introduce the traces used in the experiments. These traces emulates a real environment regarding workload, weather, and platform. Finally, we demonstrate the simulation tools.
+After describing the state-of-the-art, this Section presents the models, data, and simulation tools used in this thesis. First, we focus on the model describing the offline and online modules. We explain what kind of information is exchanged between offline and online. After the model, we introduce the traces used in the experiments. These traces emulates a real environment regarding workload, weather, and platform. Finally, we demonstrate the simulation tools, explaining the modifications needed to create our environment.
 
 \section{Model}
 
@@ -16,11 +16,11 @@ As presented in Chapter \ref{cha:related_work}, a gap in the state-of-the-art is
     \label{fig:model}
 \end{figure}
 
-Besides these four modules, Datazero2 also includes an event generator and metronome. Both components are essential for the simulations. Event generator simulates the real events of a data center, such as job submission, weather conditions, etc. It simply reads a file and sends the data to the bus. The metronome synchronizes the simulation, managing the clock. So, every component waits for the time evolution from the metronome. This thesis does not detail these components, concentrating on the decision modules and their interactions.
-
-Table \ref{tab:notation_system} presents the general notations and each following section introduces its own notations. Both offline and online use the time division from Figure \ref{fig:time_window}. The time window is the horizon of the offline plan. Offline considers the time window to define how far to predict weather and workload. Also, it uses the time window to determine the power and server configuration plan duration. Our model divides the time window into several time steps, as represented in Figure \ref{fig:time_window} by the different $t$. The actions for power and server are constant inside the time step. For example, if a server is at some state in step $t=0$, it will remain at this state during the step duration.
+Besides these four modules, Datazero2 also includes an event generator and metronome. Both components are essential for the simulations. Event generator simulates the real events of a data center, such as job submission, weather conditions, etc. It simply reads a file and sends the data to the bus. The metronome synchronizes the simulation messages. So, every component waits for the time evolution from the metronome. This thesis does not detail these components, concentrating on the decision modules and their interactions.
 
 \input{Tables/Model/notations_system.tex}
+
+Table \ref{tab:notation_system} presents the general notations and each following section introduces its own notations. Both offline and online use the time division from Figure \ref{fig:time_window}. The time window is the horizon of the offline plan. Offline considers the time window to define how far to predict weather and workload. Also, it uses the time window to determine the planned actions. Our model divides the time window into several time steps, as represented in Figure \ref{fig:time_window} by the different $t$. The actions for power and server are constant inside the time step. For example, if a server is at some state in step $t=0$, it will remain at this state during the step duration.
 
 \begin{figure}[!htb]
     \centering
@@ -35,7 +35,7 @@ This section starts presenting the offline decision module. First, we demonstrat
 \subsubsection{Negotiation (NM)}
 Negotiation is a crucial step in Datazero2 architecture. A renewable-only data center introduces several constraints and decision variables. On the PDM side, it must approximate demand and production while considering long-term storage elements. For example, PDM can provide more power from hydrogen in a case with low renewable generation. However, PDM must evaluate the impact of its actions since the energy of the storage is finite. On the other hand, ITDM maximizes the Quality of Service. Thus, it demands more energy to run more servers at faster speeds. NM is between PDM and ITDM, trying to find an agreement. NM works iteratively. On each iteration, both PDM and ITDM propose a power envelope to NM, considering the objective of each module. A power envelope is a time series of the power production from the sources in a time window. While PDM tries to reduce the power envelope to control the storage, ITDM increases it to run more jobs faster. NM compares both envelope propositions and returns a new one. Then, each module verifies if they can use the proposed power envelope. They run several iterations until both agree or reach a timeout.
 
-Since this thesis focus on the online part, we simplify this process. We implemented the negotiation in three steps. First, ITDM proposes a power envelope $P_{load}$ based on the energy demanded to run a predicted workload. Then, PDM takes this envelope and runs its optimization. It can degrade the power envelope to meet its objectives, resulting in a new power envelope $P_{prod}$. Finally, ITDM takes the PDM power production and finds the best server configuration that meets it. The following sections present the PDM and ITDM optimizations.
+Since this thesis focus on the online part, we simplify this process. We implemented the negotiation in three steps. First, ITDM proposes a power envelope $P_{load}$ based on the energy demanded to run a predicted workload. $P_{load}$ is a prediction from ITDM. We do not include it in this model, but we present in the following chapters how we generated it. Then, PDM takes this envelope and runs its optimization. It can degrade the power envelope to meet its objectives, resulting in a new power envelope $P_{prod}$. Finally, ITDM takes the PDM power production and finds the best server configuration that meets it. The following sections present the PDM and ITDM optimizations.
 
 \subsubsection{Power Decision Module (PDM)}
 Table \ref{tab:notation_power} gives the notations for PDM. PDM plans the renewable source engagement to provide the energy needed to maintain the IT elements. A renewable-only data center introduces several constraints in power generation. Therefore, PDM must approximate the demanded power while considering long-term storage elements. For example, it can use more energy coming from hydrogen during the winter, which has lower power production, compensating for this usage in the summer, which has higher power generation. On the other hand, PDM can degrade the provided energy due to a lack of energy from storage and estimated renewable. In the context of Datazero, \citeauthor{haddad2019mixed} created the first model to solve this problem \cite{haddad2019mixed}. This thesis uses a similar model to PDM. Equation \ref{equ:model_energy} gives the power production from all renewable sources. Equation \ref{equ:renewable_power} indicates that $P_{renew}$ comes from wind and solar production. $P_{wt}(t)$, $P_{pv}(t)$, $P_{fc}(t)$, $P_{ez}(t)$, $P_{dch}(t)$, and $P_{ch}(t)$ are calculated using Equations \ref{equ:wind_turbines}, \ref{equ:panel_solar_with_temperature}, \ref{equ:hydrogen_full_cell}, \ref{equ:hydrogen_electrolyzer} and \ref{equ:battery_energy} from Section \ref{sec:related_work_electrical_elements}.
@@ -66,7 +66,7 @@ On the other hand, hydrogen only has the tank size as a boundary. So, Equation \
     0 \leq LoH(t) \leq LoH_{max}, \quad \forall 0 \le t \le T
 \end{equation}
 
-Considering the power to charge/discharge, both have upper limits. These boundaries avoid destroying the battery. So, we introduce constraints \ref{equ:discharge_boundary} and \ref{equ:charge_boundary}.
+Considering the power to charge/discharge the batteries, both have upper limits. These boundaries avoid destroying the battery. So, we introduce constraints \ref{equ:discharge_boundary} and \ref{equ:charge_boundary}.
 
 \begin{equation}
     \label{equ:discharge_boundary}
@@ -156,20 +156,20 @@ Finally, the objective is to approximate the power production to the power deman
 
 \subsubsection{IT Decision Module (ITDM)}
 
-Table \ref{tab:notation_it} introduces the notations for ITDM. Following PDM optimization, ITDM aims to maximize QoS, translating $P_{prod}(t)$ into server configuration. Server configuration means the CPU P-state of the servers. For each P-state, the server has a speed (in flops \cite{hunger2005floating}) and power consumption (in W). Table \ref{tab:servers} exemplifies this relation. The CPU frequency range is discrete, although some works define it to be continuous \cite{saha2012experimental}. ITDM must find the best combination of servers off and on at some speed that uses equal or less energy than the power envelope $P_{prod}(t)$. Thus, given a data center with $S$ servers, each server $s$ has a list of states $D_s$. Each state $d$ in $D_s$ has a speed $F_{s,d}$ and a power $P_{s,d}$. $D_{s,d}(t)$ is the boolean decision variable that indicates that the server $s$ is at state $d$ at step $t$. The sleep state has a different state $Dsl_{s}(t)$ which helps to identify the transition between sleeping and running. The transition between on$\rightarrow$off is called sedating and off$\rightarrow$on is waking.
+Following PDM optimization, ITDM aims to maximize QoS, translating $P_{prod}(t)$ into server configuration. Table \ref{tab:notation_it} introduces the notations for ITDM. Server configuration means the CPU P-state of the servers. For each P-state, the server has a speed (in flops \cite{hunger2005floating}) and power consumption (in W). Table \ref{tab:servers} exemplifies this relation. The CPU frequency range is discrete, although some works define it to be continuous \cite{saha2012experimental}. ITDM must find the best combination of servers off and on at some speed that uses equal or less energy than the power envelope $P_{prod}(t)$. Thus, given a data center with $S$ servers, each server $s$ has a list of states $D_s$. Each state $d$ in $D_s$ has a speed $F_{s,d}$ and a power $P_{s,d}$. $D_{s,d}(t)$ is the boolean decision variable that indicates that the server $s$ is at state $d$ at step $t$. The sleep state has a different state $Dsl_{s}(t)$ which helps to identify the transition between sleeping and running. The transition between on$\rightarrow$off is called sedating and off$\rightarrow$on is waking.
 
 \input{Tables/Model/notations_IT.tex}
 
 \input{Tables/Model/parasilo.tex}
 
-First, Equation \ref{equ:one_state_only} ensures only one state per time $t$. The state can be anyone from $D_{s,d}$ to indicate a P-state, or $Dsl_{s}(t)$ to specify the sleep state. Since both variables are booleans (accepting only 0 or 1 values), summing them can be equal to 1 (at least one must be true). Both $D_{s,d}$ and $Dsl_{s}(t)$ are the only decision variables in the ITDM model.
+First, Equation \ref{equ:one_state_only} ensures only one state per time $t$. The state can be anyone from $D_{s,d}$ to indicate a P-state, or $Dsl_{s}(t)$ to specify the sleep state. Since both variables are booleans (accepting only 0 or 1 values), summing them must be equal to 1 (at least one must be true). Both $D_{s,d}$ and $Dsl_{s}(t)$ are the only decision variables in the ITDM model.
 
 \begin{equation}
     \label{equ:one_state_only}
     Dsl_{s}(t) + \sum_{d=0}^{N_{D}} D_{s,d}(t) = 1, \quad \forall 0 \le t \le T, \forall 0 \le s \le N_{S}
 \end{equation}
 
-Then, we must model the transition between on and off, and vice-versa. These transitions take time and spend energy. During these transitions, the servers are unavailable to run jobs. So, Equations \ref{equ:transition_wake} and \ref{equ:transition_sedating} model the waking transition (off$\rightarrow$off) and the sedating transition (on$\rightarrow$off), respectively. For example, Equation \ref{equ:transition_wake} verifies if the previous state is sleeping ($Dsl_{s}(t-1) = 1$) and now is not sleeping ($Dsl_{s}(t) = 0$). So the result of $Dsl_{s}(t-1) - Dsl_{s}(t)$ will be $1$, which indicates that the server $s$ is waking. If both are $0$ or $1$, the result is $0$, implying that the server is not transiting. Equation \ref{equ:transition_sedating} does the same but inverts the order of states.
+Then, we must model the sedating and waking transitions. These transitions take time and spend energy. During these transitions, the servers are unavailable to run jobs. So, Equations \ref{equ:transition_wake} and \ref{equ:transition_sedating} model the waking transition (off$\rightarrow$off) and the sedating transition (on$\rightarrow$off), respectively. For example, Equation \ref{equ:transition_wake} verifies if the previous state is sleeping ($Dsl_{s}(t-1) = 1$) and now is not sleeping ($Dsl_{s}(t) = 0$). So the result of $Dsl_{s}(t-1) - Dsl_{s}(t)$ will be $1$, which indicates that the server $s$ is waking. If both are $0$ or $1$, the result is $0$, implying that the server is not transiting. If the previous state is not sleeping ($Dsl_{s}(t-1) = 0$) and now is sleeping ($Dsl_{s}(t) = 1$), the result will be $-1$. However, the $\max (0)$ function will put 0 as $wa_s(t)$. Equation \ref{equ:transition_sedating} does the same but inverts the order of states.
 
 \begin{equation}
     \label{equ:transition_wake}
@@ -181,11 +181,11 @@ Then, we must model the transition between on and off, and vice-versa. These tra
     se_{s}(t) = \max(0, (Dsl_{s}(t) - Dsl_{s}(t-1))), \quad \forall 0 \le t \le T, \forall 0 \le s \le N_{S}
 \end{equation}
 
-Equation \ref{equ:ITDM_energy_less_envelope} introduces the power constraint. We transform the power into energy (multiplying $P_{prod}(t)$ by $\Delta t$) because we are dealing with the transitions. So, the power from a server is not constant inside a time step (e.g., in the waking transition, first a server spent energy turning on and just after running jobs). $E_{tot}(t)$ is the total energy spent by the servers calculated using Equation \ref{equ:ITDM_energy_usage}. This equation sums the expended energy by running, waking, sedating, and sleeping servers.
+Equation \ref{equ:ITDM_energy_less_envelope} introduces the power constraint. We transform the power into energy (multiplying $P_{prod}(t)$ by $\Delta t$) because we are dealing with the transitions. Thus, the power from a server is not constant inside a time step (e.g., in the waking transition, first a server spent energy turning on and just after running jobs). Since $E_{tot}(t)$ is in J and the energy generated ($P_{prod}(t) \times \Delta t$) is in kJ, we transformed the generation into J by multiplying by 1000. $E_{tot}(t)$ is the total energy spent by the servers calculated using Equation \ref{equ:ITDM_energy_usage}. This equation sums the expended energy by running, waking, sedating, and sleeping states.
 
 \begin{equation}
     \label{equ:ITDM_energy_less_envelope}
-    P_{prod}(t) \times \Delta t \ge E_{tot}(t), \quad \forall 0 \le t \le T
+    P_{prod}(t) \times \Delta t \times 1000 \ge E_{tot}(t), \quad \forall 0 \le t \le T
 \end{equation}
 
 \begin{equation}
@@ -193,7 +193,7 @@ Equation \ref{equ:ITDM_energy_less_envelope} introduces the power constraint. We
     E_{tot}(t) = E_{run}(t) + E_{wak}(t) + E_{sed}(t) + E_{sle}(t), \quad \forall 0 \le t \le T
 \end{equation}
 
-Equations \ref{equ:ITDM_energy_running}, \ref{equ:ITDM_energy_sleeping}, \ref{equ:ITDM_energy_sedating}, and \ref{equ:ITDM_energy_waking} demonstrate the energy of each state. Equation \ref{equ:ITDM_energy_running} verifies if the server is in one of the possible P-states $D_{s,d}$. If so, it multiplies the power by the time in this state. For calculating the time in the state, the equation verifies if the server is waking, removing the transition time if so. Equation \ref{equ:ITDM_energy_sleeping} does the same for the sleeping and sedating cases. Equations \ref{equ:ITDM_energy_waking} and \ref{equ:ITDM_energy_sedating} are simpler, just multiplying the power usage in the transition state by the time, if the server is in the state.
+Equations \ref{equ:ITDM_energy_running}, \ref{equ:ITDM_energy_sleeping}, \ref{equ:ITDM_energy_sedating}, and \ref{equ:ITDM_energy_waking} demonstrate the energy of each state. Equation \ref{equ:ITDM_energy_running} verifies if the server is in one of the possible P-states $D_{s,d}$. If so, it multiplies the power by the time in this state. For calculating the time in the state, the equation verifies if the server is waking, removing the transition time if so. Equation \ref{equ:ITDM_energy_sleeping} does the same for the sleeping state, considering the sedating transition. Equations \ref{equ:ITDM_energy_waking} and \ref{equ:ITDM_energy_sedating} are simpler, just multiplying the power usage in the transition state by the time, if the server is in the state.
 
 \begin{equation}
     \label{equ:ITDM_energy_running}
@@ -202,7 +202,7 @@ Equations \ref{equ:ITDM_energy_running}, \ref{equ:ITDM_energy_sleeping}, \ref{eq
 
 \begin{equation}
     \label{equ:ITDM_energy_sleeping}
-    E_{sle}(t) = \sum_{s=0}^{N_{S}}\sum_{d=0}^{N_{D}} Dsl_{s}(t) \times P_{sl_{s}} \times (\Delta t - (se_{s}(t) \times T_{se_{s}})), \quad \forall 0 \le t \le T
+    E_{sle}(t) = \sum_{s=0}^{N_{S}} Dsl_{s}(t) \times P_{sl_{s}} \times (\Delta t - (se_{s}(t) \times T_{se_{s}})), \quad \forall 0 \le t \le T
 \end{equation}
 
 \begin{equation}
@@ -239,7 +239,7 @@ Finally, Equation \ref{equ:ITDM_objective} demonstrates the objective function o
 
 \subsection{Offline Plan}
 
-The PDM and ITDM optimizations result in a plan for the next time window $T$. We divided the offline plan into two time series: The power plan (PDM) and the IT plan (ITDM), as follows:
+The PDM and ITDM optimizations result in a plan for the next time window. We divided the offline plan into two time series: The power plan (PDM) and the IT plan (ITDM), as follows:
 
 \begin{itemize}
     \item Power plan (PDM)
@@ -273,7 +273,7 @@ The PDM and ITDM optimizations result in a plan for the next time window $T$. We
     \end{itemize}
 \end{itemize}
 
-All the variables above were presented in PDM and ITDM sections, but the uncertainty variables $u_{renew}$ and $u_{load}$. This variable indicates confidence in that prediction, giving the interval of possible real values. Equations \ref{equ:uncertainty_power} and \ref{equ:uncertainty_load} present the possible real values interval.
+All the variables above were presented in PDM and ITDM sections, but the uncertainty variables $u_{renew}$ and $u_{load}$. These variables indicate confidence in that prediction, giving the interval of possible real values. Equations \ref{equ:uncertainty_power} and \ref{equ:uncertainty_load} present the possible real values interval.
 
 \begin{equation}
     P_{renew}(t) \times -u_{renew}(t) \le P^{real}_{renew}(t) \le P_{renew}((t)) \times u_{renew}(t), \quad \forall 0 \le t \le T
@@ -290,16 +290,15 @@ So, PDM and ITDM send this plan to ODM, which uses it as a guide for real-time d
 \subsection{Online Decision Module (ODM)}
 % This section describes the Online Decision Module (ODM) in three parts. First, we detail the scheduling algorithms used in ODM implementation. Then, we explain the power plan modifications, focusing on the reasons for modifying the plan. Finally, we present the idea for transforming the power modifications into IT modifications.
 
-ODM is a power-aware scheduler. A power-aware scheduler means having all responsibilities described in Section \ref{sec:related_work_it_elements} while managing electrical elements. In this section, we present three models: job scheduler, power modifications, and IT modifications. Table \ref{tab:notation_job} introduces the notations for ODM.
+ODM is a power-aware scheduler. A power-aware scheduler means having all responsibilities described in Section \ref{sec:related_work_it_elements} while managing electrical elements. In this section, we present the job scheduler and the modifications in the offline plan. Table \ref{tab:notation_job} introduces the notations for ODM.
 
 \input{Tables/Model/notations_job.tex}
 
 \subsubsection{Job scheduler}
 
-Since the offline in the model does not know the jobs exactly, it can not execute the job scheduling. Therefore, ODM must define the scheduling. The job scheduler's objective is to maximize the number of finished jobs, considering the power constraints. It does not know exactly when the jobs will arrive. As soon as a job arrives, the scheduler places it in a waiting queue $Q$. Each job $j$ in the waiting queue $Q$ is composed by submission time ($Sb_j$), walltime ($Wall_j$), and Number of resources requested ($R_j$). The job's demanded flops ($Dfl_j$) is discovered only after the job execution.
+Since the offline in the model does not know the jobs exactly, it can not execute the job scheduling. Therefore, ODM must define the scheduling. The job scheduler's objective is to maximize the number of finished jobs, considering the power constraints. It does not know exactly when the jobs will arrive. As soon as a job arrives, the scheduler places it in a waiting queue $Q$. Each job $j$ in the waiting queue $Q$ is composed by submission time ($Sb_j$), walltime ($Wall_j$), and the number of resources requested ($R_j$). Walltime is the maximum execution time allowed for the job. The job executes flops ($Dfl_j$), but it is discovered only after the job execution.
 
-
-After placing the job in the waiting queue, the scheduler must select which job will start first. For selecting the next job to place, the scheduler must sort the queue $Q$. This sort puts the more important jobs in front, according to a specified rule. One rule can consider the jobs' size, using Equation \ref{equ:jobs_size}. Since the scheduler does not know the real size, it estimates using the walltime and number of resources requested.
+After placing the job in the waiting queue, the scheduler must select which job will start. For selecting the next job to place, the scheduler must sort the queue $Q$. This sort puts the more important jobs in front, according to a specified rule. One rule can consider the jobs' size, using Equation \ref{equ:jobs_size}. Since the scheduler does not know the real size, it estimates using the walltime and number of resources requested.
 
 \begin{equation}
     Size_j = Wall_j \times R_j
@@ -313,7 +312,7 @@ Another way to sort the waiting queue $Q$ is using Bounded Slowdown. Equation \r
     \label{equ:slowdown}
 \end{equation}
 
-After selecting the next job to place, it places the job in $R_j$ servers. Due to a possible heterogeneous data center, the scheduler takes first the servers with higher speed. After starting, $D_{s,d}$ controls how fast the job will finish. The scheduler considers a job as a mass (unknown) flops $Dfl_j$. So, increasing the speed $D_{s,d}$ increases the number of flops processed by the server and reduces the execution time $Ex_j$. On the other hand, reducing the speed reduces the server's flops and increases the execution time $Ex_j$. The user indicates the maximum execution time $Wall_j$. Constraint \ref{equ:walltime} verifies if the execution time is lower than the walltime given by the user. The moment when the execution time becomes equal to or greater than the walltime, the scheduler kills the job. The job finishes when it executes all its flops $Dfl_j$. 
+After sorting the queue, it places the front job in $R_j$ servers. Due to a possible heterogeneous data center, the scheduler takes first the servers with higher speed. After starting, $D_{s,d}$ controls how fast the job will finish. The scheduler considers a job as a mass (unknown) flops $Dfl_j$. So, increasing the speed $D_{s,d}$ increases the number of flops processed by the server and reduces the execution time $Ex_j$. On the other hand, reducing the speed reduces the server's flops and increases the execution time. Constraint \ref{equ:walltime} verifies if the execution time is lower than the walltime $Wall_j$. The moment when the execution time becomes equal to or greater than the walltime, the scheduler kills the job. The job finishes correctly when it executes all its flops $Dfl_j$ before the walltime $Wall_j$. 
 
 \begin{equation}
     Ex_j < Wall_j
@@ -329,7 +328,7 @@ After selecting the next job to place, it places the job in $R_j$ servers. Due t
 
 An important part of ODM is adapting the offline plan. The offline plan gives a guide in a predicted scenario, but the reality can be different. The main reason for adaptations is due to power production and demand variations. There are three sources of variation: IT consumption, renewable production, and scheduling adaptations. 
 
-The IT consumption is the difference between the planned usage by ITDM and the usage in reality. Since ITDM does not know the real scheduling, it considers the worst-case where the server usage is the higher possible. Equation \ref{equ:cpu_usage} demonstrates the relation of the power consumption at an instant according to the CPU. Inside a time step $t$, the server's CPU usage can vary according to the jobs. Figure \ref{fig:energy_consumption} illustrates this difference due to the job variance. Since we consider the worst-case in ITDM, the real energy usage is always lower or equal to the predicted.
+The IT consumption is the difference between the ITDM planned usage and the real usage. Since ITDM does not know the real scheduling, it considers the worst-case where the server usage is the higher possible. Equation \ref{equ:cpu_usage} demonstrates the relation of the power consumption at an instant according to the CPU. Inside a time step $t$, the server's CPU usage can vary according to the jobs. Figure \ref{fig:energy_consumption} illustrates this difference due to the job variance. Since we consider the worst-case in ITDM, the real energy usage is always lower or equal to the predicted.
 
 \begin{figure}[!htb]
     \centering
@@ -369,12 +368,14 @@ Then, ODM calculates how much energy it can compensate, using Equation \ref{equ:
     \end{cases}
 \end{equation}
 
-Finally, ODM must modify futures $P_{dch}$ and $P_{ch}$ to use $E_{comp}$. We proposed some ways to deal with it in the following chapters. Since ODM modifies $P_{dch}$ and $P_{ch}$, $P_{prod}$ will also change (see Equation \ref{equ:model_energy}). So, ODM must adapt the IT plan (servers' states $D_{s,d}$) to meet the new $P_{prod}$. The algorithm to modify $D_{s,d}$ on-the-fly is also presented in the following chapters. This modification must respect the Constraint \ref{equ:ITDM_energy_less_envelope}.
+Finally, ODM must modify futures $P_{dch}$ and $P_{ch}$ to use $E_{comp}$. We focus on battery modifications since it is faster to make online decisions on it. Hydrogen is not too reactive. We proposed some ways to deal with it in the following chapters. Since ODM modifies $P_{dch}$ and $P_{ch}$, $P_{prod}$ will also change (see Equation \ref{equ:model_energy}). So, ODM must adapt the IT plan (servers' states $D_{s,d}$) to meet the new $P_{prod}$. The algorithm to modify $D_{s,d}$ on-the-fly is also presented in the following chapters. This modification must respect the Constraint \ref{equ:ITDM_energy_less_envelope}.
 
 \section{Data}
-After describing the models, we describe the data used to simulate our environment. Our simulators expect three data: workload, weather, and platform. We explain the source of each one in the following sections. Section \ref{sec:simulation} details the adaptations to the simulation format.
+After describing the models, we describe the data used to simulate our environment. Our simulators expect three data: workload, weather, and platform. We explain the source of each one in the following sections. 
 
 \subsection{Workload Trace}
+\label{sec:workload_trace}
+
 Workload trace is a log of job submissions in a resource (servers) provider. Some trace examples are Microsoft Azure \cite{cortez2017resource}, Google \cite{reiss2011google}, and Alibaba \cite{wang2022characterizing}. Regarding HPC, \citeauthor{feitelson2014experience} proposed the SWF format, which allows the data center providers to distribute logs to the research community \cite{feitelson2014experience}. In SWF, each line is a job with the fields separated by whitespace. Each line contains the following fields \cite{feitelson2014experience}:
 \begin{itemize}
     \item \textit{Job Number}: The job ID starting with 1;
@@ -397,7 +398,7 @@ Workload trace is a log of job submissions in a resource (servers) provider. Som
     \item \textit{Think Time from Preceding Job}: The time between this job and the Preceding Job (seconds);
 \end{itemize}
 
-It is not mandatory to insert all information in a SWF file. Currently, Parallel Workloads Archive\footnote{https://www.cs.huji.ac.il/labs/parallel/workload/index.html} has 40 traces in SWF format. We chose the MetaCentrum2 workload trace from the Czech National Grid Organization \cite{klusavcek2015real}. MetaCentrum is a grid with resources in several cities in the Czech Republic. They have 19 clusters with 495 nodes and 8412 cores in total. The trace has 5,731,100 jobs from January 2013 to April 2015. Metacentrum does not provide the \textit{Average CPU Time Used}, \textit{Used memory}, \textit{Status}, \textit{Group ID}, \textit{Executable (Application) Number}, \textit{Preceding Job Number}, and \textit{Think Time from Preceding Job} fields. Metacentrum has different queues according to the job type. The Partition number indicates which cluster executed the job. We do not have much information about the servers, just the number of nodes, cores, and memory.
+It is not mandatory to insert all information in a SWF file. Currently, Parallel Workloads Archive\footnote{https://www.cs.huji.ac.il/labs/parallel/workload/index.html} has 40 traces in SWF format. We chose the MetaCentrum2 workload trace from the Czech National Grid Organization \cite{klusavcek2015real}. MetaCentrum is a grid with resources in several cities in the Czech Republic. They have 19 clusters with 495 nodes and 8412 cores in total. The trace has 5,731,100 jobs from January 2013 to April 2015. Metacentrum does not provide the \textit{Average CPU Time Used}, \textit{Used memory}, \textit{Status}, \textit{Group ID}, \textit{Executable (Application) Number}, \textit{Preceding Job Number}, and \textit{Think Time from Preceding Job} fields. It has different queues according to the job type. The Partition number indicates which cluster executed the job. We do not have much information about the servers, just the number of nodes, cores, and memory.
 
 Figure \ref{fig:metacentrum} illustrates the inter-arrival and execution time distribution for MetaCentrum2. Inter-arrival is the time between job submissions, and execution time is the real runtime. Applying the Kolmogorov-Smirnov test to these data, we observed that both follow a log-normal distribution with p-value = 0.2174 for inter-arrival and p-value = 0.1802 for execution time (excluding 0.003838705\% of jobs as outliers).
 
@@ -409,13 +410,25 @@ Figure \ref{fig:metacentrum} illustrates the inter-arrival and execution time di
     \label{fig:metacentrum}
 \end{figure}
 
-We created two scripts for translating the SWF format to the BATSIM simulator and Datazero2 Middleware formats (we will present them in Section \ref{sec:simulation}). We simulated several possibilities of workload, and each chapter will describe the selection process.
+Another aspect of the MetaCentrum2 workload is the \textit{Requested Time} field. This field could be considered as walltime. Nevertheless, MetaCentrum2 defines this field according to the job queue. Consequently, it does not come from the user. We recalculate the walltime using the proposition from \citeauthor{takizawa2020effect} \cite{takizawa2020effect}. Thus, we equally divided the jobs into five groups. Each group estimates the walltime as follows:
+
+\begin{enumerate}
+    \item walltime = real execution time $\times$ 5
+    \item walltime = real execution time $\times$ 3.333333333
+    \item walltime = real execution time $\times$ 2
+    \item walltime = real execution time $\times$ 1.428571429
+    \item walltime = real execution time $\times$ 1.111111111
+\end{enumerate}
+
+This uncertainty complicates the scheduling decisions but it is more realistic. We created two scripts for translating the SWF format to the Batsim simulator and Datazero2 Middleware formats. We simulated several possibilities of workload, and each chapter will describe the selection process.
 
 \subsection{Weather Trace}
+\label{sec:weather_trace}
 
-Regarding weather, we are interested in the traces of solar irradiance and wind speed, which allow us to estimate power generation using Equations \ref{equ:panel_solar_with_temperature} and \ref{equ:wind_turbines}. NASA's Modern-Era Retrospective Analysis for Research and Applications (MERRA) provides a dataset of solar irradiance and wind speed from any place in the world \cite{rienecker2011merra}. Regarding wind, we get the data directly from the MERRA site\footnote{https://power.larc.nasa.gov/data-access-viewer/}. Renewable Ninja\footnote{https://www.renewables.ninja/} is a tool that transforms the weather from MERRA to electricity production \cite{pfenninger2016long, staffell2016using}. Renewable Ninja uses some solar panel models to estimate power generation. We use Renewable Ninja to obtain ground-level solar irradiance because the authors consider cloud cover and aerosols. We chose Toulouse, France as the reference point, getting the data from 2020. After exporting the data, we also translate the output CSV to the BATSIM simulator and Datazero2 Middleware formats. As for the workload, we took different days from 2020 for our simulations. The following chapters will present the selection process.
+Regarding weather, we are interested in the traces of solar irradiance and wind speed, which allow us to estimate power generation using Equations \ref{equ:panel_solar_with_temperature} and \ref{equ:wind_turbines}. NASA's Modern-Era Retrospective Analysis for Research and Applications (MERRA) provides a dataset of solar irradiance and wind speed from any place in the world \cite{rienecker2011merra}. Regarding wind speed, we get the data directly from the MERRA site\footnote{https://power.larc.nasa.gov/data-access-viewer/}. Renewable Ninja\footnote{https://www.renewables.ninja/} is a tool that transforms the weather from MERRA to electricity production \cite{pfenninger2016long, staffell2016using}. Renewable Ninja uses some solar panel models to estimate power generation. We use Renewable Ninja to obtain ground-level solar irradiance because the authors consider cloud cover and aerosols impact on the irradiance. We chose Toulouse, France as the reference point, getting the data from 2020. After exporting the data, we also translate the output CSV to the Batsim simulator and Datazero2 Middleware formats. As for the workload, we took different days from 2020 for our simulations. The following chapters will present the selection process.
 
 \subsection{Platform Configuration}
+\label{sec:platform_configuration}
 
 Finally, the last data is the hardware specification. This configuration simulates the real behavior of the different components of a data center, such as servers, storage, network, etc. In this thesis, we focused on the server specification. For simulating a DVFS-enabled server, the following information is necessary:
 \begin{itemize}
@@ -432,7 +445,7 @@ Finally, the last data is the hardware specification. This configuration simulat
     \end{itemize}
 \end{itemize}
 
-We chose to model a data center using the specification from GRID5000 servers. \citeauthor{dacosta:hal-03453537v1} performed experiments in GRID5000 to obtain the data for the DVFS states \cite{dacosta:hal-03453537v1, dacostakeynote}. Some other authors also simulated GRID5000 machines, giving information about their simulation \cite{rais2018quantifying, caux2018optimization, caux2019phase, villebonnet2016energy}. We consolidate these works to create a platform for both the BATSIM simulator and Datazero2 Middleware. Table \ref{tab:gros} exemplifies the consolidated data for GRID5000's Gros server used in the experiments.
+We chose to model a data center using the specification from GRID5000 servers. \citeauthor{dacosta:hal-03453537v1} performed experiments in GRID5000 to obtain the data for the DVFS states \cite{dacosta:hal-03453537v1, dacostakeynote}. Some other authors also simulated GRID5000 machines, giving information about their simulation \cite{rais2018quantifying, caux2018optimization, caux2019phase, villebonnet2016energy}. We consolidate these works to create a platform for both the Batsim simulator and Datazero2 Middleware. Table \ref{tab:gros} exemplifies the consolidated data for GRID5000's Gros server used in the experiments.
 
 \input{Tables/Model/gros.tex}
 
@@ -441,12 +454,113 @@ We chose to model a data center using the specification from GRID5000 servers. \
 
 After describing the source of data, we detail our simulation environment. We explain two simulators and the work done to adapt our data for these simulators. Also, we define the different metrics used to evaluate the algorithms in the following chapters.
 
-\subsection{BATSIM Simulator}
+\subsection{Batsim Simulator}
+Batsim is an infrastructure simulator that enables the study of resource management policies \cite{batsim_jsspp16}. This simulator is based on the well-known Simgrid \cite{casanova2001Simgrid}. The Batsim protocol helps to develop scheduling and resource management algorithms without Simgrid knowledge. The protocol works via a socket and includes the following events:
+\begin{itemize}
+    \item Bidirectional (Batsim$\rightarrow$Scheduler and Scheduler$\rightarrow$Batsim):
+    \begin{itemize}
+        \item \textit{QUERY}: It has two queries. First, in the \textit{consumed\_energy} query, the scheduler asks Batsim about the total consumed energy (from time 0 to now). On the other hand, in the \textit{estimate\_waiting\_time}, Batsim demands the scheduler what would be the waiting time of a potential job;
+        \item \textit{ANSWER}: The \textit{QUERY} answer;
+        \item \textit{NOTIFY}: This event allows a peer to notify something to its counterpart. This message can be a specific message from an external event.
+    \end{itemize}
+    \item Batsim$\rightarrow$Scheduler:
+    \begin{itemize}
+        \item \textit{JOB\_SUBMITTED}: A new job was submitted;
+        \item \textit{JOB\_COMPLETED}: The job has completed its execution;
+        \item \textit{JOB\_KILLED}: The job was killed;
+        \item \textit{RESOURCE\_STATE\_CHANGED}: The state of a resource (server) changed;
+    \end{itemize}
+    \item Scheduler$\rightarrow$Batsim:
+    \begin{itemize}
+        \item \textit{EXECUTE\_JOB}: Execute the job in the servers;
+        \item \textit{KILL\_JOB}: Kill the running job;
+        \item \textit{SET\_RESOURCE\_STATE}: Set the state of a resource (server);
+    \end{itemize}
+\end{itemize}
 
+These are some messages of the protocol (the entire protocol is in Batsim documentation\footnote{https://batsim.readthedocs.io/en/latest/protocol.html}). The messages \textit{QUERY} and \textit{ANSWER} enable the scheduler to receive IT energy consumption. The scheduler uses the \textit{JOB\_SUBMITTED}, \textit{JOB\_COMPLETED}, \textit{JOB\_KILLED}, \textit{EXECUTE\_JOB}, and \textit{KILL\_JOB} messages to control the jobs. Finally, the \textit{SET\_RESOURCE\_STATE} and \textit{RESOURCE\_STATE\_CHANGED} allow server configuration. However, Batsim does not provide the electrical management of renewable sources and energy storage. Considering renewable sources, the main objective is receiving power production. Therefore, we applied Equations \ref{equ:wind_turbines} and \ref{equ:panel_solar_with_temperature} on the data from Section \ref{sec:weather_trace}, resulting in a time series of power production. Then, we create a file with several JSON lines:
+
+\begin{lstlisting}[language=json,firstnumber=1]
+    {"type": "user_specific_type", "timestamp": 0, "power_available": 0.0}
+    {"type": "user_specific_type", "timestamp": 300, "power_available": 460.4}
+    {"type": "user_specific_type", "timestamp": 600, "power_available": 5172.26}
+\end{lstlisting}
+
+Batsim reads this file and sends at each "timestamp" a \textit{NOTIFY} message. Then, we parse the JSON in the message, taking the power available. $\Delta t$ defines the interval between messages. The scheduler does not know all the events in this JSON file, receiving them just when the simulation arrives at the "timestamp". Regarding energy storage, we implemented two classes to simulate them. The first class is for the battery and uses Equations \ref{equ:battery_energy} and \ref{equ:battery_state_of_charge} to estimate the state of charge. The second class is for hydrogen and implements Equations \ref{equ:hydrogen_electrolyzer}, \ref{equ:hydrogen_full_cell}, and \ref{equ:hydrogen_level}. The energy storage implementation must respect the following constraint:
+
+\begin{equation}
+    \label{equ:energy_diff}
+    ((P_{renew} + P_{dch} + P_{fc} - P_{ez} - P_{ch}) \times \Delta t \times 1000) - E_{tot} = 0
+\end{equation}
+
+Constraint \ref{equ:energy_diff} indicates that the difference between energy production ($(P_{renew} + P_{dch} + P_{fc} - P_{ez} - P_{ch}) \times \Delta t \times 1000$) and the energy expended by the IT ($E_{tot}$) must be equal to zero. $P_{renew}$ comes from the JSON input with no modifications. $E_{tot}$ is calculated using \textit{QUERY} and \textit{ANSWER} messages. Since it returns the total energy expended (from 0 to now), we calculate the difference between two \textit{QUERY} calls. So, the simulator balances $P_{dch}$,  $P_{fc}$, $P_{ez}$, and $P_{ch}$. In the default implementation, the simulator first adapts the battery ($P_{dch}$ and $P_{ch}$), and, just if necessary, it changes the hydrogen ($P_{fc}$ and $P_{ez}$).  However, it depends on the implementation (e.g., if the offline plan indicates something different). This simulation respects the boundaries \ref{equ:discharge_boundary}, \ref{equ:charge_boundary}, \ref{equ:fuelcells_boundary}, and \ref{equ:electrolyzer_boundary}.
+
+Another input for Batsim is the platform file. Batsim uses the Simgrid platform format\footnote{https://simgrid.org/doc/latest/Platform.html}. Using the results from Section \ref{sec:platform_configuration}, we created a script to generate this file with all DVFS states. This script receives the server parameters (e.g., Table \ref{tab:gros}) and the number of nodes from this server. It can create homogeneous and heterogeneous data centers according to the user specification. Finally, the last input for Batsim is the workload file. Batsim simplifies the workload definition of HPC jobs. We focused on the Homogeneous Parallel Task kind of application in the experiments. In this application type, we define the amount of floating-point operations (flops) to execute on each machine. Here, we create another script to translate the SWF format (from Section \ref{sec:workload_trace}) to Batsim JSON format. An example of a workload file is:
+
+\begin{lstlisting}[language=json,firstnumber=1]
+{
+    "jobs": [
+        {
+            "id": "0",
+            "profile": "profile_1",
+            "res": 1,
+            "subtime": 773,
+            "walltime": 9112
+        }
+    ],
+    "profiles": {
+        "profile_1": {
+            "cpu": 163137000000000,
+            "type": "parallel_homogeneous"
+        }
+    },
+}       
+\end{lstlisting}
+
+In this example, we have only one job with the id equal to 0. This job is submitted after 773 seconds from the simulation beginning (\textit{"subtime": 773}), with a walltime of 9112 seconds (\textit{"walltime": 9112}), and requests one machine (\textit{"res": 1}). The scheduler only knows these fields. The profile field indicates the number of flops to execute. Therefore, the job must calculate 163137000000000 flops. The real execution time is \textit{cpu} divided by the speed of the server which runs this job. The script estimates the field \textit{cpu} by the execution time in SWF multiplied by a server's average speed. We defined the average speed considering the servers in our data center. We took a median DVFS state's speed, avoiding over/underestimating. This estimation is necessary because SWF does not provide any metric of the real computation. All experiments in this thesis use Batsim as the simulator. However, we migrate them to Datazero2 middleware.
 
 \subsection{Datazero2 Middleware}
-% Explain about docker
+
+The Datazero2 project proposes a middleware to integrate all components from Figure \ref{fig:model}. This middleware has all electrical and IT components, external event integrations, and decision modules. It works on two coding languages: Python and C++. Also, it depends on different frameworks, such as:
+\begin{itemize}
+    \item ActiveMQ 5.14.4;
+    \item C++:
+    \begin{itemize}
+        \item Protobuf 3.21.8;
+        \item Apache APR 1.7.4;
+        \item ActiveMQ C++ library 3.9.5;
+        \item Simgrid 3.27;
+    \end{itemize}
+    \item Python:
+    \begin{itemize}
+        \item Stomp 8.1
+        \item Protobuf 3.20.3
+        \item Pandas
+        \item Pulp
+    \end{itemize}
+\end{itemize}
+
+Some modules work in Python, and some in C++. The messages from the modules are exchanged via ActiveMQ, using Protobuf as protocol. Simgrid is used to simulate the IT side. The electrical side is implemented using the same rules presented in this thesis. This middleware is still in development by different actors in the project. During this thesis, we worked on the ODM implementation. The results from the Batsim simulations are being implemented in the middleware. 
+
+However, we helped with all these dependencies management, allowing every project's partner to execute the middleware on their computers. Therefore, we create a docker version of the middleware. We create three containers: ActiveMQ, C++, and Python. The ActiveMQ provides the message BUS for all the modules. C++ implements the Simgrid and some modules (e.g., ODM). Python has the electrical control and other modules (e.g., ITDM and PDM). We create a docker-compose script that installs and compiles everything. Also, we included some advanced parameters for developers for coding inside docker without the need to rebuild everything.
+
+Regarding the middleware's simulation input, some changes were done. The weather data is passed directly to the middleware, which applies the equations to transform weather into power. Even if it uses Simgrid (so, same platform file format), the middleware divides this file into two files: Model and Machines. The Model file defines the DVFS states, including a model id. The Machine file indicates all the servers, linking each one to a model id. This division simplifies the modifications in the model. So, we create a new version of the platform script, allowing choose between Batsim or Datazero2 middleware. Finally, the workload file is not JSON but XML. We also create a new version of our script to migrate from SWF to Datazero2 middleware XML.
 
 \subsection{Metrics}
 
+In this section, we present the metrics used in this thesis. We evaluate four aspects in this thesis: Jobs finished, storage state at the end of the time window, wasted energy, and bounded slowdown. The first objective is to increase the number of finished jobs and reduce the number of killed jobs. It is possible to have a high number of finished jobs and a high number of killed jobs in aggressive scheduling, where the scheduler starts jobs even if it is not possible to finish them. Each job can finish in one of five states: 
+
+\begin{enumerate}
+    \item Finished: Jobs that finished their computation before the walltime;
+    \item Postponed: Jobs postponed to the next time window;
+    \item Reached walltime: The jobs that reached the walltime because they do not finish all the computation due to the servers speed;
+    \item Not completely finished: The jobs that were not finished completely because they are still running at the end of the time window;
+    \item Killed: The killed jobs.
+\end{enumerate} 
+
+Therefore, we present the number of jobs in each state at the end of the simulation. The second aspect is the algorithms must end the time window with the storage levels as close as possible to the planned. This means the algorithms can not "cheat" by using more storage than planned. As explained before, finishing close to the target levels helps to plan the next time window. We present a metric of the distance from the target. This distance can be positive (save more energy) or negative (use more energy). For battery, we present it as the \% difference of target SoC, and for hydrogen, we present it as the kg difference of target LoH.
+
+The third metric is wasted energy. We consider wasted energy the energy expended not computing finished jobs, englobing, for example, the energy used in killed jobs, turning on/off servers, and letting servers idle. This metric is present as kWh. Finally, the last metric is the bounded slowdown. This metric is the same as presented in Equation \ref{equ:slowdown}. The bounded slowdown is a difficult metric to compare in executions without the same number of jobs finished. For example, starting and killing a job in the sequence will result in a very low slowdown. On the other hand, maintaining jobs running will make the jobs in the queue wait for more time, which impacts directly on the slowdown. So, we will analyze this metric with precaution.
+
 \section{Conclusion}
+This chapter focused on presenting the model, data, and simulation utilized in the remainder of this thesis. The aim is to provide the basis to understand the following chapters. The model introduces all aspects of offline decisions. This offline module builds a plan for the online module. The online model considers the offline as a guide but improves this plan according to the real events. Moreover, the online model considers job scheduling in the decision process. Then, we describe the work done in the data for the simulations. This work includes workload, weather, and platform information. Finally, we explained simulation tools. We detailed the modifications in Batsim to use renewable energy and energy storage. Moreover, we present the metrics used in this thesis to compare the different approaches.
