@@ -3,6 +3,8 @@
 
 \minitoc
 
+\section{Introduction}
+
 After describing the state-of-the-art, this Section presents the models, data, and simulation tools used in this thesis. First, we focus on the model describing the offline and online modules. We explain what kind of information is exchanged between offline and online. After the model, we introduce the traces used in the experiments. These traces emulates a real environment regarding workload, weather, and platform. Finally, we demonstrate the simulation tools, explaining the modifications needed to create our environment.
 
 \section{Model}
@@ -30,6 +32,8 @@ Table \ref{tab:notation_system} presents the general notations and each followin
 \end{figure}
 
 \subsection{Offline Decision Modules}
+\label{sec:offline_modules}
+
 This section starts presenting the offline decision module. First, we demonstrate how PDM and ITDM agree on a power envelope (through NM). Then, we explain the power decisions from PDM, resulting in a power plan. Finally, we detail the ITDM, which defines the IT plan.
 
 \subsubsection{Negotiation (NM)}
@@ -238,6 +242,7 @@ Finally, Equation \ref{equ:ITDM_objective} demonstrates the objective function o
 % \end{equation}
 
 \subsection{Offline Plan}
+\label{sec:offline_plan}
 
 The PDM and ITDM optimizations result in a plan for the next time window. We divided the offline plan into two time series: The power plan (PDM) and the IT plan (ITDM), as follows:
 
@@ -288,6 +293,7 @@ All the variables above were presented in PDM and ITDM sections, but the uncerta
 So, PDM and ITDM send this plan to ODM, which uses it as a guide for real-time decisions. However, the following sections present the reasons for changing this plan.
 
 \subsection{Online Decision Module (ODM)}
+\label{sec:ODM}
 % This section describes the Online Decision Module (ODM) in three parts. First, we detail the scheduling algorithms used in ODM implementation. Then, we explain the power plan modifications, focusing on the reasons for modifying the plan. Finally, we present the idea for transforming the power modifications into IT modifications.
 
 ODM is a power-aware scheduler. A power-aware scheduler means having all responsibilities described in Section \ref{sec:related_work_it_elements} while managing electrical elements. In this section, we present the job scheduler and the modifications in the offline plan. Table \ref{tab:notation_job} introduces the notations for ODM.
