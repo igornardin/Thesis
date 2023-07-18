@@ -205,7 +205,7 @@ Scenario Critical 1 (Profile best-case and workload in the beginning) is the cas
     \label{fig:DPM_soc}
 \end{figure}
 
-Figures \ref{fig:SoC_critical_1} and \ref{fig:jobs_critical_1} give the battery level at the end of the time window and jobs states, respectively. It is important to analyze both together. For example, \emph{Follow the plan} saves a lot of battery in this case, finishing with 20\% more energy than the target. This result seems very good, but analyzing the number of finished jobs, \emph{Follow the plan} has the lower finished jobs and higher killed jobs. This illustrates the importance of reacting to real events, using the saved energy to improve QoS. \emph{Power reactive} has the worst battery level, with an SoC of around 28\% (difference of -21.729269\%). This algorithm allocates all incoming power from renewable sources to servers, not recharging the battery. The battery recharges a little bit due to power fluctuations (e.g., the server is idle so the incoming renewable power recharges the battery instead of going to the server). So, it uses the battery to avoid killing jobs, but it does not compensate for this change. \emph{Power reactive} is the second-worst finished jobs metric, with some jobs reaching the walltime. Since it only uses the battery to avoid killing jobs, sometimes it let the servers at slower speeds, increasing the possibility of reaching walltime. It also kills some jobs because it also reaches the $SoC_{min}$.
+Figures \ref{fig:SoC_critical_1} and \ref{fig:jobs_critical_1} give the battery level at the end of the time window and jobs states, respectively. Figure \ref{fig:jobs_critical_1} shows two graphs. The first one considers only the number of jobs, ignoring their size. Therefore, all jobs are equal. In the second graph, we consider the size of the job. So, bigger jobs have more importance than smaller ones. The second graph illustrates the mass of work to do.
 
 \begin{figure}[!htb]
     \centering
@@ -217,15 +217,19 @@ Figures \ref{fig:SoC_critical_1} and \ref{fig:jobs_critical_1} give the battery 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{Images/Compensations/jobs_critical_1.pdf}
-    \caption{Jobs states at scenario critical 1.}
+    \caption{Jobs states at scenario critical 1. The first graph (above) considers only the number of jobs, ignoring their size. In the second graph (below), the jobs' size is considered.}
     \label{fig:jobs_critical_1}
 \end{figure}
 
-As mentioned at the beginning of this section, \emph{Workload reactive} can not manage well the state of charge, killing some jobs. Even so, it finishes with a good battery level. The DPM technique helps to save some energy, letting the incoming renewable to recharge the battery. Since it always put the servers at maximum speed, no job reached the walltime. It has the third-worst finished and killed jobs. All the policies are very close to the target level. Just \emph{Last} policy saved a little bit more than the target, because it puts all the compensations in the end, and it can not use everything. Considering the metrics about the job, all policies finished more jobs and killed less than the three baselines. The best one is \emph{Last} with 98.87\% of the finished jobs, and the lowest killed jobs. \emph{Load} places the compensations in the steps where it is expected to have higher demand. In this case, it pays off with the second-best results. We will see in future cases that this behavior is dangerous. 
+It is important to analyze the battery level and finished jobs together. For example, \emph{Follow plan} saves a lot of battery in this case, finishing with 20\% more energy than the target. This result seems very good, but analyzing the number of finished jobs, \emph{Follow plan} has the lower finished jobs and higher killed jobs. Also, it kills a lot of big jobs, resulting in only 55.72\% of finished jobs considering the size. This illustrates the importance of reacting to real events, using the saved energy to improve QoS. \emph{Follow plan} tends to kill bigger jobs since it does not adapt the plan to maintain them running.
 
-\emph{Next} has the worst job result among the policies. This result can be explained by comparing \emph{Next} and \emph{Last}. For example, let's say we saved energy in step 0. So, \emph{Last} increase the usage in the last possible step. If at any moment between step 0 and the last step, it is necessary to use more energy, \emph{Last} can take the previous migration and use it now. On the other hand, \emph{Next} expended this energy as soon as possible. Therefore, \emph{Next} can arrive in some moments without energy to avoid killing jobs. Finally, \emph{Peak} has the third-best result, but with some jobs reaching the walltime. Since it shaves the power usage (negative/positive) peaks, it can reduce speed in critical moments (e.g., with a lot of jobs running). 
+\emph{Power reactive} has the worst battery level, with an SoC of around 28\% (difference of -21.729269\%). This algorithm allocates all incoming power from renewable sources to servers, not recharging the battery. The battery recharges a little bit due to power fluctuations (e.g., the server is idle so the incoming renewable power recharges the battery instead of going to the server). So, it uses the battery to avoid killing jobs, but it does not compensate for this change. \emph{Power reactive} is the second-worst finished jobs metric (ignoring or considering the size), with some jobs reaching the walltime. Since it only uses the battery to avoid killing jobs, sometimes it let the servers at slower speeds, increasing the possibility of reaching walltime. It also kills some jobs because it also reaches the $SoC_{min}$.
 
-The second analysis is regarding wasted energy. Figure \ref{fig:energy_critical_1} shows the results. \emph{Workload reactive} turns on resources on demand and does not let idle servers available too much. Therefore, it has the best wasted energy metric compared with the other algorithms. The worst case is \emph{Power reactive} which turns on servers according to the power available and not the demand. \emph{Follow the plan} and the four policies are guided by the offline plan. Therefore, the noise introduced in the real workload can lead to some mismatch between demand and production. Since \emph{Follow the plan} kills more jobs than the policies, this metric is higher for this algorithm. The energy expended in killed jobs is considered wasted energy since the result of the killed job is useless. \emph{Last} has the second-best wasted energy since it runs more jobs than the other algorithms.
+As mentioned at the beginning of this section, \emph{Workload reactive} can not manage well the state of charge, killing some jobs. Even so, it finishes with a good battery level. The DPM technique helps to save some energy, letting the incoming renewable to recharge the battery. Since it always put the servers at maximum speed, no job reached the walltime. It has the third-worst finished and killed jobs, considering the number of jobs. All the policies are very close to the target level. Just \emph{Last} policy saved a little bit more than the target, because it puts all the compensations in the end, and it can not use everything. Considering the metrics about the job, all policies finished more jobs and killed less than the three baselines. The best one is \emph{Last} with 98.87\% of the finished jobs considering the number of jobs and 94.88\% considering the size. Also, it has the lowest killed jobs. \emph{Load} places the compensations in the steps where it is expected to have higher demand. In this case, it pays off with the second-best results. We will see in future cases that this behavior is dangerous. 
+
+\emph{Next} has the worst job result among the policies. It also kills more big jobs than the policies and \emph{Workload reactive}. This result can be explained by comparing \emph{Next} and \emph{Last}. For example, let's say we saved energy in step 0. So, \emph{Last} increase the usage in the last possible step. If at any moment between step 0 and the last step, it is necessary to use more energy, \emph{Last} can take the previous migration and use it now. On the other hand, \emph{Next} expended this energy as soon as possible. Therefore, \emph{Next} can arrive in some moments without energy to avoid killing jobs. Finally, \emph{Peak} has the third-best result, but with some jobs reaching the walltime. Since it shaves the power usage (negative/positive) peaks, it can reduce speed in critical moments (e.g., with a lot of jobs running). However, it can maintain the big jobs running. Even if \emph{Peak} finishes fewer jobs than \emph{Load} (difference of 1.66\%), \emph{Peak} approximates the finished jobs considering the size (difference of 0.98\%).
+
+The second analysis is regarding wasted energy. Figure \ref{fig:energy_critical_1} shows the results. \emph{Workload reactive} turns on resources on demand and does not let idle servers available too much. Therefore, it has the best wasted energy metric compared with the other algorithms. The worst case is \emph{Power reactive} which turns on servers according to the power available and not the demand. \emph{Follow plan} and the four policies are guided by the offline plan. Therefore, the noise introduced in the real workload can lead to some mismatch between demand and production. Since \emph{Follow plan} kills more jobs than the policies, this metric is higher for this algorithm. The energy expended in killed jobs is considered wasted energy since the result of the killed job is useless. \emph{Last} has the second-best wasted energy since it runs more jobs than the other algorithms.
 
 \begin{figure}[!htb]
     \centering
@@ -247,7 +251,7 @@ Finally, Figure \ref{fig:slowdown_critical_1} demonstrates the slowdown of the f
 
 \subsubsection{Scenario Critical 2}
 
-Scenario Critical 2 has more energy than predicted (Profile best-case) and the jobs arriving in the end. In this scenario, the policies do not have much time to compensate, since the load comes on the last day. 
+Scenario Critical 2 has more energy than predicted (Profile best-case) and the jobs arriving in the end. In this scenario, the policies do not have much time to compensate, since the load comes on the last day. Figures \ref{fig:SoC_critical_2} and \ref{fig:jobs_critical_2} demonstrate the battery level and finished jobs. 
 
 \begin{figure}[!htb]
     \centering
@@ -259,9 +263,17 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{Images/Compensations/jobs_critical_2.pdf}
-    \caption{Jobs state at scenario Critical 2.}
+    \caption{Jobs state at scenario Critical 2. The first graph (above) considers only the number of jobs, ignoring their size. In the second graph (below), the jobs' size is considered.}
     \label{fig:jobs_critical_2}
 \end{figure}
+
+\emph{Workload reactive} finished all jobs. This scenario is the best one for this algorithm since it can recharge the battery in the first two days, consuming all in the last day. Even so, it finishes with a battery deficit (-5.186277\%). \emph{Follow plan} has the second-worst finished jobs and the worst killed jobs considering the number of jobs, but finishing with a battery surplus of around 20\%. So, it misses the opportunity of using this surplus to avoid killing jobs. Considering the size, it kills more than 40\% of the jobs. \emph{Power reactive} has the third-best finished jobs considering the number of jobs, but with a good part not completely finished. These jobs are still running at the end of the time window, so we do not know if they would finish or not. However, it has the third-worst finished jobs considering the size of the jobs. Like in Scenario Critical 1, \emph{Power reactive} has a large battery deficit, with around -20\%. All policies have a perfect battery level, finishing with the SoC at around 50\% (the target level). All policies kill fewer jobs than the \emph{Follow plan}, using the higher-than-expected production to do so. However, they kill jobs to arrive at the battery target level, avoiding using more battery than predicted.
+
+Just \emph{Next} policy finishes fewer jobs than \emph{Follow plan} considering the number, but more considering the size. This policy consumes all incoming energy as soon as possible, not having too much to use on the last day. \emph{Peak} has the third-worst finished jobs metric considering the number of jobs, worst than \emph{Power reactive}. This policy puts the surplus energy in the moment with less energy (negative peak). This behavior creates a more constant number of servers available during the time window. However, this case has a peak in the end, which makes this policy wastes resources. On the other hand, \emph{Peak} finishes more jobs than \emph{Power reactive} considering the size. It can finish bigger jobs due to its constant number of servers behavior. However, since the majority of jobs arrive at the end, it is better to place the positive compensations at the end (like \emph{Load} and \emph{Last}).
+
+We can see a small difference in jobs finished (number of jobs) between \emph{Peak} and \emph{Load}, where \emph{Load} puts the energy in the moments with a higher difference between demand and production. It helps to increase almost 1\% of finished jobs and decreases around 2\% of killed jobs. Also, \emph{Load} can increase the number of bigger jobs finished compared to the \emph{Peak} policy. Nevertheless, the best results come from \emph{Last}. This policy stock all surplus at the last moment, allowing to execute more jobs. It can finish 3.13\% (number of jobs) more than the third-best, the only above 90\% finished jobs considering the size (besides \emph{Workload reactive}), and having a perfect level of battery at the end of the time window.
+
+Considering the wasted energy, Figure \ref{fig:energy_critical_2} illustrates the results in this scenario. Again, \emph{Workload reactive} has the best result due to its workload reactiveness approach. The worst one is \emph{Power reactive}, for the same reason as scenario Critical 1. It turns on and increases the speed according to the power incoming, and not the demand. \emph{Follow plan} has not-so-bad wasted energy, even with a high number of killed jobs. \emph{Peak} and \emph{Next} wasted more than the \emph{Follow plan}. Both policies place the energy at the wrong moments. For example, if \emph{Next} has a positive compensation (increase the usage) in step 1, it will increase the usage in step 2. However, the demand is in the end. Then, the energy is wasted on idle servers. \emph{Peak} policy will do something similar, but putting in the negative peak. With the load in the beginning, it was not a problem for \emph{Peak} (it can delay the jobs for executing later). Nevertheless, in this scenario, it lets the servers idle. On the other hand, \emph{Last} and \emph{Load} have better energy usage than the \emph{Follow plan}. Both policies put the energy in the right moment (last steps).
 
 \begin{figure}[!htb]
     \centering
@@ -269,6 +281,8 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
     \caption{Wasted energy at scenario Critical 2.}
     \label{fig:energy_critical_2}
 \end{figure}
+
+Regarding the bounded slowdown, Figure \ref{fig:slowdown_critical_2} shows the results. \emph{Workload reactive} has the best results due to its workload reactiveness. Without the SoC problem from the previous scenario, it can execute all jobs as soon as they arrive. The policies present a better median than \emph{Follow plan} but a higher mean, due to several jobs with bounded slowdown higher than 100. Yet, since \emph{Last}, \emph{Peak}, and \emph{Load} finish more jobs than \emph{Follow plan}, it is complicated to compare them.
 
 \begin{figure}[!htb]
     \centering
@@ -280,6 +294,7 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
 \clearpage
 
 \subsubsection{Scenario Critical 3}
+Scenario 3 introduces less energy than predicted with the jobs arriving on the first day. Figure \ref{fig:SoC_critical_3} gives the final battery level in this scenario. This figure demonstrates that the policies finished closer to the target level than the baselines, with -6.177244\% in the worst case (\emph{Load}). This scenario is particularly difficult to finish at 50\% since the policies migrate power to the first day expecting to compensate for it on the second and third days. However, it receives less energy than expected, being a little far from the target level. Nevertheless, the policies are way better compared to the \emph{Workload reactive}, \emph{Power reactive}, and \emph{Follow plan}.
 
 \begin{figure}[!htb]
     \centering
@@ -288,12 +303,18 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
     \label{fig:SoC_critical_3}
 \end{figure}
 
+Concerning finished jobs, Figure \ref{fig:jobs_critical_3} illustrates the results. As presented in scenario 1, \emph{Workload reactive} has a problem in the scenario with the peak of load in the beginning because it will place all jobs as soon as they arrive. We can see that scenario 3 is even worst, having more than 20\% killed jobs considering the number and more than 40\% considering the size of the jobs. \emph{Power reactive} finishes more jobs than any other algorithm, with 85.60\% (number of jobs) and 61.43\% (considering size). This algorithm follows the real production to set the servers' speeds. This behavior helps to start several jobs, but it can not maintain the jobs running when the battery arrives at $SoC_{min}$. So, it has more than 10\% of killed jobs considering the number and almost 40\% considering the size. \emph{Follow plan} finishes more jobs than the policies in both number and size. However, it kills several jobs, with almost 20\% in number and almost 50\% in size (the worst result). 
+
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{Images/Compensations/jobs_critical_3.pdf}
-    \caption{Jobs state at scenario critical 3.}
+    \caption{Jobs state at scenario critical 3. The first graph (above) considers only the number of jobs, ignoring their size. In the second graph (below), the jobs' size is considered.}
     \label{fig:jobs_critical_3}
 \end{figure}
+
+Among the policies, \emph{Load} has the worst result of finished and killed jobs in both number and size, compared to the other policies. In this scenario, \emph{Load} puts any positive compensation on the first day, approximating too fast to $SoC_{min}$. Then, it has to kill several jobs to avoid this boundary. This result shows that the \emph{Load} aggressivity does not pay off always. On the other hand, \emph{Next} stays close to the SoC planned. In this case, it can manage better the SoC, finishing more than 80\% jobs in number. Among the policies, \emph{Next} is only worst than \emph{Peak}. As mentioned before, \emph{Peak} can smooth the peaks maintaining more servers available constantly. We can see that it finishes fewer jobs in number than \emph{Next} but more in size. \emph{Peak} has a similar result than \emph{Follow plan}, using less battery and killing less jobs. Another result that confirms the need for reactivity.
+
+Figure \ref{fig:energy_critical_3} shows the wasted energy in this scenario. We can see that all policies present lower wasted energy than the baselines, a very important result in a scenario with less energy available. \emph{Next} policy wasted 45.96\% less energy than \emph{Workload reactive} (the best baseline). \emph{Load} has the worst wasted energy among the policies, due number of killed jobs. The energy expended in killed jobs is considered wasted. Even so, \emph{Power reactive} has lower killed jobs than \emph{Load} but it has higher wasted energy. \emph{Power reactive} follows the power available, turning on servers according to the power available. Therefore, it expends more energy than the other algorithms in transition states.
 
 \begin{figure}[!htb]
     \centering
@@ -301,6 +322,8 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
     \caption{Wasted energy at scenario critical 3.}
     \label{fig:energy_critical_3}
 \end{figure}
+
+Finally, Figure \ref{fig:slowdown_critical_3} shows the bounded slowdown. \emph{Workload reactive} has a similar result to Scenario 1. When it arrives at $SoC_{min}$, it has a long time without servers available, increasing the waiting time and slowdown for some jobs. However, it still has a very low median, showing that the majority of the jobs have a very small slowdown. In this scenario, the policies let the jobs wait longer, delaying the starting time for the moment with enough energy to finish them. So, the policies have higher mean and median slowdown. 
 
 \begin{figure}[!htb]
     \centering
@@ -313,6 +336,8 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
 
 \subsubsection{Scenario Critical 4}
 
+The last critical scenario is the harder one, with less energy and jobs arriving in the end. Figure \ref{fig:SoC_critical_4} shows the impact on the battery level. Both \emph{Workload reactive} and \emph{Power reactive} finished with a deficit higher than 30\%, with 31.45\% and 30.78\%. Both ended the battery with less than the $SoC_{min}$ of 20\% (18.55\% and 19.22\%). \emph{Follow plan} finished with the SoC at 35.72\% (-14.28\%), being far from the target level. Nevertheless, the policies finished very close to 50\%. Since the first two days provide less energy, the policies can adapt the usage of the last day to approximate the target level. However, Figure \ref{fig:jobs_critical_4} shows the impact on QoS.
+
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{Images/Compensations/battery_critical_4.pdf}
@@ -323,9 +348,11 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{Images/Compensations/jobs_critical_4.pdf}
-    \caption{Jobs state at scenario critical 4.}
+    \caption{Jobs state at scenario critical 4. The first graph (above) considers only the number of jobs, ignoring their size. In the second graph (below), the jobs' size is considered.}
     \label{fig:jobs_critical_4}
 \end{figure}
+
+Figure \ref{fig:jobs_critical_4} demonstrates that the policies finished fewer jobs than the baselines, in number and size. Considering the number of killed jobs, only \emph{Peak} kills fewer jobs than the other algorithm, but very close to the \emph{Power reactive}. In a scenario with less energy, the policies will impact the QoS, approximating the battery's SoC to the target level. \emph{Follow plan} has the best number of finished jobs, but it finishes mainly small jobs. It kills more than 40\% of the jobs considering the size (the worst result). \emph{Workload reactive} has the second-best finished jobs in number and the best in size. However, \emph{Workload reactive} kills more jobs in number than \emph{Power reactive}, \emph{Peak}, \emph{Last}, and \emph{Load}. The battery goes below 20\% on the last day, killing several jobs. The same happens to \emph{Power reactive}. Even with several jobs killed, Figure \ref{fig:energy_critical_4} indicates that all policies wasted less energy than the baselines. The policies adapt the plan to maximize energy usage. In a scenario with low energy production, it is essential to improve energy usage. Figure \ref{fig:slowdown_critical_4} shows that the policies also impact the Slowdown, having worst results than the baselines. 
 
 \begin{figure}[!htb]
     \centering
@@ -341,9 +368,13 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
     \label{fig:slowdown_critical_4}
 \end{figure}
 
+The results in this scenario indicate that the policies degrade the QoS (finished jobs and slowdown) to appropriate the target level and QoS. The policies' compensation imposes the adaptations on power usage and server configuration. In this scenario, these adaptations demand a reduction of the number of available servers or reduce the speed of them. 
+
 \clearpage
 
 \subsection{Average cases}
+
+After presenting the critical cases, this section demonstrates the results of 100 average cases. These average cases vary the power production and workload randomly, following a Gaussian noise. So, they are not always bad or good, like in critical scenarios. We do not present the slowdown in this scenario. The workload and power production vary a lot from one to another execution. So, it is inappropriate to compare them. First, Figure \ref{fig:SoC_diff} illustrates the state of charge difference from the target level. The red line is the target level. We can see that the three baselines (\emph{Workload reactive}, \emph{Power reactive}, and \emph{Follow plan}) have a big variance in the results. An important thing to notice is that even in not critical scenarios, the minimal values of \emph{Workload reactive} and \emph{Power reactive} can arrive at -30\%. This value means that these algorithms finished with the battery level at 20\%, which is the $SoC_{min}$. \emph{Follow plan} finishes with the higher Median and Mean, indicating that it saves more energy than the other algorithms. However, it also has a large variance.
 
 \begin{figure}[!htb]
     \centering
@@ -352,19 +383,27 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
     \label{fig:SoC_diff}
 \end{figure}
 
+The policies maintain the State of Charge between -10\% and 10\%, with some outliers below/above these values. The median and mean are very close to the target level, showing they can approximate the target level, which is the main objective of them. Last has the larger variance among the policies, but with median and mean almost perfect. This heuristic compensates in the last moments. Sometimes, this behavior can reduce the possibility to use the energy, since the heuristic will not have enough time. 
+
+Regarding the QoS, Figures \ref{fig:finished_diff} and \ref{fig:killed_diff} illustrate the finished jobs and killed jobs. \emph{Workload reactive} has the best percentage of finished jobs (considering the number or size). This result is expected since this algorithm uses entirely the battery to maximize the number of finished jobs. \emph{Workload reactive} has also very low median and mean killed jobs. However, concerning the number of killed jobs, it has some results higher than 15\% (with two higher than 20\%). \emph{Power reactive} also has good finished jobs, but it never finished more than 97.90\%. This algorithm also has some executions with more than 15\% of killed jobs in number. The worst execution is \emph{Follow plan}, with a very high mean and median killed jobs (in number and size), and a very low finished jobs in size. Combining the state of charge from Figure \ref{fig:SoC_diff} with this result, we can notice that \emph{Follow plan} misses opportunities of using more power to execute more jobs or maintain big jobs running.
+
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.55]{Images/Compensations/finished_diff.pdf}
+    \includegraphics[scale=0.38]{Images/Compensations/finished_diff.pdf}
     \caption{Finished jobs at 100 average cases.}
     \label{fig:finished_diff}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.55]{Images/Compensations/killed_diff.pdf}
+    \includegraphics[scale=0.38]{Images/Compensations/killed_diff.pdf}
     \caption{Killed jobs at 100 average cases.}
     \label{fig:killed_diff}
 \end{figure}
+
+The policies have good finished jobs (in number), with \emph{Last} being a little below the \emph{Power reactive}. They also have some executions with almost 100\% of finished jobs (above 99\%). Considering the number of jobs killed, \emph{Last} and \emph{Peak} maintain the results in control, with no value above 15\%. \emph{Load} has the worst case close to 15\% and \emph{Next} with 16.37\%. Considering the size, the policies have worst results than \emph{Power reactive} and \emph{Workload reactive}. These jobs are harder to maintain running because they demand more time and power. So, the policies can kill them to guarantee the battery target level.
+
+Finally, Figure \ref{fig:energy_diff} illustrates the wasted energy over 100 executions. The best execution is \emph{Workload reactive}. As mentioned before, this heuristic focus on running jobs, letting the servers down until they are needed. Also, the DPM technique reduces wasted energy. The worst algorithm is \emph{Power reactive}. This algorithm turns on servers even if they are not necessary. \emph{Follow plan} is better than three policies (\emph{Peak}, \emph{Next} and \emph{Load}). The best policy is \emph{Last}, mainly because it runs more jobs than the other policies and \emph{Follow plan}. While \emph{Follow plan} uses only the energy planned, the policies can reintroduce the energy from power variations. However, these policies change the usage using simplified heuristics. So, they can place the energy in moments without jobs to run. \emph{Last} is the policy that suffers the least from this problem because it places the compensations in the end. Therefore, it can re-migrate this energy at any moment before the end. Section \ref{sec:compensation_discussion} presents an overview of the advantages and problems of these policies. 
 
 \begin{figure}[!htb]
     \centering
@@ -373,15 +412,32 @@ Scenario Critical 2 has more energy than predicted (Profile best-case) and the j
     \label{fig:energy_diff}
 \end{figure}
 
-% \begin{figure}[!htb]
-%     \centering
-%     \includegraphics[scale=0.55]{Images/Compensations/slowdown_diff.pdf}
-%     \caption{Slowdown at 100 average cases.}
-%     \label{fig:slowdown_diff}
-% \end{figure}
-
 \clearpage
 
 \subsection{Discussion}
+\label{sec:compensation_discussion}
+
+After presenting all results, this section discusses them generally. We highlight the pros and cons of all algorithms. Finally, we detail the gaps in the four policies that the following sections explore. The first algorithm is \emph{Follow plan}. This algorithm does not react to real events, applying the offline plan with no modifications. The results show that this approach tends to kill big jobs. Since the workload is composed of several small jobs (see Figure \ref{fig:metacentrum}), it can finish several jobs by number but not so much considering their size. Figure \ref{fig:jobs_critical_4} illustrates this case, where the algorithm finishes 85.48\% jobs considering the number, but only 57.70\% considering the size. In average cases, it also happens, where it finishes more than 90\% of the jobs in number but just more than 60\% in size (considering the median). In scenarios with more energy, \emph{Follow plan} does not use this energy to run more jobs. So, it saves energy but kills several jobs. This behavior can lead to high wasted energy, like in critical scenario 1 (see Figure \ref{fig:energy_critical_1}). Since \emph{Follow plan} does not adjust the plan, it finishes with more energy in the battery in cases with higher energy and with less energy in the battery in cases with less energy. The 100 average cases show that the minimal value is close to -20\% and the maximum value is above 30\%. These results highlight the importance of plan adaptations.
+
+Then, a question comes up: Why not use fully reactive algorithms? Then, we presented \emph{Power reactive} and \emph{Workload reactive}. \emph{Power reactive} adapts the servers' speed according to the power available from renewable. It uses the battery to maintain a server available if the incoming renewable production is not enough. In every scenario, \emph{Power reactive} finishes with a very low battery level, even in the scenarios with more energy incoming from renewable. This algorithm only recharges the battery if the incoming renewable is not used by the servers (e.g., a server stays idle). However, it is not enough. Another problem in \emph{Power reactive} is the wasted energy. It has the worst results in every scenario. Since it does not use an offline plan, it losses a lot of energy in transition states. For example, if in a step the energy is high, it will turn on some servers. Nevertheless, if the energy drops in the next step, it turns them off. So, it wasted energy just reacting to the power available.
+
+\emph{Workload reactive} is a very good algorithm from the QoS point of view. Considering the slowdown, for example, jobs do not wait too long to be placed (in an optimistic scenario). Also, it can finish more jobs than the other algorithms (see Figure \ref{fig:jobs_critical_2}). However, it can be too aggressive. In critical scenarios 1 and 3, it kills several jobs due to poor battery management. Figure \ref{fig:DPM_soc} illustrates that \emph{Workload reactive} places all the incoming jobs on the first day, dropping the battery level too fast. When SoC arrives at 20\%, \emph{Workload reactive} turns off all servers, killing several jobs and increasing the slowdown. This also happens in critical scenario 3, even if it receives more energy. In critical scenarios 2 and 4, it finishes with less energy than the target. In average scenarios, the final battery level of \emph{Workload reactive} varies a lot, going from -30\% to more than 40\%. So, this algorithm has poor battery management, like \emph{Power reactive}. Even if it seems appropriate to use the battery to maximize the number of finished jobs, the next time window will not have energy in the batteries to use. Therefore, both reactive algorithms are not viable for a renewable-only data center.
+
+So, we proposed four policies to adapt power usage, mixing the offline plan with reactiveness. In general, \emph{Peak}, \emph{Next}, \emph{Last}, and \emph{Load} fulfill their main objective which is to finish the battery level as close as possible to the target level. In the profile worst-case scenarios (3 and 4), they degrade the QoS to approximate the battery level to the target. They do it by reducing power usage. On the other hand, they use the surplus energy from scenarios with profile best-case (1 and 2) to run more jobs. In scenario 1, they are even better than the \emph{Workload reactive}. Regarding the average cases, the policies finished very close to the target level. To do so, they impact the total finished jobs but have a more controlled number of killed jobs than the baselines. For example, \emph{Last} never killed more than 12\% of the jobs (considering the number of jobs). Therefore, these experiments show the impact on QoS of respecting the battery level.
+
+It is difficult to indicate the best policy. \emph{Last} policy is the best one in critical scenarios 1 and 2. It finishes more jobs in number and size in critical scenario 1, and it is the second best in critical scenario 2. These scenarios have more energy, so \emph{Last} puts the positive compensations in the last step. When it needs to use more energy to maintain servers running, it takes the energy from the same (last) step. So, it is more likely for \emph{Last} to use the surplus energy. The drawback of \emph{Last} policy is that the last step can be too late to use the energy (see Figure \ref{fig:SoC_critical_1}), and it can miss opportunities to turn on servers to run more jobs. For example, \emph{Load} has a better slowdown than \emph{Last} in critical scenario 1 (see Figure \ref{fig:slowdown_critical_1}). \emph{Load} turns on servers in the moments where they are needed. So, when the jobs arrive, servers are waiting for them. \emph{Load} is the second best in scenarios 1 and 2. With more energy, it puts energy in the steps with a higher deficit between production and demand. However, the prediction is not perfect, and it can miss some steps. \emph{Next} has the worst results in these scenarios because it uses the surplus as soon as possible. Therefore, when it increases power usage, it is more complicated to find energy in future steps. Finally, \emph{Peak} has a balanced result in scenarios 1 and 2. It tends to maintain a more constant number of servers available over the steps. 
+
+Regarding critical scenario 3, \emph{Next} and \emph{Peak} are good. In this scenario has less energy. Therefore, \emph{Next} adapts as soon as possible the usage. \emph{Peak} reduces the usage peak, maintaining a more stable usage. The behavior of both policies helps to avoid the lower battery boundary, without starting too many jobs that can not be finished. \emph{Load} is too aggressive here, dropping the SoC too fast and killing several jobs. Here, \emph{Last} is not so good. It does not adapt the usage on the first day, arriving faster at SoC lower boundary. Regarding the last critical scenario, \emph{Peak} is the best one among the policies. It has the lowest killed jobs (in number and size) among the policies. \emph{Next} has a good number of finished jobs, but a high number of killed jobs. Considering the size, it has the worst percentage of finished jobs. \emph{Load} is still aggressive, finishing fewer jobs (in number). \emph{Last} is a little better in this critical scenario, compared to the previous one. However, it still kills several jobs (second-worst among the policies). 
+
+Finally, considering the 100 average cases, \emph{Last} finishes more jobs in number and size. \emph{Peak} and \emph{Load} are close, with \emph{Next} being the worst one. Comparing killed jobs, \emph{Last} and \emph{Peak} killed fewer jobs than \emph{Next} and \emph{Load}. \emph{Load} is too aggressive and \emph{Next} compensates too soon. Considering all these results, we can say that: 
+\begin{enumerate}
+    \item \emph{Last} policy is the best one when we have more power arriving. Let the power in the end, helps to migrate a second time when needed;
+    \item \emph{Peak} policy has a good overall result, independent of the power profile;
+    \item \emph{Next} is good in a context where the production is lower and it has a demand peak on the first day. In this scenario, the SoC drops too fast;
+    \item \emph{Load} is aggressive, which pays off in slowdown, but can lead to several killed jobs.
+\end{enumerate}
+
+Regarding wasted energy, \emph{Next} is more likable to waste more than the other policies. It reintroduces the surplus as soon as possible, even if it is not necessary. \emph{Last} uses the energy wisely, since it places at the end, using before if necessary. \emph{Peak} and \emph{Load} depend on the scenario. Then, a new question comes up: Is it possible to improve the Quality of Service in these scenarios, while still respecting the battery level at the end of the time window? To do so, we first tried to mix the policies. For example, we can use \emph{Load} a little bit in positive compensations to improve QoS, then use \emph{Last} for the remaining energy surplus. We applied reinforcement learning to find out which policy to use at each moment. We present it in Chapter \ref{cha:learning_power_compensations}. 
 
 \section{Conclusion}
+This chapter proposed new heuristics to approximate the battery storage level to the target level. They use surplus energy to improve the QoS, mainly the finished jobs. The policies try to reduce the impact on QoS in scenarios with less energy. The following chapter takes a step further, trying to mix the policies, aiming to improve QoS even more.
