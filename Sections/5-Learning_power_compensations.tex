@@ -50,7 +50,7 @@ Since our problem is to define where to compensate the power, our actions are in
 
 \section{Rewards}
 
-The reward is one of the most important elements in RL because it drives its learning. We have defined three rewards linked to Quality of Service (QoS). We proposed three rewards to verify different possibilities. Mainly, we consider started jobs, finished jobs, and killed jobs, in our rewards. The rewards are: \emph{started jobs}, \emph{finished jobs by step}, and \emph{finished jobs spread}. The \emph{started jobs} reward considers the number of started jobs. The reward given by this action is defined as:
+The reward is one of the most important elements in RL because it drives its learning. We have defined two rewards linked to Quality of Service (QoS). Mainly, we consider started jobs, finished jobs, and killed jobs, in our rewards. The rewards are \emph{started jobs} and \emph{finished jobs}. The \emph{started jobs} reward considers the number of started jobs. The reward given by this action is defined as:
 \begin{itemize}
     \item If the future step $t'$ kills at least one job: -1 multiplied by the number of the jobs killed;
     \item If the future step $t'$ were improved (the sum of compensations on step $t'$ is positive) and step $t'$ does not kill any job: 1 multiplied by the number of the jobs started;
@@ -69,8 +69,8 @@ The second reward uses the number of finished jobs. This reward gives the reward
     \item If a job is finished: 1;
 \end{itemize}
 
-We distribute the reward between the decision steps in the same way as the previous reward. The only difference here is that we consider all steps that the job passed by. For example, if a job is killed, we give a proportion of -1 for each decision step that decreases the power in the steps that the job was running, according to how much it impacted. This approach aims to reinforce the decisions that help to finish jobs and discourage the ones that kill jobs. The last reward is quite similar to the previous one, but in this new one, every time we kill a job, we spread -1 for all previous steps. So, we divide -1 by the number of steps and give the same reward portion value for every step. Our idea here is to solve the problem of the RL avoiding steps with a high number of killed jobs (we present this problem later).
-
+We distribute the reward between the decision steps in the same way as the previous reward. The only difference here is that we consider all steps that the job passed by. For example, if a job is killed, we give a proportion of -1 for each decision step that decreases the power in the steps that the job was running, according to how much it impacted. The same is done for finished jobs. This approach aims to reinforce the decisions that help to finish jobs and discourage the ones that kill jobs. 
+% The last reward is quite similar to the previous one, but in this new one, every time we kill a job, we spread -1 for all previous steps. So, we divide -1 by the number of steps and give the same reward portion value for every step. Our idea here is to solve the problem of the RL avoiding steps with a high number of killed jobs (we present this problem later).
 Since the environment can calculate the reward only after executing the future step (to know how many started, finished, and killed jobs in the step $t'$), the RL algorithm will not receive the reward right after the decisions. For example, in iteration 0, the RL algorithm does not have prior knowledge, choosing only random actions. We standardized the reward update at the end of the iteration, reducing the bias (e.g., giving a reward earlier for \emph{Next} action than \emph{Last} can make \emph{Next} be chosen more times). So, at the end of iteration 0, we calculate all rewards for all actions in this iteration. Then, iteration 1 uses the knowledge from iteration 0 in the decision-making process, updating the reward at the end of iteration 1.
 
 \section{Algorithms}
@@ -159,15 +159,25 @@ Differently from Q-Learning, Contextual Multi-Armed Bandit does not need a discr
 After presenting the algorithms, we apply them to the critical scenarios from the previous chapter. We have four different RL executions combining the RL algorithm and action: 
 
 \begin{enumerate}
-    \item Bandit + heuristic;
-    \item Q-Learning + heuristic;
-    \item Bandit + hour;
-    \item Q-Learning + hour;
+    \item \emph{Bandit + heuristic};
+    \item \emph{Q-Learning + heuristic};
+    \item \emph{Bandit + hour};
+    \item \emph{Q-Learning + hour};
 \end{enumerate}
 
-These algorithms use the same scheduling from Chapter \ref{cha:power_compensations}, changing only in which step compensating. For each critical case, we run 200 iterations of each RL algorithm with the different reward types. The idea is to verify if the RL algorithms can learn by repeating the same inputs (workload and weather). Also, we want to verify if they can improve the number of finished jobs. We do not execute the average cases due to their complexity. They are 100 different cases, demanding high processing time for executing 200 iterations of each one. 
+These algorithms use the same scheduling from Chapter \ref{cha:power_compensations}, changing only in which step compensating. For each critical case, we run 200 iterations of each RL algorithm with the different reward types. The idea is to verify if the RL algorithms can learn by repeating the same inputs (workload and weather). Also, we want to verify if they can improve the number of finished jobs. We do not execute the average cases due to their complexity. They are 100 different cases, demanding high processing time for executing 200 iterations of each one. Again, the critical cases are:
+\begin{enumerate}
+    \item \emph{Critical 1}: Profile best-case and workload in the beginning;
+    \item \emph{Critical 2}: Profile best-case and workload in the end;
+    \item \emph{Critical 3}: Profile worst-case and workload in the beginning;
+    \item \emph{Critical 4}: Profile worst-case and workload in the end;
+\end{enumerate}
+
+The results from the baselines and compensation policies (\emph{Last}, \emph{Next}, \emph{Peak}, and \emph{Workload}) are the same results from the previous chapter. We compare them with the new results from Reinforcement Learning. The results of the random algorithms are an average of 200 iterations.
 
 \subsection{Started Jobs Reward}
+
+Starting with the reward Started Jobs, we present the results in the four critical cases in Figures \ref{fig:started_reward_results_critical_1}, \ref{fig:started_reward_results_critical_2}, \ref{fig:started_reward_results_critical_3}, and \ref{fig:started_reward_results_critical_4}. Each figure shows 5 graphs. The first two on top are the graphs about the finished jobs. The two graphs in the middle are the battery level and wasted energy. These are the same graphs from the previous chapter. The last graph is the reward evolution over the 200 iterations. The reward is calculated by summing all rewards from the different actions inside the iteration.
 
 \begin{figure}[!htb]
     \centering
@@ -197,69 +207,90 @@ These algorithms use the same scheduling from Chapter \ref{cha:power_compensatio
     \label{fig:started_reward_results_critical_4}
 \end{figure}
 
-\clearpage
+Figure \ref{fig:started_reward_results_critical_1} shows that in critical case 1, all RL improved their reward over time. They started with similar rewards to random executions. However, at the end of 200 iterations, they improved the reward. This result shows us that the algorithms are finding the decisions which give higher rewards. Considering the reward, the best algorithms are, in order, \emph{Bandit + heuristic}, \emph{Q-Learning + heuristic}, \emph{Q-Learning + hour}, and \emph{Bandit + hour}. However, considering the finished jobs in number (first graph), the results indicate \emph{Q-Learning + hour} as the best one, with both Bandit algorithms as the second one with similar results. So, even with a big difference in the reward of both bandits, they have similar results. This result shows a problem in this reward, where just starting jobs does not guarantee they will finish. Also, the best RL result is still worst than the \emph{Last} policy in the finished jobs metric (both in number and size). Considering the Battery level, all RL algorithms have the same results. Finally, both Bandit and Q-Learning algorithms expend more energy than \emph{Last} policy in this case.
 
-\subsection{Finished Jobs by Step Reward}
+The results of critical case 2 in Figure \ref{fig:started_reward_results_critical_2} show that only the RL algorithms using the action of the hour to compensate could improve the reward. Among the two RL algorithms using hour, \emph{Q-Learning + hour} has a better reward than \emph{Bandit + hour}, but considering the number of finished jobs, \emph{Bandit + hour} is better than \emph{Q-Learning + hour}. Considering the size, \emph{Bandit + hour} is worst than \emph{Q-Learning + hour}. Comparing these results with the policies, \emph{Bandit + hour} is better than \emph{Last} policy (the best policy) in the number of finished jobs. However, \emph{Bandit + hour} kills more jobs and uses more battery than \emph{Last}. Considering the size, \emph{Last} is still better. All RL algorithms wasted more energy than the \emph{Last} policy in this case.
+
+Starting the cases with less energy, Figure \ref{fig:started_reward_results_critical_3} illustrates the results of critical case 3. Here, again, all RL algorithms have higher rewards than both random algorithms. Again, the \emph{Q-Learning + hour} and \emph{Bandit + hour} have the best results among the RL algorithms. \emph{Bandit + hour} has a lower reward, but a higher number of jobs finished. \emph{Bandit + hour} has similar finished jobs than \emph{Next} in number and \emph{Peak} in size (both policies are the best ones in each metric). However, \emph{Bandit + hour} kills more jobs than both policies. Considering the battery level, \emph{Q-Learning + hour} and \emph{Bandit + hour} use slightly more battery than the other policies. But, they are all below the baselines. Finally, the wasted energy results of the RL algorithms are higher than the \emph{Peak} and \emph{Next} policies.
+
+Figure \ref{fig:started_reward_results_critical_4} present the last scenario, critical case 4. All RL algorithms have higher rewards than random heuristics. \emph{Bandit + hour} has the higher number of finished jobs with less than 10\% of killed jobs (in number). It has the highest finished jobs compared to the policies. However, it kills more jobs than some policies (e.g., \emph{Peak}). Also, it has almost 14\% of battery deficit, almost the same deficit as \emph{Follow plan}. Again, \emph{Q-Learning + hour} has the higher reward but with several killed jobs and not the higher finished jobs. The RL algorithms wasted more energy than \emph{Workload} (the best policy).
+
+Consolidating the results of Started Jobs Reward, it is possible to notice that \emph{Q-Learning + hour} and \emph{Bandit + hour} improved the reward after 200 iterations. Usually, the reward from these cases has a distance from the random rewards after 200 iterations. This result indicates that the RL learning algorithms are learning the policies to choose the actions which give a high reward. However, having a high reward does not result in a good global result (mainly finished/killed jobs). \emph{Bandit + hour} has a higher number of finished jobs than the policies in two cases (critical cases 2 and 4) but with higher killed jobs than the policies. This reward reinforces the actions which put more energy into steps that start more jobs. However, starting jobs does not mean that they will finish. So, it can start several jobs, but kill a lot also. Aiming to solve this problem (starting some jobs but not finishing them), we proposed the next reward.
+
+\subsection{Finished Jobs Reward}
+
+The next reward aims to solve the problem of starting jobs and not finishing them. So, this reward reinforces the actions that help to finish more jobs. Figures \ref{fig:touched_reward_results_critical_1}, \ref{fig:touched_reward_results_critical_2}, \ref{fig:touched_reward_results_critical_3}, and \ref{fig:touched_reward_results_critical_4} present the results of this reward.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_touched_profile_best_workload_1_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs by step reward in critical case 1.}
+    \caption{Results of finished jobs reward in critical case 1.}
     \label{fig:touched_reward_results_critical_1}
+\end{figure}
+
+Starting with critical case 1, Figure \ref{fig:touched_reward_results_critical_1} illustrates the results. Now, the highest reward is from \emph{Q-Learning + hour} which also has the higher number of jobs finished and size among the RL algorithms. However, the second best reward is \emph{Q-Learning + heuristic} which is worst than \emph{Bandit + hour}. So, we still have some problems with the reward. Figure \ref{fig:reward_from_jobs_critical_1} highlights the problem of this reward. This figure illustrates in red the total finished jobs and in blue the finished jobs included in the reward over the iterations. It is possible to notice that the reward's improvement of \emph{Q-Learning + heuristic} is not linked to more jobs finished, but because it includes more finished jobs in its reward. So, it puts energy into steps with more finished jobs just to receive the reward of them. \emph{Bandit + hour} "touched" fewer jobs, even finishing quite the same number of the jobs. Another point is that they do not increase the number of jobs finished, comparing the first iterations to the last ones, having constant finished jobs. Therefore, they do not improve the finished jobs in this execution.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.38]{Images/Learning_compensations/ignored_jobs_touched_scenario_1.pdf}
+    \caption{Total finished jobs (in red) and jobs included in the reward (in blue).}
+    \label{fig:reward_from_jobs_critical_1}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_touched_profile_best_workload_2_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs by step reward in critical case 2.}
+    \caption{Results of finished jobs reward in critical case 2.}
     \label{fig:touched_reward_results_critical_2}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_touched_profile_worst_workload_1_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs by step reward in critical case 3.}
+    \caption{Results of finished jobs reward in critical case 3.}
     \label{fig:touched_reward_results_critical_3}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_touched_profile_worst_workload_2_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs by step reward in critical case 4.}
+    \caption{Results of finished jobs reward in critical case 4.}
     \label{fig:touched_reward_results_critical_4}
 \end{figure}
 
-\clearpage
 
-\subsection{Finished Jobs Spread Reward}
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_best_workload_1_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs spread reward in critical case 1.}
-    \label{fig:spread_reward_results_critical_1}
-\end{figure}
+% \clearpage
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_best_workload_2_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs spread reward in critical case 2.}
-    \label{fig:spread_reward_results_critical_2}
-\end{figure}
+% \subsection{Finished Jobs Spread Reward}
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_worst_workload_1_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs spread reward in critical case 3.}
-    \label{fig:spread_reward_results_critical_3}
-\end{figure}
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_best_workload_1_with_noise_state_delta.pdf}
+%     \caption{Results of reward finished jobs spread reward in critical case 1.}
+%     \label{fig:spread_reward_results_critical_1}
+% \end{figure}
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_worst_workload_2_with_noise_state_delta.pdf}
-    \caption{Results of reward finished jobs spread reward in critical case 4.}
-    \label{fig:spread_reward_results_critical_4}
-\end{figure}
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_best_workload_2_with_noise_state_delta.pdf}
+%     \caption{Results of reward finished jobs spread reward in critical case 2.}
+%     \label{fig:spread_reward_results_critical_2}
+% \end{figure}
+
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_worst_workload_1_with_noise_state_delta.pdf}
+%     \caption{Results of reward finished jobs spread reward in critical case 3.}
+%     \label{fig:spread_reward_results_critical_3}
+% \end{figure}
+
+% \begin{figure}[!htb]
+%     \centering
+%     \includegraphics[scale=0.29]{Images/Learning_compensations/reward_finished_spread_profile_worst_workload_2_with_noise_state_delta.pdf}
+%     \caption{Results of reward finished jobs spread reward in critical case 4.}
+%     \label{fig:spread_reward_results_critical_4}
+% \end{figure}
 
 \clearpage
 
