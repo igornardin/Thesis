@@ -6,15 +6,16 @@
 \begin{tabular}{l|p{12cm}}
     \hline
     Notation & Description \\\hline\hline
-    $Q$ & Queue of jobs (list)\\
+    $Q$ & Waiting queue of jobs (list)\\
     $j$ & Job index (int)\\
     $Wall_j$ & Walltime of job $j$ (s)\\
     $Wait_j$ & Waiting time of job $j$ (s)\\
     $Sb_j$ & Submission time of job $j$ (s)\\
-    $Ex_j$ & Execution time of job $j$ (s)\\
-    $Dfl_j$ & Demanded flops of job $j$ (flop)\\
-    $R_j$ & Number of resources requested by job $j$ (int) \\
-    $Size_j$ & Job $j$ size (float)\\
+    $Ex_j$ & Execution time of job $j$. It is how many seconds the job is executing from the beginning to now (s)\\
+    $Dfl_j$ & Demanded flops of job $j$. This is unknown in advance (flop)\\
+    $Dfl'_j$ & Estimated demanded flops of job $j$. The scheduler estimates it using Equation \ref{equ:estimated_job_size} (flop)\\
+    $R_j$ & Number of servers requested by job $j$ (int) \\
+    $Size_j$ & Estimated job $j$ size. It is the walltime multiplied by the number of servers requested (float)\\
     $bsld_j$ & Bounded Slowdown of job $j$ (float)\\
     $Gfl_j$ & Flops processed by the job $j$ (flops)\\
     $F'_{s}$ & Server speed for job size estimation (flops)\\

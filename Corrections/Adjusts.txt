@@ -1,0 +1,650 @@
+##Introduction##
+
+Put IRIT et Laplace consitent order: Stolf et Caux {Stephane}
+Done.
+
+'rapport' or 'report' {Stephane}
+Done.
+
+you could put last report of GIEC (April 2023 or march, I don't remember). Ref 1 is a 2022 one, make an update {Patricia}
+Done.
+
+Renewable Energy Sources (RES) {Stephane}
+Done.
+
+the sentence is strange. it can energy during the day and then use it at night ??? {Patricia}
+Done.
+
+if you highlight 'energy-storage capacity' find some kWh values {Stephane}
+I don't have the kWh of this report. I found some articles indicating that they do not provide this information. So, I added "(megawatt-hour energy capacity undisclosed)". 
+#TODO What do you think? Do I need to find another example?
+
+define what it (online and offline) means. Depending on the reader the understanding could be different {Patricia}
+I added: "The offline part finds the optimal solution for the problem, which takes time. On the other hand, the online part reacts to real events, making fast decisions on-the-fly."
+
+'increasing storage'...'using more power' ?? -> plays with reversible storage elements to turn on
+I changed the phrase to: "Online can improve the QoS, using more energy from storage to turn on more servers (to run more jobs) or speed up the running servers (to finish jobs earlier)."
+
+"energy storage" to avoid confusion with data 'hard disk' storage {Stephane}
+Done.
+
+indicate: +absorb optimally in the near future its impact to stay in the plan {Stephane}
+I introduced the following phrase: Also, online reaction optimally absorbs the impact of the demand and production power to stay close to the offline plan.
+
+I missed the first one. Could you make an itemize with challenges (Challenge 1 : Challenge 2 :...) {Patricia}
+Done. I put as itemize.
+
+Dyn. Volt. Freq. Scal. {Stephane}
+Done.
+
+the big objective is to deal with uncertainties ? {Patricia}
+#TODO
+
+same thing, try to highlight the objectives (itemize) or bold {Patricia}
+Done.
+
+in a complete simulation tool {Stephane}
+Done.
+
+Dedicated framework {Stephane}
+Done.
+
+Detailed to detail. {Stephane}
+Done.
+
+avoid sentences beginning with also {Patricia}
+Done. (changed to Additionally)
+
+explain what it means (Beasy) {Patricia}
+I added (Battery-aware EASY backfilling).
+
+Context and related work {Stephane}
+Done. (added s in the end of the work)
+
+Remove the in sentence "we describe the model to deal with the several..." {Stephane}
+Done.
+
+Demonstrate what? explain/detail/remain... {Stephane}
+Done.
+
+##Related work##
+
+Help is positive and here it is a problem {Patricia}
+Done.
+
+I don't understand the sentence {Patricia}
+The sentence was "The report forecasts an optimistic scenario analyzing the effect of net zero emissions targets of about 140 countries that are adopted or under discussion.". I changed to "The report forecasts an optimistic scenario considering the effect of full implementation of all announced targets (e.g., net zero targets) in about 140 countries."
+
+Here you could also add the plots Mael presented for ICT4S {Patricia}
+The plots that Mael presented were Figures 2.1 and 2.2. I presented separated to explain each one.
+
+Estimations for 2020 but we are in 2023 {Patricia}
+I think that "estimations" means that we don't know exactly how much each one emitted, so different authors estimated how much each group emitted differently.
+
+I don't follow your idea since we are in 2023 {Patricia}
+The graph of 2020 is to show the role of the Data centers in the total GHG emission of ICT. 
+
+'to be canceled if not updated' (I think it is too much detailed/long) {Stephane}
+So, since it is information from 2020 (linked to both previous Patricia's comments) and Stephane thinks it is long, I cut it and simplified this part. 
+
+There are also improvements in energy efficiency (from software) {Patricia}
+Included software in the phrase.
+
+However, all these improvements are not enough because there is an increase in usage.{Patricia}
+I included this phrase between the two key factors: "However, all these improvements are not enough because of the increase in usage (demonstrated in Figure 2.2).
+
+It also consumes a lot of water {Patricia}
+Done.
+
+What do you mean (by have a controlled infrastructure) {Patricia}
+I tried to explain it in the text.
+
+?? I don't understand -> a DC powered by renew without grid or renewable-only DC {Patricia}
+It is renewable-only. I changed.
+
+add: There is a DC manager between users sending tasks and processors running them. Manager do not only keep QoS high but now has to manage available energy. Such layer can be said as control layer we focus in this work. ex openstack, IPM, VM. {Stephane}
+Done.
+
+Are the most current sources? (To avoid speaking of past) {Patricia}
+Done.
+
+Irradiation (cf discord discussion) {Stephane}
+It is not irradiance that generates power? I think that irradiation is linked to energy because it is the integral.
+
+be carreful in all parts : storage (linked to energy W.h) can provide max power (W) {Stephane}
+I agree, but the article only indicates the max power. I included in the phrase that it is max power.
+
+Are you sure that it is a division? (Check SBAC-PAD) {Patricia}
+It depends, it can be both, depending on the value. But I put it as multiplication to simplify.
+
+Not really 2 elements: Electrolyzer is reverse usage of fuel cell (same principle for charge/discharge H2) {Stephane}
+#TODO I didn't understand. They are not two different electrical components? I mean, in battery is just the incoming/outgoing energy, but in H2 are two different elements to create the same principle, right?
+
+Equation 2.5 and 2.6 Ez and Efc in front of equations {Patricia}
+Done.
+
+batt, H2 {Stephane}
+Done.
+
+What do you mean? You need to explain what is Pstatic and what is Pidle {Patricia}
+Done. 
+
+You could also discuss the heterogeneity of consumption of identical servers (see Orgerie and Lefèvre) {Patricia}
+I talked about it in subsection Workload Uncertainties (citing them).
+
+Not sure you should specify HPC because in HPC sometimes there is a day of job with frecedences (??) and when a job runs it uses all the servers {Patricia}
+#TODO I didn't understand.
+
+Add a 2.4.0 material uncertainties: behaviors, efficiency, ageing,.. both on elec and ICT components {Stephane}
+I don't know, because we do not take it into account in the online part. We consider the efficiency constant, so I don't know if explaining it will help to understand the following chapters.
+
+Make 2 sections? server and workload uncertainties {Patricia}
+I don't know, because each one has one paragraph
+
+2 'identical' windturbine does not produce the same P (2.4.0) {Stephane} 
+Maybe, instead of introduce a new section, I could just explain this in section 2.4.1?
+
+And fewer consumption and also weather because you have uncertainties in the profile {Patricia}
+As Stephane commented in his review, I divided this in another item (power).
+
+or near to optimal {Patricia}
+Done.
+
+And game theory (negotiation and compromise) ?? {Stephane}
+Done.
+
+Define 'walltime' {Stephane}
+Done.
+
+Maybe you could present first fit and best fit which are smarter then FCFS {Patricia}
+#TODO
+
++Resume nego: IT criteria and Power criteria... compared to maximize their own separated 'utility'. listed in biblio part: SLA and attractiveness {Stephane}
+I put it in the datazero section.
+
+Not all?? or focus on metha?? or use different method on different step {Stephane}
+I improved this phrase.
+
+Where do you introduce DZ2 project? Could be before 2.5 because it deals with uncertainties {Patricia} {Stephane}
+I created a section before (previously) section 2.5 to explain datazero2.
+
+define 'nodes' {Stephane}
+I defined it in 2.3.2 IT elements
+
+So present DZ and DZ before 2.5 section {Patricia}
+Done.
+
+Characteristics? Flexibility? {Patricia}
+Done.
+
+Compared... and the result is? {Stephane}
+I added the results.
+
+Check if you have references from recent works of Denis Trystam, Anne-Cecile Orgerie, Laurent Lefèvre, other members of DZ2 project and articles from greendays {Patricia}
+#TODO
+
+Make a reference to the survey we write during DZ project {Patricia}
+#TODO
+
+So just open a little bit in a paragraph with a summary of the survey to explain that there are other exps (??) in dealing with renewable DC. Because you focus on offline and online {Patricia}
+#TODO
+
+5, clarified 123345, 3 previous, an other crit? {Stephane}
+I transformed the first paragraph of Discussion and Classification of the literature in a list of itens.
+
+sure? Check with the survey {Patricia}
+I've used the works from the survey. I added a new article that Gustavo used, but I didn't find it interesting. But it is another possibility for renewable-only.
+
+You could also add that a renewable-only DC must be sized correctly and it is important to respect SoC {Patricia}
+I agree about respecting the SoC, but the sizing I don't know since we do not do it in the thesis. I explained about respecting SoC.
+
+##Model##
+
+Chapter {Patricia}
+Done.
+
+I would replace modules by "scheduling problem" {Patricia}
+Done.
+
+the experimental environment ? {Patricia}
+Done.
+
+u load and u renew : how is it expressed ? as there is no unity it is not clear here, maybe you could add a comment in the description column (see chapter XX) {Patricia}
+Done.
+
+add in the legend that it gives an example for a time window of 3 days {Patricia}
+Done.
+
+this section is about NM so don't speak here about PDM aims. Maybe you should present PDM, ITDM and the NM or put the paragraph "on the PDM side .... on the other hand, ITDM...." before the NM section in order to introduce the need of NM module {Patricia}
+I've migrated a good part of it to Chapter 2. So, I let here only the explanation of our model to "emulate" a negotiation.
+
+focuses ? {Patricia}
+Done.
+
+rf is a float. is it between 0 an 1 ? {Patricia}
+Yes. I put it in the table.
+
+why isn't there the index in the notation ? {Patricia}
+Done.
+
+on ???? {Patricia}
+Yes, done.
+
+these variables u_renew and u_load have not been explained and in the table 3.1 there was not the time in (t) {Patricia}
+I didn't put the time in the table. Maybe I can put all variables that are in function of time with the time in the table. 
+#TODO What do you think? Also, I changed to explain these variables here.
+
+the sentence is strange, it seems that some words are missing. so there are integer ? constant during delta_t ? {Patricia}
+I tried to improve the explanation of the variables, adding an example.
+
+I think you try to be more precise in the description column. moreover, I would first put the text and then the table {Patricia}
+I tried to improve the description. About putting the text before, I don't know. I like to present the table before because the reader knows where to look.
+
+which are waiting to run or running + waiting ??? {Patricia}
+Just waiting. Done.
+
+what is it ? the time of the beginning of execution? {Patricia}
+It is the duration time.
+
+is it flop ? memory ? {Patricia}
+It is the number of servers.
+
+size ? {Patricia}
+It is the walltime multiplied by the number of servers requested (I put it in the table)
+
+described by ? {Patricia}
+I don't know. I prefer composed by...
+
+the text does not answer the questions I put for the table {Patricia}
+I tried to introduce more elements in the table.
+
+so it seems that Rj is a number of cores ? servers ? {Patricia}
+Servers. I put in the table.
+
+there is a problem in the sentence {Patricia}
+I reformulated it.
+
+it seems to be a percentage. say it {Patricia}
+It is in kWh in fact (energy). It uses two percentages of SoC and calculates the energy of them.
+
+it is blank ??? {Patricia}
+I don't know if I understood, but I changed the figures.
+
+as you did not already spoke about the simulator chosen, I would just say "to the one of the simulator chosen detailed in section XX" {Patricia}
+
+not sure you said that clearly previously {Patricia}
+True. I rewrote it.
+
+what do you mean ? do you present in the thesis some results with the midlleware ? I think you should rewrite the sentence. Remove the however and change the verb migrate. These are two kinds of experimental context {Patricia}
+I rewrote the phrase. 
+
+number of {Patricia}
+In fact, I change it to indicate that I present in absolute number and regarding the job size.
+
+Detail, establish {Stephane}
+Done.
+
+This (insted of repeat Datazero) {Stephane}
+Done.
+
+and also the link and the mix we propose between on and off line. {Stephane}
+Done.
+
+(864=3days*24hours*12mn). why 12mn?? {Stephane}
+It is not 12 min. Each hour has 12 steps of 5 minutes (60 minutes / 5 minutes = 12 steps). So, 3 days * 24 hours * 12 steps = 864. Or, 3 days * 24 hours * 60 minutes = 4320 minutes. 4320 minutes divided by steps of 5 minutes = 864 steps
+
+?? maintain running .. {Stephane}
+Done.
+
+(Previous study to Datazero2) {Stephane}
+#TODO I didn't understand this comment.
+
+to explain all powers add: Batteries are reversible (charge/discharge energy) and also hydrogen is considered reversible (Electrolyser create H2, FuelCell create current) {Stephane}
+Done.
+
+commonly: C=Capacity of the battery... {Stephane}
+Done.
+
+Written (instead of demonstrated) {Stephane}
+Done.
+
+Lifespan (instead of life) {Stephane}
+Done.
+
+SoC(T) {Stephane}
+Done.
+
+Remove "Following PDM optimization," {Stephane}
+Done.
+
+J (Joule and 1 kWh = 3600000 J) {Stephane}
+#TODO I didn't understand this comment.
+
+providing {Stephane}
+Done
+
+?? specify: target ...at the end of time window?? every t ?? {Stephane}
+At every t, because it is a time series. I added it in the explanation
+
+Remove "This variance comes from the uncertainties presented in Section 2.4.1 {Stephane}
+Done.
+
+in case of low-estimation?? {Stephane}
+In case of lower estimation, the job will always be killed because the walltime will be reach. I added a phrase to explain it.
+
+average cpu is integer?? or just processors number? {Stephane}
+It is Average CPU Time Used, so it is the time that the job used the CPU (in seconds).
+
+Add a "s" in information {Stephane}
+"Informations" does not exist :( I used to make the same mistake. 
+
+define nodes, cores, CPU :-) {Stephane}
+Done.
+
+More (instead of much) {Stephane}
+Done.
+
+p-value?? {Stephane}
+I explained.
+
+c'est la 1ere fois que 'batsim' arrive...dire que c'est detaillé juste apres {Stephane}
+Done.
+
+to be consistent: choose: irradiance...or...irradiation :-) {Stephane}
+Done.
+
+Mise en page {Stephane}
+Done.
+
+or (instead of and in phrase "It is possible to have a high number of finished jobs and a high number of killed jobs in aggressive scheduling, where the scheduler starts jobs even if it is not possible to finish them.") {Stephane}
+In fact, is "and". I can have both together, and that is what I want to highlight here.
+
+Format: First, second, 4th {Stephane}
+Done.
+
+perhaps add: ready now to xx in chap4...and yy in chap5... (recall contribution and thesis-plan) {Stephane}
+Done.
+
+##Power compensations##
+
+Be precise : due to uncertainties online scheduling needs to adapt the offline plan {Patricia}
+Done.
+
+To address that two contributions: - scheduling the jobs according to the power envelope; - power compensation {Patricia}
+Done.
+
+To be defined (power compensations) {Patricia}
+Done.
+
+Express the objective of the scheduling and the constraints (in sentences) {Patricia}
+Done.
+
+4.1 just 4 lines {Stephane}
+After doing Patricia suggestions, I have more lines in the introduction.
+
+But you also have a power envelope? which is not in the literature?? Maybe you can say you have a flexible envelope. {Patricia}
+I added this in the text.
+
+I don't understand {Patricia}
+I removed this phrase because I explained it better before.
+
+? Rebuild sentence? ODM uses...servers are available {Stephane}
+I removed this phrase because I explained it better before.
+
+I would tell it in chapter 6 {Patricia}
+Done.
+
+Why saying this 'too early'? {Stephane}
+Done.
+
+Just introduce improvement/modification made {Stephane}
+I rewrote this part.
+
+I don't remember if you explain D_{s,d} in chapter 3 -> Check or recall what it is {Patricia}
+I explained, but I put a small description here.
+
+Define here positive compensation and negative compensation {Patricia}
+Need to be defined (positive and negative) {Patricia}
+I explained it in model, so I put link to the model and a small explanation.
+
+I think you did not speak of this case? {Patricia}
+It is the itemize just before, but I put it directly (case 1 and case 2).
+
+Complete the question can we compensate? {Patricia}
+Done.
+
+I don't understand {Patricia}
+I tried to explain that if it is not possible to compensate to meet the target level, in datazero2, we throw a new negotiation. But, in my experiments, I let the simulation continue, resulting in a SoC variation at the end.
+
+Add in the legend if it is a positive or negative compensation. {Patricia}
+Done.
+
+?? Pprod < PLoad do not 'save energy'?? blue always < orange ?? {Stephane}
+In fact, both Power planned and Workload demand are estimated values. I changed to indicated it.
+
+Am I wrong? I noticed Pidle=const?? {Stephane}
+Yes, I mean reduce the speed of servers without jobs running. I changed it.
+
+efficency is always <100% :-) perhaps explain 1/1.22 used in your formula {Stephane}
+You're right. Since I change in the formula, I change here.
+
+97%? Fuel cell 13%... What do you mean 'efficency' ?? commonly 66% for FC to convert H2 to elec. {Stephane}
+I put the wrong values. In fact, the PDM sent by Damien has these values but uses them as a division. So, the real values are 1/97.5=0.01025641 and 1/13.332=0.075007501. I don't know if the values are right or not. The explanation is:
+1) The efficiency of electrolyzers is 97.5. So, if you want to charge for 100 kW, you will have approximately 100k/97.5 = 1.0256 kg
+2) The efficiency of fuel cells is 13.332. So, if you want to discharge for 100 kW, you need approximately 100k/13.332 = 7.5 kg
+#TODO what do you think? I removed these values for the moment.
+
+At the beginning of the experiment {Patricia}
+Done.
+
+References {Patricia}
+Done.
+
+This sentence is important. Put it apart and in bold. Ideally, you could write on paragraph about uncertainty. {Patricia}
+Done.
+
+"We chose ten...to obtain Average scenario." If you have average ScenarioS...what -s means ? {Stephane}
+Hmm, you have a good point. I changed average scenarios to random scenarios. Because they have random values inside in min/max interval. 
+#TODO What do you think?
+
+Define 'tuple' {Stephane}
+I change the word "tuple" to "pair"
+
+why not...but why presenting 20% before ?confusing? {Stephane}
+I used 50% here because I generate random (gaussian) values with a standard deviation of 50%. I increased the standard deviation here to allow higher uncertainties. But, the values are generated around the median (because it is a gaussian).
+
+Unclear because there are two parts in this section. Add a label or an algo {Patricia}
+I divided this section into two parts, with labels.
+
+Battery level and battery (%) in graphs {Patricia}{Stephane}
+Done.
+
+percentage points {Stephane}
+Ohhh, that's right. I changed it.
+
+Problem (in Next has the worst job result among the policies. It also kills more big jobs than the policies and Workload reactive.) {Patricia}
+#TODO I didn't understand this comment.
+
+perhaps add: we do not deal with just 1 uncertainty at time t...but cumulate a lot of uncertainties from t to T. {Stephane}
+Done.
+
+Recall what it is for you {Patricia}
+Done.
+
+also recall our 'wasted energy' definition {Stephane}
+Done.
+
+Avoid beginning sentences with also {Patricia}
+Done.
+
+has? {Patricia}
+Done.
+
+I don't understand it degrades QoS to approximate QoS? {Patricia}
+The second word is SoC and not QoS. Adjusted.
+
+? target level is 50% red line shows a difference of 0? {Patricia}
+It is the difference of the target level, I improved the phrase.
+
+SoC {Stephane}
+Done.
+
+new paragraph {Patricia}
+Done.
+
+is (no majuscule) {Patricia}
+Done.
+
+pros and cons {Stephane}
+Changed to advantages and disadvantages
+
+here or in conclusion add: a different power management in case of Pwaste >0 or <0 (because we can also control Pwind or Psolar to be lower (but not higher) but not considered here) {Stephane}
+#TODO I didn't understand.
+
+##Learning##
+StateS, actionS and RewardS {Stephane}
+Done.
+
+It depends. Deep RL is not fast {Patricia}
+Yeah, but RL is different from Deep RL. But I put examples.
+
+They? {Patricia}
+Done.
+
+RL algo. It would be better in chapter 2. In Chapt 2 (better?) Chapt 5 could begin here {Patricia}
+Done.
+
+recall: t is at the end of TimeWindow .... provided by offline PDM {Stephane}
+In fact, in the state, it is the actual state. So, t is the actual step t. I introduce more information to clarify
+
+Sometimes you write three-day -> use always the same {Patricia}
+Done.
+
+To explain why DeltaSoC is not in this reward ! (says in advance it will be considered in chap 6) {Stephane}
+I tried to explain that our reward is linked to the QoS, and not SoC.
+
+Strange. Check the sentence {Patricia}
+Done.
+
+Why not delta soc_t? {Patricia}
+Good idea. Done.
+
+better !? {Stephane}
+I tried to improve the phrase.
+
+recall it? {Patricia}
+I rewrote it.
+
+the remaining power? {Patricia}
+Done.
+
+'workload' used previously {Stephane}
+In fact, it is "load" because it is linked to the heuristic from chapter 4. I put this link in the phrase.
+
+You did not consider battery usage that avoid 0 and 100\% ??? {Stephane}
+#TODO I didn't understand.
+
+By an action {Patricia}
+Done.
+
+PB in the sentence and why were? {Patricia}
+Done.
+
+2 kinds of rewards called {Patricia}
+Done.
+
+Avoid beginning a sentence with also {Patricia}
+Done.
+
+I would make subsubsections for each reward compute. {Patricia}
+Done.
+
+Could you add: I implemented this program ... or I used a genuine version... or an available pack (licenced or free)... as LinUCB is in [117] {Stephane}
+Done.
+
+These notations are common between Q-Learning and Bandit. You should say it clearly or present them apart {Patricia}
+Done.
+
+add a space between max and Q {Patricia}
+Done.
+
+What about the literature? {Patricia}
+#TODO 
+
+even if...has (pb in the sentence?) {Patricia}
+Done.
+
+What does literature says? {Patricia}
+#TODO
+
+Not sure if you said what A_t is {Patricia}
+Done.
+
+You did not explain lines 11 to 13 {Patricia}
+Done.
+
+Types {Patricia}
+Done.
+
+Recall (for me or here) why not other combination: eg. bandit+bandit... bandit+QL... ?? {Stephane}
+Because it is the combination of an RL algorithm and an action. It is not possible to combine two algorithms.
+
+beginning (to avoid repetion) {Patricia}
+Done.
+
+There (instead of they) {Stephane}
+Done.
+
+What do you mean? You have new algos. I would not put this sentence. I guess you mean graphs types are the same (metrics) {Patricia}
+Yes, it is the graphs types. I removed it.
+
+Cumulated reward {Patricia}
+Yes, cumulated inside each iteration.
+
+Not if we consider finished jobs size {Patricia}
+Not really. RL is worst than Last in finished jobs in size and number.
+
+same remarks: DeltaSoc... or level variation {Stephane}
+Done.
+
+Say that x-axis is the iteration {Patricia}
+Done.
+
+Is the idea also to see if the reward reflects what we want? {Patricia}
+Indeed. Done.
+
+Results {Patricia}
+Done.
+
+Perhaps add a table synthetizing your comments. Recall or add Next, Peak. Same for the second reward version. Easier to compare in conclusion {Stephane}
+Done.
+
+how can we see that?? (in high variance) {Stephane}
+I forgot the word "reward" (Both Bandit algorithms have higher killed jobs and high **reward** variance).
+
+Page 96 and 98 {Stephane}
+#TODO I didn't understand the indication
+
+To help this discussion tempt to add previously a partial or exhaustive table with + ++ - criteria obtained of the 2 rewards proposed
+Done.
+
+has too much...or is too much loud in information quantity {Stephane}
+Done.
+
+computational effort ? {Stephane}
+It is both. Because it uses more computational effort, it also uses more energy. I put your idea and explain the energy relation.
+
+Do you mean Next action in RL algo? {Patricia}
+Yes! Changed it.
+
+Make a paragraph {Patricia}
+Done.
+
+Maybe you could say that choosing peak inside the hour is not the best possibility? {Patricia}
+#TODO I don't know...
+
+For me, two parts are missing: - The reward is not an immediate reward - One step could be affected by different actions and it is difficult to find the best share of the reward.
+#TODO
+
+You did not analyze the impact of having more/less energy and jobs at the beginning/end -> you should have a short paragraph about that. But, end with the decision dependency analysis.
+#TODO
