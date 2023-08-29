@@ -38,7 +38,7 @@ Dyn. Volt. Freq. Scal. {Stephane}
 Done.
 
 the big objective is to deal with uncertainties ? {Patricia}
-#TODO
+Done.
 
 same thing, try to highlight the objectives (itemize) or bold {Patricia}
 Done.
@@ -184,7 +184,7 @@ Check if you have references from recent works of Denis Trystam, Anne-Cecile Org
 #TODO
 
 Make a reference to the survey we write during DZ project {Patricia}
-#TODO
+#TODO I cited the survey several times through the literature. Do you think I need to put it in the related work?
 
 So just open a little bit in a paragraph with a summary of the survey to explain that there are other exps (??) in dealing with renewable DC. Because you focus on offline and online {Patricia}
 #TODO
@@ -569,13 +569,13 @@ add a space between max and Q {Patricia}
 Done.
 
 What about the literature? {Patricia}
-#TODO 
+#TODO It is kind of hard to compare these values with the literature since each problem demands a different RL configuration.
 
 even if...has (pb in the sentence?) {Patricia}
 Done.
 
 What does literature says? {Patricia}
-#TODO
+#TODO It is kind of hard to compare these values with the literature since each problem demands a different RL configuration.
 
 Not sure if you said what A_t is {Patricia}
 Done.
@@ -643,8 +643,116 @@ Done.
 Maybe you could say that choosing peak inside the hour is not the best possibility? {Patricia}
 #TODO I don't know...
 
-For me, two parts are missing: - The reward is not an immediate reward - One step could be affected by different actions and it is difficult to find the best share of the reward.
-#TODO
+For me, two parts are missing: - The reward is not an immediate reward - One step could be affected by different actions and it is difficult to find the best share of the reward. {Patricia}
+Done.
 
-You did not analyze the impact of having more/less energy and jobs at the beginning/end -> you should have a short paragraph about that. But, end with the decision dependency analysis.
-#TODO
+You did not analyze the impact of having more/less energy and jobs at the beginning/end -> you should have a short paragraph about that. But, end with the decision dependency analysis. {Patricia}
+Done.
+
+You did not analyze bounded slowdown in RL chapter. Why not? Maybe show it for only one case (if the behavior is the same for the 4 scenarios) {Patricia}
+#TODO I think there is too much information in the chapter about the things more important (learning process and impact on the jobs). So, I didn't explore this metric. But if you think it is important, I can introduce it.
+
+##Heuristic##
+'just' 15p... to equilibrate with the others...(perhaps to add in chap5) {Stephane}
+I divided it because it is another idea. I think that addig in chapter 5 would mix different ideas and can be confusing. 
+
+In this chapter, introduce the clarification needed after sbac-pad reviews {Patricia}
+Done.
+
+Explain BEASY (For battery EASY backfilling) {Patricia}
+Done.
+
+Recall what this equation express {Patricia}
+Done.
+
+from IT mass load schedulling {Stephane}
+Done.
+
+Wasted energy?? {Stephane}
+If we let arrive in this situation, yes. But it is predictions, so, not in reality.
+
+tempt to be consistent with chap5 formula {Stephane}
+# I didn't understand the indication
+
+Say here that it gives you 9 probabilities {Patricia}
+Done.
+
+Do you have a word for period with SoC higher than 90%? {Patricia}
+I'll use overcharge moments.
+
+Explain why you don't have similar case when you are above 90% {Patricia}
+Done.
+
+One or more servers? {Patricia}
+Done.
+
+Ok, but you could have plotted the plan? (To compare and highlight the "migration of energy") {Patricia}
+#TODO I didn't understand. In fact, the plan could be the same as presented in the Figure (the plan can lead to a step with the battery at 20%). 
+
+Perhaps separate fig legend and text {Stephane}
+Done.
+
+This should appear in the algo {Patricia}
+Done.
+
+Not clear (for me). Reformulate? {Stephane}
+Done.
+
+I would highlight this area where jobs are killed {Patricia}
+Done.
+
+Attention... as tu verifié (ou a dire) que l'energie 'en trop' peut etre utilisée avant... mais pas apres {Stephane}
+# I didn't understand the indication
+
+Ces 2 energies ne se croisent pas... donc l'energie utilisée sur 3 jours n'est pas la meme... Beasy semble avoir un comportement de 'charge sustaining' piloté par le placement des taches qui 'optimise' la conso du datacentre :-)
+Yes, and we can see that Workload Reactive wasted more energy than Beasy. Also, Beasy could run the jobs degraded, using less energy but finishing them.
+
+Shows {Stephane}
+Done.
+
+Hidden green box {Stephane}
+Done.
+
+Values 'hidden' {Stephane}
+Done.
+
+Re-explain {Patricia}
+Done.
+
+Remove "way" {Patricia}
+Done.
+
+?? je vois 'mean' assez loin et large variations... pas vraiment controlé donc ?! {Stephane}
+You're right. I don't think 'control' is the best word. In fact, BEASY focuses on letting the SoC above the target level. While the policies expend the energy to approximate the target level, BEASY lets in the batteries and uses the energy just when needed.
+
+add a part if effective, saying : BEASY manages in the same way both real time tasks (pconsumption) uncertainties as well as Weather (power production) uncertainties {Stephane}
+Done.
+
+##Conclusion##
+(Used as much renewable as possible...when possible) {Stephane}
+Done.
+
+network (not networked) {Patricia}
+Done.
+
+not only, you propose ways to deal with uncertainties {Patricia}
+Done.
+
+2 rewards why 3 words? {Patricia}
+Done.
+
+Qos {Stephane}{Patricia}
+Done.
+
+Not so clear {Patricia}
+I re-wrote it.
+
+Remove " (impossible in RL due state/action size limitations)" {Stephane}
+Done.
+
+Avant dire: beasy peut etre parametré... pour nouvelles techno (carac/rendement batt, carac server...) depend du sizing (IT, power et energy batt) mais les constraintes sont paramétrables aussi. {Stephane}
+Done.
+
+Possible de gerer du cloud computing... follow the sun si on integre un degres de liberte 'migration'...?? impact ou pas du cooling dans cette approche ?? {Stephane}
+Done.
+
