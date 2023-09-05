@@ -19,7 +19,7 @@ As presented in Section \ref{sec:offline_plan}, ODM receives two predictions fro
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.5]{Images/Heuristic/predictions.pdf}
-    \caption{Renewable production and demand prediction. The blue (production) and green (demand) areas are the uncertainty given by the forecast.}
+    \caption[Renewable production and demand prediction.]{Renewable production and demand prediction. The blue (production) and green (demand) areas are the uncertainty given by the forecast.}
     \label{fig:predictions}
 \end{figure}
 
@@ -50,7 +50,7 @@ Where:
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.5]{Images/Heuristic/state_of_charge.pdf}
-    \caption{Result of the Equation \ref{equ:battery_state_of_charge} for different predictions. The dangerous area is when 5 or more curves (so, more than half of them) are below 20\%.}
+    \caption[Result of the Equation \ref{equ:battery_state_of_charge} for different predictions.]{Result of the Equation \ref{equ:battery_state_of_charge} for different predictions. The dangerous area is when 5 or more curves (so, more than half of them) are below 20\%.}
     \label{fig:estimated_state_of_charge}
 \end{figure}
 
@@ -224,7 +224,7 @@ After presenting the critical cases, this section details the random cases. As m
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.5]{Images/Heuristic/diff_state_of_charge.pdf}
-    \caption{SoC in one of the scenarios. \emph{Workload reactive} kills several jobs when the battery is lower than 20\%. \emph{Workload reactive} almost kills jobs between time steps 350 and 400, but it can keep SoC above 20\%. \emph{\systemName} avoids this threshold and could maintain the jobs running.}
+    \caption[SoC comparison between \emph{Workload reactive} and \emph{\systemName}.]{SoC in one of the scenarios. \emph{Workload reactive} kills several jobs when the battery is lower than 20\%. \emph{Workload reactive} almost kills jobs between time steps 350 and 400, but it can keep SoC above 20\%. \emph{\systemName} avoids this threshold and could maintain the jobs running.}
     \label{fig:soc_average}
 \end{figure}
 
