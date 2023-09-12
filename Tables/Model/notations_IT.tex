@@ -14,17 +14,17 @@
     $d$ & State index (int) \\
     $F_{s,d}$ & Speed of server $s$ at state $d$ (Flops)\\
     $P_{s,d}$ & Power of server $s$ at state $d$ (W)\\
-    $D_{s,d}$ & Indicates that the server $s$ is at state $d$ (boolean)\\
-    $Dsl_{s}$ & Indicates that the server $s$ is sleeping (boolean)\\
-    $wa_s$ & Indicates if the server is waking, transiting from off$\rightarrow$on (boolean) \\
+    $D_{s,d}(t)$ & Indicates that the server $s$ is at state $d$ at $t$ (boolean)\\
+    $Dsl_{s}(t)$ & Indicates that the server $s$ is sleeping at $t$ (boolean)\\
+    $wa_s(t)$ & Indicates if the server is waking, transiting from off$\rightarrow$on at $t$ (boolean) \\
     $T_{wa_s}$ & Transition time from off$\rightarrow$on (s) \\
-    $se_s$ & Indicates if the server is being sedate, transiting from on$\rightarrow$off (boolean) \\
+    $se_s(t)$ & Indicates if the server is being sedate, transiting from on$\rightarrow$off at $t$ (boolean) \\
     $T_{se_s}$ & Transition time from on$\rightarrow$off (s) \\    
-    $E_{tot}$ & Energy total spent by the servers (J) \\
-    $E_{run}$ & Energy spent by the running servers (J) \\
-    $E_{wak}$ & Energy spent by waking the servers (J) \\
-    $E_{sed}$ & Energy spent by sedating the servers (J) \\
-    $E_{sle}$ & Energy spent by the sleeping servers (J) \\
+    $E_{tot}(t)$ & Energy total spent by the servers at $t$ (J) \\
+    $E_{run}(t)$ & Energy spent by the running servers at $t$ (J) \\
+    $E_{wak}(t)$ & Energy spent by waking the servers at $t$ (J) \\
+    $E_{sed}(t)$ & Energy spent by sedating the servers at $t$ (J) \\
+    $E_{sle}(t)$ & Energy spent by the sleeping servers at $t$ (J) \\
     \hline
 \end{tabular}
 \end{table*}

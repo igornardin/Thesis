@@ -125,6 +125,8 @@
   \hypersetup{urlcolor=blue,linkcolor=blue,citecolor=blue,colorlinks=true,breaklinks=true}
 }
 
+\def\UrlBreaks{\do\/\do-}
+
 % Note: should be loaded *after* hyperref...
 \usepackage[french,english]{cleveref}
 \crefname{algocf}{alg.}{algs.}
@@ -154,7 +156,7 @@
 % - defence date
 % - laboratory
 % - cotutelle
-\title{\textbf{\large On-line scheduling for IT tasks and power source commitment in datacenters only operated with renewable energy}}
+\title{\textbf{\large Online scheduling for IT tasks and power source commitment in data centers only operated with renewable energy}}
 \author{Igor FONTANA DE NARDIN}
 \defencedate{31/01/2023}
 \lab{IRIT (UMR 5505) et Laplace (UMR 5213)}
@@ -180,15 +182,17 @@
 \makesomeone{boss}{1}{Patricia STOLF}{}{} % Sera afiche en premier
 %% Referee
 \nreferee{2}
-\makesomeone{referee}{1}{Premier RAPPORTEUR}{}{}
-\makesomeone{referee}{2}{Second RAPPORTEUR}{}{}
+\makesomeone{referee}{1}{Jesus CARRETERO}{}{}
+\makesomeone{referee}{2}{Jean-Marc MENAUD}{}{}
 %% Judges
-\njudge{5}
-\makesomeone{judge}{1}{Premier MEMBRE}{Professeur d'Université}{Rapporteur}
-\makesomeone{judge}{2}{Second MEMBRE}{Professeur d'Université}{Rapporteur}
-\makesomeone{judge}{3}{Troisième MEMBRE}{Professeur d'Université}{Examinateur}
-\makesomeone{judge}{4}{Quatrième MEMBRE}{Professeur d'Université}{Examinateur}
-\makesomeone{judge}{5}{Cinquième MEMBRE}{Professeur d'Université}{Examinateur}
+\njudge{7}
+\makesomeone{judge}{1}{Jesus CARRETERO}{Professeur}{Rapporteur}
+\makesomeone{judge}{2}{Jean-Marc MENAUD}{Professeur}{Rapporteur}
+\makesomeone{judge}{3}{Raphael FERAUD}{Chargé de recherche}{Examinateur}
+\makesomeone{judge}{4}{Pierre-François DUTOT}{Maître de conférences}{Examinateur}
+\makesomeone{judge}{5}{Bruno SARENI}{Professeur}{Examinateur}
+\makesomeone{judge}{6}{Patricia STOLF}{Professeure}{Direction de thèse}
+\makesomeone{judge}{7}{Stéphane CAUX}{Professeur}{Co-direction de thèse}
 
 \newcommand{\systemName}{BEASY\xspace}
 
@@ -204,8 +208,8 @@
 % DOCUMENT
 \begin{document}
     \pagestyle{plain}
-    \makeflyleaf
-
+    % \makeflyleaf
+    \includepdf[pages=-]{Images/couverture_these.pdf}
     \pagestyle{empty}
 
     \frontmatter
@@ -222,12 +226,12 @@
     \fancyhead[RO]{\nouppercase{\small\leftmark}}
     \fancyhead[C]{}  
 
-    \iftoggle{finalversion}{%
-    \chapter*{Acknowledgments}
-    \input{Sections/Beginning/3-Acknowledgments.tex}
-    }%
-    { % NOTE: no ACK in draft and co...
-    }
+    % \iftoggle{finalversion}{%
+    % \chapter*{Acknowledgments}
+    % \input{Sections/Beginning/3-Acknowledgments.tex}
+    % }%
+    % { % NOTE: no ACK in draft and co...
+    % }
 
     \chapter{Abstract}
     \label{cha:abstract_english}

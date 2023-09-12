@@ -1,0 +1,24 @@
+X Deixar apenas batch application
+X Tirar gluton e especificar apenas depois
+X Na introdução do 2.5 colocar o survey
+X Adicionar no 2.5 também DC mais amplamente com o que já é feito (usar o survey). Falar de sizing.
+X Adicionar o tempo nas tabelas
+X Verificar se o random tá bem explicado (se pode gerar average)
+X Remover a negociação sobre datazero (página 59)
+X Adicionar bounded slowdown no RL
+x Verificar o que é compensação positiva e negativa (model)
+X Migração de energia (model)
+X Colocar o artigo da SBAC-PAD 2023 no capítulo 6 (intro)
+X Adicionar que o hydrogen é reversível
+X Adicionar um paragrafo do material
+X Mesmo wind turbinas vão gerar diferente power
+X Especificar 12 steps por hora
+X Trocar a frase in the context of datazero (model)
+X Especificar que pode ser 3600 segundos para uma hora
+X A maioria dos casos random vamos sair da normalidade para verificar a robustes
+X Questionar Damien sobre o electolizer e fuel cell. Simplificar essa parte
+X Reverificar se eu expliquei bem wasted energy
+X Reverificar os slices do Q-Learning para a bateria. Relativo ao estado que estou agora
+X Explicar melhor o 20-90% e os slices acima
+X Reverificar que vamos tomar as decisões antes de passar os 90%
+X Figure 4.1 re-explicar que é antes do meu algorithm

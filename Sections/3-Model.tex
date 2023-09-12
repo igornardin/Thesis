@@ -20,7 +20,7 @@ Table \ref{tab:notation_system} presents the general notations and each followin
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.75]{Images/Model/Time window.pdf}
-    \caption[Time window definition]{Time window definition. It gives an example for a time window of 3 days.}
+    \caption[Time window definition]{Time window definition. It gives an example of a time window of 3 days and a time step of 5 minutes. Each hour has 12 steps of 5 minutes (60 minutes / 5 minutes = 12 steps). So, three days have 864 steps (12 steps $\times$ 24 hours $\times$ 3 days = 864 steps).}
     \label{fig:time_window}
 \end{figure}
 
@@ -35,7 +35,7 @@ This section starts presenting the offline decision modules. First, we demonstra
 The negotiation Module is between PDM and ITDM, trying to find an agreement about the power profile. Since this thesis focuses on the online part, we simplify this process. We implemented the negotiation in three steps. First, ITDM proposes a power envelope $P_{load}$ based on the energy demanded to run a predicted workload. $P_{load}$ is a prediction from ITDM. We do not include it in this model, but we present in the following chapters how we generated it. Then, PDM takes this envelope and runs its optimization. It can degrade the power envelope to meet its objectives, resulting in a new power envelope $P_{prod}$. Finally, ITDM takes the PDM power production and finds the best server configuration that meets it. The following sections present the PDM and ITDM optimizations.
 
 \subsubsection{Power Decision Module (PDM)}
-Table \ref{tab:notation_power} gives the notations for PDM. PDM plans the renewable source engagement to provide the energy needed to maintain the IT elements running. A renewable-only data center introduces several constraints in power generation. Therefore, PDM must approximate the demanded power while considering long-term storage elements. For example, it can use more energy coming from hydrogen during the winter, which has lower power production, compensating for this usage in the summer, which has higher power generation. On the other hand, PDM can degrade the provided energy due to a lack of energy from storage and estimated renewable. In the context of Datazero, \citeauthor{haddad2019mixed} created the first model to solve this problem \cite{haddad2019mixed}. This thesis uses a similar model to PDM. Equation \ref{equ:model_energy} gives the power production from all renewable sources. Equation \ref{equ:renewable_power} indicates that $P_{renew}$ comes from wind and solar production. $P_{wt}(t)$, $P_{pv}(t)$, $P_{fc}(t)$, $P_{ez}(t)$, $P_{dch}(t)$, and $P_{ch}(t)$ are calculated using Equations \ref{equ:wind_turbines}, \ref{equ:panel_solar_with_temperature}, \ref{equ:hydrogen_full_cell}, \ref{equ:hydrogen_electrolyzer} and \ref{equ:battery_energy} from Section \ref{sec:related_work_electrical_elements}. Batteries are reversible, which means that they can charge ($P_{ch}(t)$) and discharge ($P_{dch}(t)$) energy. Similarly, hydrogen can be considered reversible using an electrolyzer to charge ($P_{ez}(t)$) and a fuel cell to discharge ($P_{fc}(t)$).
+Table \ref{tab:notation_power} gives the notations for PDM. PDM plans the renewable source engagement to provide the energy needed to maintain the IT elements running. A renewable-only data center introduces several constraints in power generation. Therefore, PDM must approximate the demanded power while considering long-term storage elements. For example, it can use more energy coming from hydrogen during the winter, which has lower power production, compensating for this usage in the summer, which has higher power generation. On the other hand, PDM can degrade the provided energy due to a lack of energy from storage and estimated renewable. Previously, \citeauthor{haddad2019mixed} created the first model to solve this problem \cite{haddad2019mixed}. This thesis uses a similar model to PDM. Equation \ref{equ:model_energy} gives the power production from all renewable sources. Equation \ref{equ:renewable_power} indicates that $P_{renew}$ comes from wind and solar production. $P_{wt}(t)$, $P_{pv}(t)$, $P_{fc}(t)$, $P_{ez}(t)$, $P_{dch}(t)$, and $P_{ch}(t)$ are calculated using Equations \ref{equ:wind_turbines}, \ref{equ:panel_solar_with_temperature}, \ref{equ:hydrogen_fuel_cell}, \ref{equ:hydrogen_electrolyzer} and \ref{equ:battery_energy} from Section \ref{sec:related_work_electrical_elements}. Batteries are reversible, which means that they can charge ($P_{ch}(t)$) and discharge ($P_{dch}(t)$) energy. Similarly, hydrogen can be considered reversible using an electrolyzer to charge ($P_{ez}(t)$) and a fuel cell to discharge ($P_{fc}(t)$). 
 
 \input{Tables/Model/notations_power.tex}
 
@@ -103,7 +103,7 @@ Finally, the objective is to approximate the power production to the power deman
 
 \begin{equation}
     \label{equ:load_production}
-    P_{prod}(t) \ge (1 - rf) \times P_{load}, \quad \forall 0 \le t \le T
+    P_{prod}(t) \ge (1 - rf) \times P_{load}(t), \quad \forall 0 \le t \le T
 \end{equation}
 
 \begin{equation}
@@ -142,7 +142,7 @@ Finally, the objective is to approximate the power production to the power deman
 % \end{equation}
 
 % \begin{equation}
-%     \label{equ:model_hydrogen_full_cell}
+%     \label{equ:model_hydrogen_fuel_cell}
 %     P_{fc}(t) \times \Delta t = LH_{h_{2}} \times Q_{fc}(t) \times \eta_{fc}
 % \end{equation}
 
@@ -178,7 +178,7 @@ Then, we must model the sedating and waking transitions. These transitions take 
     se_{s}(t) = \max(0, (Dsl_{s}(t) - Dsl_{s}(t-1))), \quad \forall 0 \le t \le T, \forall 0 \le s \le N_{S}
 \end{equation}
 
-Equation \ref{equ:ITDM_energy_less_envelope} introduces the power constraint. We transform the power into energy (multiplying $P_{prod}(t)$ by $\Delta t$) because we are dealing with the transitions. Thus, the power from a server is not constant inside a time step (e.g., in the waking transition, first a server spent energy turning on and just after running jobs). Since $E_{tot}(t)$ is in J and the energy generated ($P_{prod}(t) \times \Delta t$) is in kJ, we transformed the generation into J by multiplying by 1000. $E_{tot}(t)$ is the total energy spent by the servers calculated using Equation \ref{equ:ITDM_energy_usage}. This equation sums the expended energy by running, waking, sedating, and sleeping states.
+Equation \ref{equ:ITDM_energy_less_envelope} introduces the power constraint. We transform the power into energy (multiplying $P_{prod}(t)$ by $\Delta t$) because we are dealing with the transitions. Thus, the power from a server is not constant inside a time step (e.g., in the waking transition, first a server spent energy turning on and just after running jobs). Since $E_{tot}(t)$ is in J and the energy generated ($P_{prod}(t) \times \Delta t$, where $P_{prod}(t)$ is in W and $\Delta t$ is in seconds) is in kJ, we transformed the generation into J by multiplying by 1000. $E_{tot}(t)$ is the total energy spent by the servers calculated using Equation \ref{equ:ITDM_energy_usage}. This equation sums the expended energy by running, waking, sedating, and sleeping states.
 
 \begin{equation}
     \label{equ:ITDM_energy_less_envelope}
@@ -364,7 +364,21 @@ Then, ODM calculates how much energy it can compensate, using Equation \ref{equ:
     \end{cases}
 \end{equation}
 
-Finally, ODM must modify futures $P_{dch}$ and $P_{ch}$ to use $E_{comp}$. We focus on battery modifications since it is faster to make online decisions on it. Hydrogen is not too reactive. We proposed some ways to deal with it in the following chapters. Since ODM modifies $P_{dch}$ and $P_{ch}$, $P_{prod}$ will also change (see Equation \ref{equ:model_energy}). So, ODM must adapt the IT plan (servers' states $D_{s,d}$) to meet the new $P_{prod}$. The algorithm to modify $D_{s,d}$ on-the-fly is also presented in the following chapters. This modification must respect the Constraint \ref{equ:ITDM_energy_less_envelope}.
+Finally, ODM must modify futures $P_{dch}$ and $P_{ch}$ to use $E_{comp}$. We focus on battery modifications since it is faster to make online decisions on it. Hydrogen is not too reactive. We proposed some ways to deal with it in the following chapters. Since ODM modifies $P_{dch}$ and $P_{ch}$, $P_{prod}$ will also change (see Equation \ref{equ:model_energy}). So, ODM must adapt the IT plan (servers' states $D_{s,d}$) to meet the new $P_{prod}$. The algorithm to modify $D_{s,d}$ on-the-fly is also presented in the following chapters. This modification must respect the Constraint \ref{equ:ITDM_energy_less_envelope}. We name the process of adapting the power plan power/energy compensation or migration. The compensations/migration can be:
+
+\begin{itemize}
+    \item Positive: In this case $\Delta E_{bat} > 0$. So, we can increase the battery power usage now or in the future.
+    \item Negative: In this case $\Delta E_{bat} < 0$. So, we should reduce the battery power usage now or in the future.
+\end{itemize}
+
+Figure \ref{fig:model_compensation} illustrates the positive and negative compensations. Both compensations first observe a variation in battery usage (green box). In positive compensation, it verifies a lower usage in step 1. This reduction makes $\Delta E_{bat} > 0$, so we can increase the battery usage in the future (yellow box in step 4). The negative compensation is the opposite, where we observe a higher usage in step 1 (making $\Delta E_{bat} < 0$), demanding a lower usage in the future. As mentioned before, this variance in battery usage comes from scheduling modifications, server idleness, and renewable production fluctuations.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.58]{Images/Model/compensation.pdf}
+    \caption[Positive and negative compensations]{Positive and negative compensations. We observe a variation in step 1 and compensate it in step 4, according to the compensation type (positive or negative).}
+    \label{fig:model_compensation}
+\end{figure}
 
 \section{Data}
 After describing the models, we describe the data used to simulate our environment. Our simulators expect three data: workload, weather, and platform. We explain the source of each one in the following sections. 
@@ -372,7 +386,7 @@ After describing the models, we describe the data used to simulate our environme
 \subsection{Workload Trace}
 \label{sec:workload_trace}
 
-Workload trace is a log of job submissions in a resource (servers) provider. Some trace examples are Microsoft Azure \cite{cortez2017resource}, Google \cite{reiss2011google}, and Alibaba \cite{wang2022characterizing}. Regarding HPC, \citeauthor{feitelson2014experience} proposed the SWF format, which allows the data center providers to distribute logs to the research community \cite{feitelson2014experience}. In SWF, each line is a job with the fields separated by whitespace. Each line contains the following fields \cite{feitelson2014experience}:
+Workload trace is a log of job submissions in a resource (servers) provider. Some trace examples are Microsoft Azure \cite{cortez2017resource}, Google \cite{reiss2011google}, and Alibaba \cite{wang2022characterizing}. Regarding batch, \citeauthor{feitelson2014experience} proposed the SWF format, which allows the data center providers to distribute logs to the research community \cite{feitelson2014experience}. In SWF, each line is a job with the fields separated by whitespace. Each line contains the following fields \cite{feitelson2014experience}:
 \begin{itemize}
     \item \textit{Job Number}: The job ID starting with 1;
     \item \textit{Submit Time}: The submission time. The first job has 0 as submit time, and the following jobs use the first job as reference (in seconds);
@@ -484,7 +498,7 @@ These are some messages of the protocol (the entire protocol is in Batsim docume
     {"type": "user_specific_type", "timestamp": 600, "power_available": 5172.26}
 \end{lstlisting}
 
-Batsim reads this file and sends at each "timestamp" a \textit{NOTIFY} message. Then, we parse the JSON in the message, taking the power available. $\Delta t$ defines the interval between messages. The scheduler does not know all the events in this JSON file, receiving them just when the simulation arrives at the "timestamp". Regarding energy storage, we implemented two classes to simulate them. The first class is for the battery and uses Equations \ref{equ:battery_energy} and \ref{equ:battery_state_of_charge} to estimate the state of charge. The second class is for hydrogen and implements Equations \ref{equ:hydrogen_electrolyzer}, \ref{equ:hydrogen_full_cell}, and \ref{equ:hydrogen_level}. The energy storage implementation must respect the following constraint:
+Batsim reads this file and sends at each "timestamp" a \textit{NOTIFY} message. Then, we parse the JSON in the message, taking the power available. $\Delta t$ defines the interval between messages. The scheduler does not know all the events in this JSON file, receiving them just when the simulation arrives at the "timestamp". Regarding energy storage, we implemented two classes to simulate them. The first class is for the battery and uses Equations \ref{equ:battery_energy} and \ref{equ:battery_state_of_charge} to estimate the state of charge. The second class is for hydrogen and implements Equations \ref{equ:hydrogen_electrolyzer}, \ref{equ:hydrogen_fuel_cell}, and \ref{equ:hydrogen_level}. The energy storage implementation must respect the following constraint:
 
 \begin{equation}
     \label{equ:energy_diff}
@@ -493,7 +507,7 @@ Batsim reads this file and sends at each "timestamp" a \textit{NOTIFY} message. 
 
 Constraint \ref{equ:energy_diff} indicates that the difference between energy production ($(P_{renew} + P_{dch} + P_{fc} - P_{ez} - P_{ch}) \times \Delta t \times 1000$) and the energy expended by the IT ($E_{tot}$) must be equal to zero. $P_{renew}$ comes from the JSON input with no modifications. $E_{tot}$ is calculated using \textit{QUERY} and \textit{ANSWER} messages. Since it returns the total energy expended (from 0 to now), we calculate the difference between two \textit{QUERY} calls. So, the simulator balances $P_{dch}$,  $P_{fc}$, $P_{ez}$, and $P_{ch}$. In the default implementation, the simulator first adapts the battery ($P_{dch}$ and $P_{ch}$), and, just if necessary, it changes the hydrogen ($P_{fc}$ and $P_{ez}$).  However, it depends on the implementation (e.g., if the offline plan indicates something different). This simulation respects the boundaries \ref{equ:discharge_boundary}, \ref{equ:charge_boundary}, \ref{equ:fuelcells_boundary}, and \ref{equ:electrolyzer_boundary}.
 
-Another input for Batsim is the platform file. Batsim uses the Simgrid platform format\footnote{https://simgrid.org/doc/latest/Platform.html}. Using the results from Section \ref{sec:platform_configuration}, we created a script to generate this file with all DVFS states. This script receives the server parameters (e.g., Table \ref{tab:gros}) and the number of nodes from this server. It can create homogeneous and heterogeneous data centers according to the user specification. Finally, the last input for Batsim is the workload file. Batsim simplifies the workload definition of HPC jobs. We focused on the Homogeneous Parallel Task kind of application in the experiments. In this application type, we define the amount of floating-point operations (flops) to execute on each machine. Here, we create another script to translate the SWF format (from Section \ref{sec:workload_trace}) to Batsim JSON format. An example of a workload file is:
+Another input for Batsim is the platform file. Batsim uses the Simgrid platform format\footnote{https://simgrid.org/doc/latest/Platform.html}. Using the results from Section \ref{sec:platform_configuration}, we created a script to generate this file with all DVFS states. This script receives the server parameters (e.g., Table \ref{tab:gros}) and the number of nodes from this server. It can create homogeneous and heterogeneous data centers according to the user specification. Finally, the last input for Batsim is the workload file. Batsim simplifies the workload definition of batch jobs. We focused on the Homogeneous Parallel Task kind of application in the experiments. In this application type, we define the amount of floating-point operations (flops) to execute on each machine. Here, we create another script to translate the SWF format (from Section \ref{sec:workload_trace}) to Batsim JSON format. An example of a workload file is:
 
 \begin{lstlisting}[language=json,firstnumber=1]
 {
