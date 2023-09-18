@@ -11,14 +11,16 @@
     $Wall_j$ & Walltime of job $j$ (s)\\
     $Wait_j$ & Waiting time of job $j$ (s)\\
     $Sb_j$ & Submission time of job $j$ (s)\\
+    $Ex^{real}_j$ & Total execution time of job $j$. This is unknown in advance (s)\\
     $Ex_j$ & Execution time of job $j$. It is how many seconds the job is executing from the beginning to now (s)\\
     $Dfl_j$ & Demanded flops of job $j$. This is unknown in advance (flop)\\
     $Dfl'_j$ & Estimated demanded flops of job $j$. The scheduler estimates it using Equation \ref{equ:estimated_job_size} (flop)\\
-    $R_j$ & Number of servers requested by job $j$ (int) \\
+    $R_j$ & Number of cores requested by job $j$ (int) \\
     $Size_j$ & Estimated job $j$ size. It is the walltime multiplied by the number of servers requested (float)\\
     $bsld_j$ & Bounded Slowdown of job $j$ (float)\\
-    $Gfl_j$ & Flops processed by the job $j$ (flops)\\
-    $F'_{s}$ & Server speed for job size estimation (flops)\\
+    $Gfl_j$ & Flops processed by the job $j$ from the beginning to now (flops)\\
+    % $F'_{s}$ & Fixed server speed for job size estimation (flops)\\
+    $F_{s,d}$ & Speed of server $s$ at state $d$ (Flops)\\
     $\epsilon_{u}$ & User execution time estimation error (float)\\
     $\Delta E_{bat}$ & Difference of target and calculated battery energy at the end of the time window (kWh)\\
     $E_{comp}$ & Energy to compensate (kWh)\\

@@ -166,7 +166,7 @@ First, Equation \ref{equ:one_state_only} ensures only one state per time $t$. Th
     Dsl_{s}(t) + \sum_{d=0}^{N_{D_{s}}} D_{s,d}(t) = 1, \quad \forall 0 \le t \le T, \forall 0 \le s \le N_{S}
 \end{equation}
 
-Then, we must model the sedating and waking transitions. These transitions take time and spend energy. During these transitions, the servers are unavailable to run jobs. So, Equations \ref{equ:transition_wake} and \ref{equ:transition_sedating} model the waking transition (off$\rightarrow$on) and the sedating transition (on$\rightarrow$off), respectively. For example, Equation \ref{equ:transition_wake} verifies if the previous state is sleeping ($Dsl_{s}(t-1) = 1$) and now is not sleeping ($Dsl_{s}(t) = 0$). So the result of $Dsl_{s}(t-1) - Dsl_{s}(t)$ will be $1$, which indicates that the server $s$ is waking. If both are $0$ or $1$, the result is $0$, implying that the server is not transiting. If the previous state is not sleeping ($Dsl_{s}(t-1) = 0$) and now is sleeping ($Dsl_{s}(t) = 1$), the result will be $-1$. However, the $\max (0)$ function will put 0 as $wa_s(t)$. Equation \ref{equ:transition_sedating} does the same but inverts the order of states.
+Then, we must model the sedating and waking transitions. These transitions take time and spend energy. During these transitions, the servers are unavailable to run jobs. So, Equations \ref{equ:transition_wake} and \ref{equ:transition_sedating} model the waking transition (off$\rightarrow$on) and the sedating transition (on$\rightarrow$off), respectively. For example, Equation \ref{equ:transition_wake} verifies if the previous state is sleeping ($Dsl_{s}(t-1) = 1$) and now is not sleeping ($Dsl_{s}(t) = 0$). So the result of $Dsl_{s}(t-1) - Dsl_{s}(t)$ will be $1$, which indicates that the server $s$ is waking. If both are $0$ or both are $1$, the result is $0$, implying that the server is not transiting. If the previous state is not sleeping ($Dsl_{s}(t-1) = 0$) and now is sleeping ($Dsl_{s}(t) = 1$), the result will be $-1$. However, the $\max (0)$ function will put 0 as $wa_s(t)$. Equation \ref{equ:transition_sedating} does the same but inverts the order of states.
 
 \begin{equation}
     \label{equ:transition_wake}
@@ -274,12 +274,12 @@ The PDM and ITDM optimizations result in a plan for the next time window, provid
 $u_{renew}$ and $u_{load}$ indicate confidence in the prediction. They give the range that the actual values can be. For example, let's say $P_{load}(t) = 500$ and $u_{load}(t) = 200$. So, the real value of $P_{load}(t)$ ($P^{real}_{load}(t)$) is between 300 and 700 ($P^{real}_{load}(t) = P_{load}(t) \pm u_{load}(t)$). Equations \ref{equ:uncertainty_power} and \ref{equ:uncertainty_load} present the possible actual values interval.
 
 \begin{equation}
-    P_{renew}(t) \times -u_{renew}(t) \le P^{real}_{renew}(t) \le P_{renew}((t)) \times u_{renew}(t), \quad \forall 0 \le t \le T
+    P_{renew}(t) - u_{renew}(t) \le P^{real}_{renew}(t) \le P_{renew}((t)) + u_{renew}(t), \quad \forall 0 \le t \le T
     \label{equ:uncertainty_power}
 \end{equation}
 
 \begin{equation}
-    P_{load}(t) \times -u_{load}(t) \le P^{real}_{load}(t) \le P_{load}((t)) \times u_{load}(t), \quad \forall 0 \le t \le T
+    P_{load}(t) - u_{load}(t) \le P^{real}_{load}(t) \le P_{load}((t)) + u_{load}(t), \quad \forall 0 \le t \le T
     \label{equ:uncertainty_load}
 \end{equation}
 
@@ -295,7 +295,7 @@ ODM is a power-aware scheduler. A power-aware scheduler means having all respons
 
 \subsubsection{Job scheduler}
 
-Since the offline in the model does not know the jobs exactly, it can not execute the job scheduling. Therefore, ODM must define the scheduling. The job scheduler's objective is to maximize the number of finished jobs, considering the power constraints. It does not know exactly when the jobs will arrive. As soon as a job arrives, the scheduler places it in a waiting queue $Q$. Each job $j$ in the waiting queue $Q$ is composed by submission time ($Sb_j$), walltime ($Wall_j$), and the number of resources requested ($R_j$). Walltime is the maximum execution time allowed for the job. The job executes flops ($Dfl_j$), but it is discovered only after the job execution.
+Since the offline in the model does not know the jobs exactly, it can not execute the job scheduling. Therefore, ODM must define the scheduling. The job scheduler's objective is to maximize the number of finished jobs, considering the power constraints. It does not know exactly when the jobs will arrive. As soon as a job arrives, the scheduler places it in a waiting queue $Q$. Each job $j$ in the waiting queue $Q$ is composed by submission time ($Sb_j$), walltime ($Wall_j$), and the number of cores requested ($R_j$). Walltime is the maximum execution time allowed for the job. The job executes flops ($Dfl_j$), but it is discovered only after the job execution.
 
 After placing the job in the waiting queue, the scheduler must select which job will start. For selecting the next job to place, the scheduler must sort the queue $Q$. This sort puts the more important jobs in front, according to a specified rule. One rule can consider the jobs' size, using Equation \ref{equ:jobs_size}. Since the scheduler does not know the real size, it estimates using the walltime and number of resources requested.
 
@@ -304,14 +304,14 @@ After placing the job in the waiting queue, the scheduler must select which job 
     \label{equ:jobs_size}
 \end{equation}
 
-Another way to sort the waiting queue $Q$ is using Bounded Slowdown. Equation \ref{equ:slowdown} demonstrates how to calculate the Bounded Slowdown. It estimates the ratio between the total time a job stays in the system and its actual processing time. This order helps to let a job wait proportionately to its size. $\tau$ is a constant to avoid smaller jobs from reaching a very high Bounded Slowdown. Since the scheduler does not know the actual size, Equation \ref{equ:slowdown} uses the walltime as size.
+Another way to sort the waiting queue $Q$ is using Bounded Slowdown \cite{feitelson1998metrics}. Equation \ref{equ:slowdown} demonstrates how to calculate the Bounded Slowdown. It estimates the ratio between the total time a job stays in the system and its actual processing time. This order helps to let a job wait proportionately to its size. $\tau$ is a constant to avoid smaller jobs from reaching a very high Bounded Slowdown. Since the scheduler does not know the actual execution time $Ex^{real}_j$, we make $Ex^{real}_j = Wall_j$.
 
 \begin{equation}
-    bsld_j = \max(\frac{Wait_j + Wall_j}{\max(Wall_j, \tau)}, 1)
+    bsld_j = \max(\frac{Wait_j + Ex^{real}_j}{\max(Ex^{real}_j, \tau)}, 1)
     \label{equ:slowdown}
 \end{equation}
 
-After sorting the queue, it places the front job in $R_j$ servers. Due to a possible heterogeneous data center, the scheduler takes first the servers with higher speed. After starting, $D_{s,d}$ controls how fast the job will finish. The scheduler considers a job as a mass (unknown) flops $Dfl_j$. So, increasing the speed $D_{s,d}$ increases the number of flops processed by the server and reduces the execution time $Ex_j$. On the other hand, reducing the speed reduces the server's flops and increases the execution time. Constraint \ref{equ:walltime} verifies if the execution time is lower than the walltime $Wall_j$. The moment when the execution time becomes equal to or greater than the walltime, the scheduler kills the job. The job finishes correctly when it executes all its flops $Dfl_j$ before the walltime $Wall_j$. 
+After sorting the queue, it places the front job in $R_j$ cores. Due to a possible heterogeneous data center, the scheduler takes first the servers with higher speed. After starting, $D_{s,d}$ controls how fast the job will finish. The scheduler considers a job as a mass (unknown) flops $Dfl_j$. So, increasing the speed $D_{s,d}$ increases the number of flops processed by the server and reduces the execution time $Ex_j$. On the other hand, reducing the speed reduces the server's flops and increases the execution time. Constraint \ref{equ:walltime} verifies if the execution time is lower than the walltime $Wall_j$. The moment when the execution time becomes equal to or greater than the walltime, the scheduler kills the job. The job finishes correctly when it executes all its flops $Dfl_j$ before the walltime $Wall_j$. 
 
 \begin{equation}
     Ex_j < Wall_j
@@ -340,7 +340,7 @@ These uncertainties can increase or decrease power generation $P_{renew}$. Final
     \label{equ:avoid_walltime}
 \end{equation}
 
-Since ODM does not know the job's flops exactly, it can estimate using the walltime. Equation \ref{equ:estimated_job_size} shows a way for estimating $Dfl'_j$, similar to \cite{takizawa2020effect}. $F'_{s}$ is a fixed speed applied to the job. $\epsilon_{u}$ is a user error because the user can overestimate the execution time. We do not consider the walltime underestimation, because this always leads to killing the job (respecting Equation \ref{equ:walltime}). \citeauthor{takizawa2020effect} calculate $\epsilon_{u}$ for each user, using previous users' requests. Even if Equation \ref{equ:avoid_walltime} does not exactly use the real size, it is a good way to balance the states of a job.
+Since ODM does not know the job's flops exactly, it can estimate using the walltime. Equation \ref{equ:estimated_job_size} shows a way for estimating $Dfl'_j$, similar to \cite{takizawa2020effect}. $F'_{s}$ is a fixed and constant speed applied to estimate the job size. $\epsilon_{u}$ is a user error because the user can overestimate the execution time. We do not consider the walltime underestimation, because this always leads to killing the job (respecting Equation \ref{equ:walltime}). \citeauthor{takizawa2020effect} calculate $\epsilon_{u}$ for each user, using previous users' requests. Even if Equation \ref{equ:avoid_walltime} does not exactly use the real size, it is a good way to balance the states of a job.
 
 \begin{equation}
     \label{equ:estimated_job_size}
@@ -556,11 +556,11 @@ Some modules work in Python, and some in C++. The messages from the modules are 
 
 However, we helped with all these dependencies management, allowing every project's partner to execute the middleware on their computers. Therefore, we create a docker version of the middleware. We create three containers: ActiveMQ, C++, and Python. The ActiveMQ provides the message BUS for all the modules. C++ implements the Simgrid and some modules (e.g., ODM). Python has the electrical control and other modules (e.g., ITDM and PDM). We create a docker-compose script that installs and compiles everything. We included some advanced parameters for developers for coding inside docker without the need to rebuild everything.
 
-Regarding the middleware's simulation input, some changes were done. The weather data is passed directly to the middleware, which applies the equations to transform weather into power. Even if it uses Simgrid (so, same platform file format), the middleware divides this file into two files: Model and Machines. The Model file defines the DVFS states, including a model id. The Machine file indicates all the servers, linking each one to a model id. This division simplifies the modifications in the model. So, we create a new version of the platform script, allowing choose between Batsim or Datazero2 middleware. Finally, the workload file is not JSON but XML. We also create a new version of our script to migrate from SWF to Datazero2 middleware XML.
+Regarding the middleware's simulation input, some changes were done. The weather data is passed directly to the middleware, which applies the equations to transform weather into power. Even if it uses Simgrid (so, same platform file format), the middleware divides this file into two files: Model and Machines. The Model file defines the DVFS states, including a model id. The Machine file indicates all the servers, linking each one to a model id. This division simplifies the modifications in the model. So, we create a new version of the platform script, choosing between Batsim or Datazero2 middleware. Finally, the workload file is not JSON but XML. We also create a new version of our script to migrate from SWF to Datazero2 middleware XML.
 
 \subsection{Metrics}
 
-In this section, we present the metrics used in this thesis. We evaluate four aspects in this thesis: Jobs finished, storage state at the end of the time window, wasted energy, and bounded slowdown. The first objective is to increase the number of finished jobs and reduce the number of killed jobs. It is possible to have a high number of finished jobs and a high number of killed jobs in aggressive scheduling, where the scheduler starts jobs even if it is not possible to finish them. Each job can finish in one of five states: 
+In this section, we present the metrics used in this thesis. We evaluate four aspects in this thesis: jobs finished, storage state at the end of the time window, wasted energy, and bounded slowdown. The first objective is to increase the number of finished jobs and reduce the number of killed jobs. It is possible to have a high number of finished jobs and a high number of killed jobs in aggressive scheduling, where the scheduler starts jobs even if it is impossible to finish them. However, this is unacceptable because it wastes energy with the killed jobs. Each job can finish in one of five states: 
 
 \begin{enumerate}
     \item Finished: Jobs that finished their computation before the walltime;
@@ -570,7 +570,7 @@ In this section, we present the metrics used in this thesis. We evaluate four as
     \item Killed: The killed jobs.
 \end{enumerate} 
 
-Therefore, we present the absolute number of jobs in each state at the end of the simulation. In addition, we introduce this metric considering the size of the job ($Dfl_j \times R_j$). The size of the job shows the impact of the decisions in bigger and small jobs. The second aspect is the algorithms must end the time window with the storage levels as close as possible to the planned. This means the algorithms can not "cheat" by using more storage than planned. As explained before, finishing close to the target levels helps to plan the next time window. We present a metric of the distance from the target. This distance can be positive (save more energy) or negative (use more energy). For battery, we present it as the \% difference of target SoC, and for hydrogen, we present it as the kg difference of target LoH.
+Therefore, we present the absolute number of jobs in each state at the end of the simulation. In addition, we introduce this metric considering the size of the job ($Dfl_j \times R_j$). The size of the job shows the impact of the decisions on bigger and small jobs. The second metric is related to the storage level at the end of the time window. Our objective is to finish as close as possible to the planned level. This means the algorithms can not "cheat" by using more storage than planned. As explained before, finishing close to the target levels helps to plan the next time window. We present a metric of the distance from the target. This distance can be positive (save more energy) or negative (use more energy). For battery, we present it as the \% difference of target SoC, and for hydrogen, we present it as the kg difference of target LoH.
 
 The third metric is wasted energy. We consider wasted energy the energy expended not computing finished jobs, englobing, for example, the energy used in killed jobs, turning on/off servers, and letting servers idle. This metric is present as kWh. Finally, the fourth metric is the bounded slowdown. This metric is the same as presented in Equation \ref{equ:slowdown}. The bounded slowdown is a difficult metric to compare in executions without the same number of jobs finished. For example, starting and killing a job in the sequence will result in a very low slowdown. On the other hand, maintaining jobs running will make the jobs in the queue wait for more time, which impacts directly on the slowdown. So, we will analyze this metric with precaution.
 
