@@ -98,7 +98,7 @@ Finally, the last part of the heuristic is transforming the power modifications 
 
 Taking Table~\ref{tab:gros} as an example, let's say that we have two servers running jobs: one on state 5 and another on state 10. The system has 30 W to increase. So, it will increase first the server on state 10 to state 1, because it will increase 14.41 Gflops (against 6.45 Gflops from state 5 to state 1). If a server is sleeping, it also considers the power needed to turn the server on. When the difference between offline and online power is negative, the algorithm must reduce the speed of the servers. So, it does the following:
 \begin{enumerate}
-    \item Reduce the speed of servers not running jobs;
+    \item Reduce the DVFS state of servers not running jobs;
     \item We calculate $(wall_{j} - elapTime_{j})$ for each job running. Then, we sort the servers by this value in decreasing order. Finally, we reduce the speed of these servers following this order. 
 \end{enumerate}
 
@@ -144,7 +144,7 @@ In the first part, we have taken two workloads from the Metracentrum dataset wit
     \label{fig:critical_workload}
 \end{figure}
 
-We generated the three-day weather data using MERRA and renewable ninja for the critical scenarios \cite{rienecker2011merra, pfenninger2016long, staffell2016using}. Figure \ref{fig:critical_weather} shows the weather power production using the electrical components of our data center. 
+We generated the three-day weather data using MERRA \cite{rienecker2011merra} and renewable ninja \cite{pfenninger2016long} for the critical scenarios. Figure \ref{fig:critical_weather} shows the weather power production using the electrical components of our data center. 
 
 \begin{figure}[!htb]
     \centering
@@ -216,7 +216,7 @@ After describing the experimental environment, this section presents the results
 \subsection{Critical cases}
 
 \subsubsection{Scenario Critical 1}
-Scenario Critical 1 (Profile best-case and workload in the beginning) has the jobs arriving at the beginning, and the production is higher than expected. However, this scenario is tricky. Since the battery starts with $SoC = 50\%$, if the scheduler starts too many jobs in the beginning, this can lead to a very low $SoC$ on the first day. This is exactly what happened with \emph{Workload reactive} in this scenario. Figure \ref{fig:DPM_soc} shows the evolution of the state of the charge in the \emph{Workload reactive} execution. At step 264 (79200 seconds after the simulation begins), \emph{Workload reactive} has less than 20\% of SoC. So, the scheduler kills several jobs. 
+Scenario Critical 1 (Profile best-case and workload in the beginning) has the jobs arriving at the beginning, and the production is higher than expected. However, this scenario is tricky. Since the battery starts with $SoC = 50\%$, if the scheduler starts too many jobs in the beginning, this can lead to a very low $SoC$ on the first day. This is exactly what happened with \emph{Workload reactive} in this scenario. Figure \ref{fig:DPM_soc} shows the evolution of the state of charge in the \emph{Workload reactive} execution. At step 264 (79200 seconds after the simulation begins), \emph{Workload reactive} has less than 20\% of SoC. So, the scheduler kills several jobs. 
 
 \begin{figure}[!htb]
     \centering
@@ -258,7 +258,7 @@ The second analysis is regarding wasted energy. This metric is the energy expend
     \label{fig:energy_critical_1}
 \end{figure}
 
-Finally, Figure \ref{fig:slowdown_critical_1} demonstrates the slowdown of the finished jobs. As mentioned before, this metric is complicated to compare with different numbers of finished jobs. We can see that \emph{Workload reactive} has some jobs with a very high slowdown. It happens due to the long period with the SoC below $SoC_{min}$ (as illustrated in Figure \ref{fig:DPM_soc}). So, it has a long period without servers running. \emph{Load} has a good mean and median. In this case, \emph{Load} can place the compensations close to the jobs' arrival. 
+Finally, Figure \ref{fig:slowdown_critical_1} demonstrates the slowdown of the finished jobs. This figure includes the bounded slowdown of each job in the execution. The outliers ("o" marks) are values that differ significantly from other observations. As mentioned before, this metric is complicated to compare with different numbers of finished jobs. We can see that \emph{Workload reactive} has some jobs with a very high slowdown. It happens due to the long period with the SoC below $SoC_{min}$ (as illustrated in Figure \ref{fig:DPM_soc}). So, it has a long period without servers running. \emph{Load} has a good mean and median. In this case, \emph{Load} can place the compensations close to the jobs' arrival. 
 
 \begin{figure}[!htb]
     \centering
@@ -267,7 +267,7 @@ Finally, Figure \ref{fig:slowdown_critical_1} demonstrates the slowdown of the f
     \label{fig:slowdown_critical_1}
 \end{figure}
 
-\clearpage
+% \clearpage
 
 \subsubsection{Scenario Critical 2}
 
@@ -311,7 +311,7 @@ Regarding the bounded slowdown, Figure \ref{fig:slowdown_critical_2} shows the r
     \label{fig:slowdown_critical_2}
 \end{figure}
 
-\clearpage
+% \clearpage
 
 \subsubsection{Scenario Critical 3}
 Scenario 3 introduces less energy than predicted with the jobs arriving on the first day. Figure \ref{fig:SoC_critical_3} gives the final battery level in this scenario. This figure demonstrates that the policies finished closer to the target level than the baselines, with -6.177244\% in the worst case (\emph{Load}). This scenario is particularly difficult to finish at 50\% since the policies migrate power to the first day expecting to compensate for it on the second and third days. However, it receives less energy than expected, being a little far from the target level. Nevertheless, the policies are way better compared to the \emph{Workload reactive}, \emph{Power reactive}, and \emph{Follow plan}.
@@ -352,7 +352,7 @@ Finally, Figure \ref{fig:slowdown_critical_3} shows the bounded slowdown. \emph{
     \label{fig:slowdown_critical_3}
 \end{figure}
 
-\clearpage
+% \clearpage
 
 \subsubsection{Scenario Critical 4}
 
@@ -390,7 +390,7 @@ Figure \ref{fig:jobs_critical_4} demonstrates that the policies finished fewer j
 
 The results in this scenario indicate that the policies degrade the QoS (finished jobs and slowdown) to approximate the target level. The policies' compensation imposes the adaptations on power usage and server configuration, by turning off some servers or reducing their speed. 
 
-\clearpage
+% \clearpage
 
 \subsection{Random cases}
 
@@ -399,7 +399,7 @@ After presenting the critical scenarios, this section demonstrates the results o
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{Images/Compensations/battery_diff.pdf}
-    \caption[Difference between the battery target level (50\%) and the real battery level at the end of the time window at 100 random cases.]{Difference between the battery target level (50\%) and the real battery level at the end of the time window at 100 random cases. The line shows the standard deviation.}
+    \caption[Difference between the battery target level (50\%) and the real battery level at the end of the time window at 100 random cases.]{Difference between the battery target level (50\%) and the real battery level at the end of the time window at 100 random cases. The line shows the standard deviation. The outliers ("o" marks) are values that differ significantly from other observations.}
     \label{fig:SoC_diff}
 \end{figure}
 
@@ -432,7 +432,7 @@ Finally, Figure \ref{fig:energy_diff} illustrates the wasted energy of over 100 
     \label{fig:energy_diff}
 \end{figure}
 
-\clearpage
+% \clearpage
 
 \subsection{Discussion}
 \label{sec:compensation_discussion}
@@ -462,4 +462,4 @@ Considering all these results, we can say that:
 Regarding wasted energy, \emph{Next} is more likely to waste more than the other policies. It reintroduces the surplus as soon as possible, even if it is not necessary. \emph{Last} uses the energy wisely, since it places at the end, using before if necessary. \emph{Peak} and \emph{Load} depend on the scenario. Then, a new question comes up: is it possible to improve the Quality of Service in these scenarios, while still respecting the battery level at the end of the time window? To do so, the next chapter tries to mix the policies. For example, we can use \emph{Load} for some positive compensations to improve QoS, then use \emph{Last} for the remaining energy surplus. We proposed a model using reinforcement learning to find out which policy to use at each moment.
 
 \section{Conclusion}
-This chapter proposed new heuristics to approximate the battery storage level to the target level. These heuristics use surplus energy to improve the QoS, mainly the finished jobs. The policies try to reduce the impact on QoS in scenarios with less energy. The following chapter takes a step further, trying to mix the policies and improving QoS even more.
+This chapter proposed new heuristics to manage the battery storage level to reach the target level. These heuristics use surplus energy to improve the QoS, mainly the finished jobs. The policies try to reduce the impact on QoS in scenarios with less energy. The following chapter takes a step further, trying to mix the policies and improving QoS even more.

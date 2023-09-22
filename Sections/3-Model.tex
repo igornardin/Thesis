@@ -166,7 +166,7 @@ First, Equation \ref{equ:one_state_only} ensures only one state per time $t$. Th
     Dsl_{s}(t) + \sum_{d=0}^{N_{D_{s}}} D_{s,d}(t) = 1, \quad \forall 0 \le t \le T, \forall 0 \le s \le N_{S}
 \end{equation}
 
-Then, we must model the sedating and waking transitions. These transitions take time and spend energy. During these transitions, the servers are unavailable to run jobs. So, Equations \ref{equ:transition_wake} and \ref{equ:transition_sedating} model the waking transition (off$\rightarrow$on) and the sedating transition (on$\rightarrow$off), respectively. For example, Equation \ref{equ:transition_wake} verifies if the previous state is sleeping ($Dsl_{s}(t-1) = 1$) and now is not sleeping ($Dsl_{s}(t) = 0$). So the result of $Dsl_{s}(t-1) - Dsl_{s}(t)$ will be $1$, which indicates that the server $s$ is waking. If both are $0$ or both are $1$, the result is $0$, implying that the server is not transiting. If the previous state is not sleeping ($Dsl_{s}(t-1) = 0$) and now is sleeping ($Dsl_{s}(t) = 1$), the result will be $-1$. However, the $\max (0)$ function will put 0 as $wa_s(t)$. Equation \ref{equ:transition_sedating} does the same but inverts the order of states.
+Then, we must model the sedating ($se_{s}(t)$) and waking ($wa_{s}(t)$) transitions. These transitions take time and spend energy. During these transitions, the servers are unavailable to run jobs. So, Equations \ref{equ:transition_wake} and \ref{equ:transition_sedating} model the waking transition (off$\rightarrow$on) and the sedating transition (on$\rightarrow$off), respectively. For example, Equation \ref{equ:transition_wake} verifies if the previous state is sleeping ($Dsl_{s}(t-1) = 1$) and now is not sleeping ($Dsl_{s}(t) = 0$). So the result of $Dsl_{s}(t-1) - Dsl_{s}(t)$ will be $1$, which indicates that the server $s$ is waking. If both are $0$ or both are $1$, the result is $0$, implying that the server is not transiting. If the previous state is not sleeping ($Dsl_{s}(t-1) = 0$) and now is sleeping ($Dsl_{s}(t) = 1$), the result will be $-1$. However, the $\max (0)$ function will put 0 as $wa_s(t)$. Equation \ref{equ:transition_sedating} does the same but inverts the order of states.
 
 \begin{equation}
     \label{equ:transition_wake}
@@ -187,7 +187,7 @@ Equation \ref{equ:ITDM_energy_less_envelope} introduces the power constraint. We
 
 \begin{equation}
     \label{equ:ITDM_energy_usage}
-    E_{tot}(t) = E_{run}(t) + E_{wak}(t) + E_{sed}(t) + E_{sle}(t), \quad \forall 0 \le t \le T
+    E_{tot}(t) = E_{run}(t) + E_{wa}(t) + E_{se}(t) + E_{sle}(t), \quad \forall 0 \le t \le T
 \end{equation}
 
 Equations \ref{equ:ITDM_energy_running}, \ref{equ:ITDM_energy_sleeping}, \ref{equ:ITDM_energy_sedating}, and \ref{equ:ITDM_energy_waking} demonstrate the energy of each state. Equation \ref{equ:ITDM_energy_running} verifies if the server is in one of the possible P-states $D_{s,d}$. If so, it multiplies the power by the time in this state. For calculating the time in the state, the equation verifies if the server is waking, removing the transition time if so. Equation \ref{equ:ITDM_energy_sleeping} does the same for the sleeping state, considering the sedating transition. Equations \ref{equ:ITDM_energy_waking} and \ref{equ:ITDM_energy_sedating} are simpler, just multiplying the power usage in the transition state by the time, if the server is in the state.
@@ -204,12 +204,12 @@ Equations \ref{equ:ITDM_energy_running}, \ref{equ:ITDM_energy_sleeping}, \ref{eq
 
 \begin{equation}
     \label{equ:ITDM_energy_waking}
-    E_{wak}(t) = \sum_{s=0}^{N_{S}} wa_{s}(t) \times T_{wa_{s}} \times P_{wa_{s}}, \quad \forall 0 \le t \le T
+    E_{wa}(t) = \sum_{s=0}^{N_{S}} wa_{s}(t) \times T_{wa_{s}} \times P_{wa_{s}}, \quad \forall 0 \le t \le T
 \end{equation}
 
 \begin{equation}
     \label{equ:ITDM_energy_sedating}
-    E_{sed}(t) = \sum_{s=0}^{N_{S}} se_{s}(t) \times T_{se_{s}} \times P_{se_{s}}, \quad \forall 0 \le t \le T
+    E_{se}(t) = \sum_{s=0}^{N_{S}} se_{s}(t) \times T_{se_{s}} \times P_{se_{s}}, \quad \forall 0 \le t \le T
 \end{equation}
 
 Finally, Equation \ref{equ:ITDM_objective} demonstrates the objective function of ITDM. The objective is to maximize the total flops executed by the server. We do not consider idle servers here, since we do not make offline scheduling. So, when the server is running, we consider that it is providing all the flops possible at state $D_{s,d}$. Like in the energy consumption in the running state (Equation \ref{equ:ITDM_energy_running}), the objective function also considers the transition state for reducing the total flops delivered by the server.
@@ -340,7 +340,7 @@ These uncertainties can increase or decrease power generation $P_{renew}$. Final
     \label{equ:avoid_walltime}
 \end{equation}
 
-Since ODM does not know the job's flops exactly, it can estimate using the walltime. Equation \ref{equ:estimated_job_size} shows a way for estimating $Dfl'_j$, similar to \cite{takizawa2020effect}. $F'_{s}$ is a fixed and constant speed applied to estimate the job size. $\epsilon_{u}$ is a user error because the user can overestimate the execution time. We do not consider the walltime underestimation, because this always leads to killing the job (respecting Equation \ref{equ:walltime}). \citeauthor{takizawa2020effect} calculate $\epsilon_{u}$ for each user, using previous users' requests. Even if Equation \ref{equ:avoid_walltime} does not exactly use the real size, it is a good way to balance the states of a job.
+Since ODM does not know the job's flops exactly, it can estimate using the walltime. Equation \ref{equ:estimated_job_size} shows a way for estimating $Dfl'_j$, similar to \cite{takizawa2020effect}. $F'_{s}$ is a fixed and constant speed applied to estimate the job size. $\epsilon_{u}$ is a user error because the user can overestimate the execution time. We do not consider the walltime underestimation, because this always leads to killing the job (respecting Equation \ref{equ:walltime}). \citeauthor{takizawa2020effect} \cite{takizawa2020effect} calculate $\epsilon_{u}$ for each user, using previous users' requests. Even if Equation \ref{equ:avoid_walltime} does not exactly use the real size, it is a good way to balance the states of a job.
 
 \begin{equation}
     \label{equ:estimated_job_size}
@@ -386,7 +386,7 @@ After describing the models, we describe the data used to simulate our environme
 \subsection{Workload Trace}
 \label{sec:workload_trace}
 
-Workload trace is a log of job submissions in a resource (servers) provider. Some trace examples are Microsoft Azure \cite{cortez2017resource}, Google \cite{reiss2011google}, and Alibaba \cite{wang2022characterizing}. Regarding batch, \citeauthor{feitelson2014experience} proposed the SWF format, which allows the data center providers to distribute logs to the research community \cite{feitelson2014experience}. In SWF, each line is a job with the fields separated by whitespace. Each line contains the following fields \cite{feitelson2014experience}:
+Workload trace is a log of job submissions in a resource (servers) provider. Some trace examples are Microsoft Azure \cite{cortez2017resource}, Google \cite{reiss2011google}, and Alibaba \cite{wang2022characterizing}. Regarding batch, \citeauthor{feitelson2014experience} proposed the Standard Workload Format (SWF) format, which allows the data center providers to distribute logs to the research community \cite{feitelson2014experience}. In SWF, each line is a job with the fields separated by whitespace. Each line contains the following fields \cite{feitelson2014experience}:
 \begin{itemize}
     \item \textit{Job Number}: The job ID starting with 1;
     \item \textit{Submit Time}: The submission time. The first job has 0 as submit time, and the following jobs use the first job as reference (in seconds);
@@ -408,7 +408,7 @@ Workload trace is a log of job submissions in a resource (servers) provider. Som
     \item \textit{Think Time from Preceding Job}: The time between this job and the Preceding Job (seconds);
 \end{itemize}
 
-It is not mandatory to insert all information in a SWF file. Currently, Parallel Workloads Archive\footnote{https://www.cs.huji.ac.il/labs/parallel/workload/index.html} has 40 traces in SWF format. We chose the MetaCentrum2 workload trace from the Czech National Grid Organization \cite{klusavcek2015real}. MetaCentrum is a grid with resources in several cities in the Czech Republic. They have 19 clusters with 495 nodes and 8412 cores in total. Nodes are individual machines or servers within a cluster. Each node can have its own set of resources such as CPU, memory, storage, and network connectivity. A core refers to a processing unit within a CPU (Central Processing Unit). Modern CPUs often have multiple cores, allowing them to perform multiple tasks simultaneously. The trace has 5,731,100 jobs from January 2013 to April 2015. Metacentrum does not provide the \textit{Average CPU Time Used}, \textit{Used memory}, \textit{Status}, \textit{Group ID}, \textit{Executable (Application) Number}, \textit{Preceding Job Number}, and \textit{Think Time from Preceding Job} fields. It has different queues according to the job type. The Partition number indicates which cluster executed the job. We do not have more information about the servers, just the number of nodes, cores, and memory.
+It is not mandatory to insert all information in a SWF file. Currently, Parallel Workloads Archive\footnote{https://www.cs.huji.ac.il/labs/parallel/workload/index.html} has 40 traces in SWF format. We chose the MetaCentrum2 workload trace from the Czech National Grid Organization \cite{klusavcek2015real}. MetaCentrum is a grid with resources in several cities in the Czech Republic. They have 19 clusters with 495 nodes and 8412 cores in total. Nodes are individual machines or servers within a cluster. A cluster is a set of nodes. Each node can have its own set of resources such as CPU, memory, storage, and network connectivity. A core refers to a processing unit within a CPU (Central Processing Unit). Modern CPUs often have multiple cores, allowing them to perform multiple tasks simultaneously. The trace has 5,731,100 jobs from January 2013 to April 2015. Metacentrum does not provide the \textit{Average CPU Time Used}, \textit{Used memory}, \textit{Status}, \textit{Group ID}, \textit{Executable (Application) Number}, \textit{Preceding Job Number}, and \textit{Think Time from Preceding Job} fields. It has different queues according to the job type. The Partition number indicates which cluster executed the job. We do not have more information about the servers, just the number of nodes, cores, and memory.
 
 Figure \ref{fig:metacentrum} illustrates the inter-arrival and execution time distribution for MetaCentrum2. Inter-arrival is the time between job submissions, and execution time is the real runtime. Applying the Kolmogorov-Smirnov test to these data, we observed that both follow a log-normal distribution with p-value = 0.2174 for inter-arrival and p-value = 0.1802 for execution time (excluding 0.003838705\% of jobs as outliers). In the Kolmogorov-Smirnov test, if the p-value is smaller than the chosen significance level (we chose a confidence level of 95\%, so smaller than 0.05), it indicates that there is strong evidence to suggest that the data doesn't follow the specified distribution (both values are higher than the significance level).
 
@@ -513,7 +513,7 @@ Another input for Batsim is the platform file. Batsim uses the Simgrid platform 
 {
     "jobs": [
         {
-            "id": "0",
+            "id": "1",
             "profile": "profile_1",
             "res": 1,
             "subtime": 773,
@@ -529,7 +529,7 @@ Another input for Batsim is the platform file. Batsim uses the Simgrid platform 
 }       
 \end{lstlisting}
 
-In this example, we have only one job with the id equal to 0. This job is submitted after 773 seconds from the simulation beginning (\textit{"subtime": 773}), with a walltime of 9112 seconds (\textit{"walltime": 9112}), and requests one machine (\textit{"res": 1}). The scheduler only knows these fields. The profile field indicates the number of flops to execute. Therefore, the job must calculate 163137000000000 flops. The real execution time is \textit{cpu} divided by the speed of the server which runs this job. The script estimates the field \textit{cpu} by the execution time in SWF multiplied by a server's average speed. We defined the average speed considering the servers in our data center. We took a median DVFS state's speed, avoiding over/underestimating. This estimation is necessary because SWF does not provide any metric of the real computation. All experiments in this thesis use Batsim as the simulator. In parallel, we implement our algorithms in Datazero2 Middleware.
+In this example, we have only one job with the id equal to 1. This job is submitted after 773 seconds from the simulation beginning (\textit{"subtime": 773}), with a walltime of 9112 seconds (\textit{"walltime": 9112}), and requests one machine (\textit{"res": 1}). The scheduler only knows these fields. The profile field indicates the number of flops to execute. Therefore, the job must calculate 163137000000000 flops. The real execution time is \textit{cpu} divided by the speed of the server which runs this job. The script estimates the field \textit{cpu} by the execution time in SWF multiplied by a server's average speed. We defined the average speed considering the servers in our data center. We took a median DVFS state's speed, avoiding over/underestimating. This estimation is necessary because SWF does not provide any metric of the real computation. All experiments in this thesis use Batsim as the simulator. In parallel, we implement our algorithms in Datazero2 Middleware.
 
 \subsection{Datazero2 Middleware}
 
@@ -560,7 +560,9 @@ Regarding the middleware's simulation input, some changes were done. The weather
 
 \subsection{Metrics}
 
-In this section, we present the metrics used in this thesis. We evaluate four aspects in this thesis: jobs finished, storage state at the end of the time window, wasted energy, and bounded slowdown. The first objective is to increase the number of finished jobs and reduce the number of killed jobs. It is possible to have a high number of finished jobs and a high number of killed jobs in aggressive scheduling, where the scheduler starts jobs even if it is impossible to finish them. However, this is unacceptable because it wastes energy with the killed jobs. Each job can finish in one of five states: 
+In this section, we present the metrics used in this thesis. We evaluate four aspects: jobs finished, storage state at the end of the time window, wasted energy, and bounded slowdown. 
+
+The first objective is to increase the number of finished jobs and reduce the number of killed jobs. It is possible to have a high number of finished jobs and a high number of killed jobs in aggressive scheduling, where the scheduler starts jobs even if it is impossible to finish them. However, this is unacceptable because it wastes energy with the killed jobs. Each job can finish in one of five states: 
 
 \begin{enumerate}
     \item Finished: Jobs that finished their computation before the walltime;
@@ -572,7 +574,9 @@ In this section, we present the metrics used in this thesis. We evaluate four as
 
 Therefore, we present the absolute number of jobs in each state at the end of the simulation. In addition, we introduce this metric considering the size of the job ($Dfl_j \times R_j$). The size of the job shows the impact of the decisions on bigger and small jobs. The second metric is related to the storage level at the end of the time window. Our objective is to finish as close as possible to the planned level. This means the algorithms can not "cheat" by using more storage than planned. As explained before, finishing close to the target levels helps to plan the next time window. We present a metric of the distance from the target. This distance can be positive (save more energy) or negative (use more energy). For battery, we present it as the \% difference of target SoC, and for hydrogen, we present it as the kg difference of target LoH.
 
-The third metric is wasted energy. We consider wasted energy the energy expended not computing finished jobs, englobing, for example, the energy used in killed jobs, turning on/off servers, and letting servers idle. This metric is present as kWh. Finally, the fourth metric is the bounded slowdown. This metric is the same as presented in Equation \ref{equ:slowdown}. The bounded slowdown is a difficult metric to compare in executions without the same number of jobs finished. For example, starting and killing a job in the sequence will result in a very low slowdown. On the other hand, maintaining jobs running will make the jobs in the queue wait for more time, which impacts directly on the slowdown. So, we will analyze this metric with precaution.
+The third metric is wasted energy. We consider wasted energy the energy expended not computing finished jobs, englobing, for example, the energy used in killed jobs, turning on/off servers, and letting servers idle. This metric is present as kWh. 
+
+Finally, the fourth metric is the bounded slowdown. This metric is the same as presented in Equation \ref{equ:slowdown}. The bounded slowdown is a difficult metric to compare in executions without the same number of jobs finished. For example, starting and killing a job in the sequence will result in a very low slowdown. On the other hand, maintaining jobs running will make the jobs in the queue wait for more time, which impacts directly on the slowdown. So, we will analyze this metric with precaution.
 
 \section{Conclusion}
 This chapter focused on presenting the model, data, and simulation utilized in the remainder of this thesis. The aim is to provide the basis to understand the following chapters. The model introduces all aspects of offline decisions. This offline module builds a plan for the online module. The online model considers the offline as a guide but improves this plan according to the real events. Moreover, the online model considers job scheduling in the decision process. Then, we describe the work done in the data for the simulations. This work includes workload, weather, and platform information. Finally, we explained simulation tools. We detailed the modifications in Batsim to use renewable energy and energy storage. Moreover, we present the metrics used in this thesis to compare the different approaches.

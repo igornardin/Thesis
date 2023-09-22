@@ -1,3 +1,17 @@
+pourquoi en 'bold' ??
+est-ce si important?? a expliquer si necessaire
+It was Patricia that indicated to make it in bold
+
+si c'est 'la dispersion' des differents tests...pourquoi median et mean sont si bas !!
+This is the result of the slowdown of each job. The majority of jobs have 1 as slowdown. This is the reason that the median is low. But there are some jobs with a higher slowdown, which increases the mean.
+
+remarque...pour la soutenance... dans RL tu calcul le reward a T
+ici on 'force' a chaque t...alors que peut etre on peut changer plus et DSoC(T) correct ??
+I don't understand
+
+pourquoi tu ne dis pas ici aussi 'multiplied by number finished jobs)
+Because it is the reward for each job and not by multiple jobs
+
 ##Introduction##
 
 Put IRIT et Laplace consitent order: Stolf et Caux {Stephane}
