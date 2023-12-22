@@ -226,12 +226,12 @@
     \fancyhead[RO]{\nouppercase{\small\leftmark}}
     \fancyhead[C]{}  
 
-    % \iftoggle{finalversion}{%
-    % \chapter*{Acknowledgments}
-    % \input{Sections/Beginning/3-Acknowledgments.tex}
-    % }%
-    % { % NOTE: no ACK in draft and co...
-    % }
+    \iftoggle{finalversion}{%
+    \chapter*{Acknowledgments}
+    \input{Sections/Beginning/3-Acknowledgments.tex}
+    }%
+    { % NOTE: no ACK in draft and co...
+    }
 
     \chapter{Abstract}
     \label{cha:abstract_english}
